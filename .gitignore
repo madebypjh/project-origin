@@ -1,42 +1,58 @@
+# =========================
 # Python
-
-**pycache**/
+# =========================
+__pycache__/
 *.py[cod]
 *.pyo
 
+# =========================
 # Virtual Environment
-
+# =========================
 venv/
 .venv/
+env/
+ENV/
 
-# VS Code
-
+# =========================
+# VS Code / IDE
+# =========================
 .vscode/
+.idea/
 
-# macOS
-
+# =========================
+# OS files
+# =========================
 .DS_Store
-
-# Windows
-
 Thumbs.db
 
+# =========================
 # Environment Variables
-
+# =========================
 .env
 
-# Test / Coverage
-
+# =========================
+# Testing / Coverage
+# =========================
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
+.nox/
 
-# Build
-
+# =========================
+# Build / Distribution
+# =========================
 build/
 dist/
 *.egg-info/
+*.egg
 
+# =========================
 # Logs
-
+# =========================
 *.log
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
