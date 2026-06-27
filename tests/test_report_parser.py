@@ -18,7 +18,7 @@ def test_report_parser_creates_brand_strategy_report():
             "naming_strategy": "네이밍 전략",
             "name_recommendations": [
                 {
-                    "name": "OriginIQ",
+                    "name": f"OriginIQ{i}",
                     "meaning": "의미",
                     "strategic_fit": "전략 적합성",
                     "strengths": "강점",
@@ -26,6 +26,7 @@ def test_report_parser_creates_brand_strategy_report():
                     "score": 8,
                     "score_reason": "점수 이유",
                 }
+                for i in range(5)
             ],
             "final_recommendation": "최종 추천",
         },
@@ -35,5 +36,6 @@ def test_report_parser_creates_brand_strategy_report():
     report = ReportParser.parse(raw_response)
 
     assert report.executive_summary == "요약"
-    assert report.name_recommendations[0]["name"] == "OriginIQ"
+    assert report.name_recommendations[0]["name"] == "OriginIQ0"
+    assert len(report.name_recommendations) == 5
     assert report.final_recommendation == "최종 추천"

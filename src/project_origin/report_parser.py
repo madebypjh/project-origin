@@ -7,12 +7,13 @@ Parses LLM JSON output into BrandStrategyReport.
 import json
 
 from .models import BrandStrategyReport
+from .validator import ReportValidator
 
 
 class ReportParser:
     @staticmethod
     def parse(raw_response: str) -> BrandStrategyReport:
-        data = json.loads(raw_response)
+        data = ReportValidator.validate(raw_response)
 
         return BrandStrategyReport(
             executive_summary=data["executive_summary"],
