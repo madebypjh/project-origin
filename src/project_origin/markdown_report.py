@@ -2,73 +2,26 @@
 Project Origin - Markdown Report Generator
 """
 
+from pathlib import Path
+
+from jinja2 import Environment, FileSystemLoader
+
 from .models import BrandStrategyReport
 
 
 class MarkdownReportGenerator:
     @staticmethod
     def generate(report: BrandStrategyReport) -> str:
-        names = ""
+        project_root = Path(__file__).resolve().parents[2]
+        template_dir = project_root / "templates"
 
-        for item in report.name_recommendations:
-            names += f"""
-### {item["name"]}
+        env = Environment(
+            loader=FileSystemLoader(template_dir),
+            autoescape=False,
+            trim_blocks=True,
+            lstrip_blocks=True,
+        )
 
-- **Meaning:** {item["meaning"]}
-- **Strategic Fit:** {item["strategic_fit"]}
-- **Strengths:** {item["strengths"]}
-- **Weaknesses:** {item["weaknesses"]}
-- **Score:** {item["score"]}/10
-- **Reason:** {item["score_reason"]}
-"""
+        template = env.get_template("brand_report.md")
 
-        return f"""# Brand Strategy Report
-
-## Executive Summary
-
-{report.executive_summary}
-
-## Founder Insights
-
-{report.founder_insights}
-
-## Brand Identity
-
-{report.brand_identity}
-
-## Mission Statement
-
-{report.mission_statement}
-
-## Vision Statement
-
-{report.vision_statement}
-
-## Core Values
-
-{report.core_values}
-
-## Positioning
-
-{report.positioning}
-
-## Target Audience
-
-{report.target_audience}
-
-## Brand Personality
-
-{report.brand_personality}
-
-## Naming Strategy
-
-{report.naming_strategy}
-
-## Name Recommendations
-
-{names}
-
-## Final Recommendation
-
-{report.final_recommendation}
-"""
+        return template.render(report=report)
