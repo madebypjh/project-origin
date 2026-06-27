@@ -5,6 +5,7 @@ Bilingual interview + FounderProfile + PromptBuilder
 
 from .models import FounderProfile
 from .prompt_builder import PromptBuilder
+from .knowledge_builder import KnowledgeBuilder
 
 
 class InterviewSession:
@@ -65,6 +66,10 @@ def main():
 
     print("===== STRUCTURED PROFILE =====\n")
     print(profile.to_json())
+    knowledge = KnowledgeBuilder.build(profile)
+
+    print("\n==== BRAND KNWLEDGE ====\n")
+    print(knowledge.to_json())
 
     prompt = PromptBuilder.build(profile)
 
