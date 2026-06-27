@@ -4,6 +4,10 @@
 
 Project Origin is an AI-powered Brand Decision Intelligence Platform.
 
+AND
+
+Project Origin is the first application built on the Origin Reasoning Architecture.
+
 Rather than generating random brand names, Project Origin helps founders make better branding decisions through structured reasoning, strategic frameworks, and AI-assisted analysis.
 
 The goal is not to generate names.
@@ -30,11 +34,11 @@ Project Origin takes a different approach.
 
 Instead of asking,
 
-> "What should this company be called?"
+> *"What should this company be called?"*
 
 Project Origin asks,
 
-> "Who is this company, and why should it exist?"
+> *"Who is this company, and why should it exist?"*
 
 Only then does it recommend names that align with the founder's mission, values, and long-term vision.
 
@@ -52,15 +56,15 @@ Only then does it recommend names that align with the founder's mission, values,
 
 # Current Status
 
-**Milestone 1 — Foundation** ✅ Complete
+| Milestone                       | Status         |
+| ------------------------------- | -------------- |
+| Milestone 1 — Foundation        | ✅ Complete     |
+| Milestone 2 — Core Architecture | ✅ Complete     |
+| Milestone 3 — AI Integration    | 🚧 In Progress |
 
-**Milestone 2 — Core Architecture** ✅ Complete
+**Development Stage**
 
-**Milestone 3 — AI Integration** 🚧 In Progress
-
-Current Version
-
-**v0.3**
+**Pre-MVP**
 
 ---
 
@@ -97,13 +101,11 @@ Markdown Template
 PDF Report
 ```
 
-Project Origin is designed around **Reasoning Engineering**, not Prompt Engineering.
+Project Origin is built around **Reasoning Engineering**, not Prompt Engineering.
 
-The reasoning process is reusable.
-
-The AI provider is replaceable.
-
-The report is the product.
+* The reasoning process is reusable.
+* The AI provider is replaceable.
+* The report is the product.
 
 ---
 
@@ -133,31 +135,29 @@ Read the documents in the following order.
 
 Each document builds upon the previous one.
 
-The philosophy, architecture, and implementation are intentionally separated.
+The philosophy, architecture, and implementation are intentionally separated to keep the project maintainable and extensible.
 
 ---
 
 # Development Roadmap
 
-## Milestone 1
+## Milestone 1 — Foundation
 
-Foundation
+Completed
 
-* Vision
+* Mission
 * Brand DNA
+* Vision
 * Core Values
-* Roadmap
-* Design Principles
-
-Status
-
-✅ Complete
+* Decision Principles
+* Founder Philosophy
+* Naming Principles
 
 ---
 
-## Milestone 2
+## Milestone 2 — Core Architecture
 
-Core Architecture
+Completed
 
 * Interview Engine
 * FounderProfile
@@ -167,33 +167,25 @@ Core Architecture
 * Markdown Generator
 * Template Engine
 
-Status
-
-✅ Complete
-
 ---
 
-## Milestone 3
+## Milestone 3 — AI Integration
 
-AI Integration
+In Progress
 
-* Provider-independent LLM
+* Provider-independent LLM Layer
 * OpenAI Integration
 * JSON Validation
-* PDF Report
+* PDF Generator
 * MVP Release
-
-Status
-
-🚧 In Progress
 
 ---
 
 ## Future
 
 * Web Application
-* Authentication
-* Payments
+* User Authentication
+* Payment Integration
 * Origin Engine Extraction
 * ReconOS
 
@@ -201,15 +193,15 @@ Status
 
 # Current Progress
 
-| Area               | Progress  |
-| ------------------ | --------- |
-| Foundation         | ✅ 100%    |
-| Architecture       | ✅ 100%    |
-| Prompt Engineering | ✅ 100%    |
-| Template Engine    | ✅ 100%    |
-| LLM Integration    | 🚧 0%     |
-| PDF Generator      | ⏳ Planned |
-| Web Application    | ⏳ Planned |
+| Area               | Progress       |
+| ------------------ | -------------- |
+| Foundation         | ✅ 100%         |
+| Architecture       | ✅ 100%         |
+| Prompt Engineering | ✅ 100%         |
+| Template Engine    | ✅ 100%         |
+| LLM Integration    | 🚧 In Progress |
+| PDF Generator      | ⏳ Planned      |
+| Web Application    | ⏳ Planned      |
 
 ---
 
@@ -222,26 +214,23 @@ docs/
 templates/
 tests/
 
-src/project_origin/
-
-    interview.py
-
-    prompt_builder.py
-
-    frameworks.py
-
-    report_parser.py
-
-    markdown_report.py
-
-    llm/
-
-    models.py
+src/
+└── project_origin/
+    ├── interview.py
+    ├── prompt_builder.py
+    ├── frameworks.py
+    ├── report_parser.py
+    ├── markdown_report.py
+    ├── llm/
+    ├── models.py
+    └── ...
 ```
 
 ---
 
 # Design Principles
+
+Project Origin is built on the following principles.
 
 * Single Responsibility
 * Provider Independence
@@ -254,7 +243,7 @@ src/project_origin/
 
 # Long-Term Vision
 
-Project Origin is the first product built on a reusable AI reasoning architecture.
+Project Origin is the first product built on a reusable AI Reasoning Architecture.
 
 Future products may include:
 
@@ -264,20 +253,22 @@ Future products may include:
 * Decision Intelligence
 * AI Research Assistant
 
-The architecture remains.
+The architecture remains the same.
 
 Only the reasoning frameworks change.
 
 ---
 
-# License
+# Contributing
 
-MIT License
+Project Origin is currently under active development.
+
+The architecture, reasoning system, and report quality standards are evolving rapidly as the MVP is being built.
 
 ---
 
-> Users never buy prompts.
+> **Users never buy prompts.**
 
-> Users never buy Python code.
+> **Users never buy Python code.**
 
-> Users buy better decisions.
+> **Users buy better decisions.**
