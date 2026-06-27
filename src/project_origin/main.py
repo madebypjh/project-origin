@@ -1,9 +1,10 @@
 """
-Project Origin - Interview System v0.3
-Bilingual interview + FounderProfile data model
+Project Origin - Interview System v0.4
+Bilingual interview + FounderProfile + PromptBuilder
 """
 
 from .models import FounderProfile
+from .prompt_builder import PromptBuilder
 
 
 class InterviewSession:
@@ -64,6 +65,14 @@ def main():
 
     print("===== STRUCTURED PROFILE =====\n")
     print(profile.to_json())
+
+    prompt = PromptBuilder.build(profile)
+
+    print("\n==============================")
+    print(" GENERATED PROMPT ")
+    print("==============================\n")
+
+    print(prompt)
 
 
 if __name__ == "__main__":
