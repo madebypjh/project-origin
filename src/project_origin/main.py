@@ -3,7 +3,7 @@ Project Origin - Interview System v0.3
 Bilingual interview + FounderProfile data model
 """
 
-from models import FounderProfile
+from .models import FounderProfile
 
 
 class InterviewSession:
