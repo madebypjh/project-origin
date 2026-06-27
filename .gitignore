@@ -1,0 +1,42 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+
+venv/
+.venv/
+
+# VS Code
+
+.vscode/
+
+# macOS
+
+.DS_Store
+
+# Windows
+
+Thumbs.db
+
+# Environment Variables
+
+.env
+
+# Test / Coverage
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build
+
+build/
+dist/
+*.egg-info/
+
+# Logs
+
+*.log
