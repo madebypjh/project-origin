@@ -1,98 +1,84 @@
 """
-Project Origin - Brand Strategy Frameworks
+Project Origin - Reasoning Frameworks
 
-This module contains framework-based reasoning logic used by KnowledgeBuilder.
+This module does not analyze founder data directly.
+It defines reasoning rules, evaluation criteria, and strategic frameworks
+that PromptBuilder can use to guide the LLM.
 """
-
-from .models import FounderProfile
 
 
 class GoldenCircleFramework:
     @staticmethod
-    def analyze(profile: FounderProfile) -> dict:
-        return {
-            "why": f"Help {profile.audience} solve the problem of {profile.problem}.",
-            "how": f"Use {profile.differentiation} while protecting {profile.principles}.",
-            "what": "Deliver an AI-generated Brand Strategy Report."
-        }
+    def instructions() -> str:
+        return """
+Golden Circle:
+- Identify WHY the company exists.
+- Identify HOW the company creates value.
+- Identify WHAT the company actually provides.
+- Do not simply repeat the founder's words.
+- Infer the deeper motivation behind the founder's answers.
+- If the information is insufficient, write "추가 정보 필요".
+"""
 
 
 class BrandDNAFramework:
     @staticmethod
-    def analyze(profile: FounderProfile) -> dict:
-        return {
-            "identity": (
-                f"A brand strategy intelligence system for {profile.audience}, "
-                f"focused on solving {profile.problem}."
-            ),
-            "core_values": [
-                profile.principles,
-                "Clarity",
-                "Trust",
-                "Strategic Reasoning",
-                "Long-term Value"
-            ],
-            "personality": ArchetypeFramework.analyze(profile)["primary_archetype"]
-        }
+    def instructions() -> str:
+        return """
+Brand DNA:
+- Extract the core identity of the brand.
+- Identify purpose, values, personality, and differentiation.
+- Avoid generic values unless they are clearly supported by the founder's answers.
+- Every conclusion must be grounded in the interview response.
+"""
 
 
 class PositioningFramework:
     @staticmethod
-    def analyze(profile: FounderProfile) -> dict:
-        return {
-            "target_customer": profile.audience,
-            "market_position": "AI Brand Strategy Consultant",
-            "competitive_advantage": (
-                f"Unlike generic naming tools, Project Origin connects branding decisions "
-                f"with founder intent, long-term vision, and {profile.differentiation}."
-            ),
-        }
+    def instructions() -> str:
+        return """
+Brand Positioning:
+- Define who the brand is for.
+- Define what alternative the customer would otherwise choose.
+- Define why this brand should be chosen.
+- Avoid using generic positioning such as "AI consultant" unless directly relevant.
+"""
 
 
 class ArchetypeFramework:
     @staticmethod
-    def analyze(profile: FounderProfile) -> dict:
-        text = " ".join([
-            profile.problem,
-            profile.audience,
-            profile.vision,
-            profile.principles,
-            profile.differentiation,
-        ]).lower()
+    def definitions() -> str:
+        return """
+Brand Archetypes:
+- Sage: knowledge, insight, truth, analysis
+- Creator: creation, design, imagination, originality
+- Hero: challenge, courage, achievement, problem-solving
+- Explorer: discovery, freedom, exploration, independence
+- Ruler: leadership, control, authority, premium status
+- Caregiver: protection, support, service, empathy
+- Magician: transformation, vision, possibility, innovation
+- Outlaw: rebellion, disruption, breaking conventions
+- Lover: beauty, emotion, desire, intimacy
+- Jester: fun, humor, playfulness, entertainment
+- Everyman: simplicity, familiarity, accessibility
+- Innocent: purity, optimism, trust, simplicity
 
-        if any(word in text for word in ["ai", "인공지능", "사고", "추론", "분석", "지능"]):
-            archetype = "Sage + Creator"
-            reason = "The brand emphasizes intelligence, reasoning, creation, and strategic thinking."
-        elif any(word in text for word in ["보안", "취약점", "스캔", "위협", "security"]):
-            archetype = "Sage + Hero"
-            reason = "The brand emphasizes protection, expertise, and problem-solving."
-        elif any(word in text for word in ["발견", "탐색", "recon", "osint", "discovery"]):
-            archetype = "Explorer + Sage"
-            reason = "The brand emphasizes discovery, exploration, and intelligence."
-        else:
-            archetype = "Sage"
-            reason = "The brand emphasizes insight, clarity, and decision-making."
-
-        return {
-            "primary_archetype": archetype,
-            "reason": reason,
-        }
+Select the best-fitting archetype based on the full founder profile.
+Always explain why the archetype fits.
+Do not rely on keyword matching alone.
+"""
 
 
 class ValuePropositionFramework:
     @staticmethod
-    def analyze(profile: FounderProfile) -> dict:
-        return {
-            "customer_problem": profile.problem,
-            "customer_value": (
-                "Customers gain clearer strategic direction and stronger confidence "
-                "in branding decisions."
-            ),
-            "solution": (
-                f"Project Origin uses {profile.differentiation} to transform founder input "
-                "into a professional Brand Strategy Report."
-            ),
-        }
+    def instructions() -> str:
+        return """
+Value Proposition:
+- Identify the customer's main problem.
+- Identify the value the company provides.
+- Explain why the solution matters.
+- Connect the value proposition to the founder's long-term vision.
+"""
 
 
 class NamingEvaluationFramework:
@@ -107,3 +93,40 @@ class NamingEvaluationFramework:
             "Emotional Impact",
             "Founder Intent Fit",
         ]
+
+    @staticmethod
+    def instructions() -> str:
+        criteria_text = ", ".join(NamingEvaluationFramework.criteria())
+
+        return f"""
+Naming Evaluation:
+Evaluate each brand name candidate using these criteria:
+
+{criteria_text}
+
+For each name candidate, provide:
+- Meaning
+- Strategic fit
+- Strengths
+- Weaknesses
+- Score out of 10
+- Reason for the score
+
+Do not recommend names only because they sound good.
+Every recommendation must connect to the founder's intent and brand strategy.
+"""
+
+
+class ReasoningFrameworks:
+    @staticmethod
+    def build_all() -> str:
+        return "\n\n".join(
+            [
+                GoldenCircleFramework.instructions(),
+                BrandDNAFramework.instructions(),
+                PositioningFramework.instructions(),
+                ArchetypeFramework.definitions(),
+                ValuePropositionFramework.instructions(),
+                NamingEvaluationFramework.instructions(),
+            ]
+        )
