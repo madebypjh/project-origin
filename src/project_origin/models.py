@@ -75,3 +75,16 @@ class BrandStrategyReport:
             ensure_ascii=False,
             indent=2
         )
+
+@dataclass
+class SemanticProfile:
+    themes: dict[str, float]
+    keywords: list[str]
+    vocabulary: list[str]
+    dominant_theme: str
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), ensure_ascii=False, indent=2)
