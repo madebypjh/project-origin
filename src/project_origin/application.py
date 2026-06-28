@@ -11,7 +11,7 @@ from .prompt_builder import PromptBuilder
 from .llm.factory import LLMFactory
 from .report_parser import ReportParser
 from .markdown_report import MarkdownReportGenerator
-
+from .file_writer import FileWriter
 
 class ProjectOriginApplication:
     def run(self) -> None:
@@ -29,6 +29,8 @@ class ProjectOriginApplication:
         raw_response = self._generate_llm_response(prompt)
         report = self._parse_report(raw_response)
         markdown = self._generate_markdown(report)
+        file_path = FileWriter.save_markdown(markdown)
+        self._print_saved_file(file_path)
 
         self._print_markdown_report(markdown)
 
@@ -71,3 +73,9 @@ class ProjectOriginApplication:
         print(" MARKDOWN REPORT ")
         print("==============================\n")
         print(markdown)
+    
+    def _print_saved_file(self, file_path) -> None:
+        print("\n==============================")
+        print(" REPORT SAVED ")
+        print("==============================\n")
+        print(f"Saved to: {file_path}")
