@@ -3,6 +3,7 @@ Project Origin - Application Layer
 
 Coordinates the full application workflow.
 """
+DEBUG = False
 
 from .interview import InterviewSession
 from .knowledge_builder import KnowledgeBuilder
@@ -15,13 +16,15 @@ from .markdown_report import MarkdownReportGenerator
 class ProjectOriginApplication:
     def run(self) -> None:
         profile = self._run_interview()
-        self._print_structured_profile(profile)
+        if DEBUG:
+            self._print_structured_profile(profile)
 
-        knowledge = self._build_knowledge(profile)
-        self._print_brand_knowledge(knowledge)
+        knowledge = self._build_knowledge(profile)        
 
         prompt = self._build_prompt(profile)
-        self._print_prompt(prompt)
+
+        if DEBUG:
+            self._print_prompt(prompt)
 
         raw_response = self._generate_llm_response(prompt)
         report = self._parse_report(raw_response)
@@ -56,10 +59,6 @@ class ProjectOriginApplication:
 
         print("===== STRUCTURED PROFILE =====\n")
         print(profile.to_json())
-
-    def _print_brand_knowledge(self, knowledge) -> None:
-        print("\n===== BRAND KNOWLEDGE =====\n")
-        print(knowledge.to_json())
 
     def _print_prompt(self, prompt: str) -> None:
         print("\n==============================")
