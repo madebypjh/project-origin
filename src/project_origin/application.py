@@ -40,7 +40,7 @@ class ProjectOriginApplication:
         return PromptBuilder.build(profile)
 
     def _generate_llm_response(self, prompt: str) -> str:
-        provider = LLMFactory.create("mock")
+        provider = LLMFactory.create("openai")
         return provider.generate(prompt)
 
     def _parse_report(self, raw_response: str):
