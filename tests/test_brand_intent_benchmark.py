@@ -123,6 +123,21 @@ def test_project_origin_intent_runner_can_include_mock_llm_shadow():
     assert metrics.passed_grounding
 
 
+def test_mock_llm_shadow_covers_all_checked_in_expected_intents():
+    runner = ProjectOriginIntentRunner(
+        llm=LlmBrandIntentInterpreter(MockProvider()),
+    )
+
+    for case in load_cases():
+        output = runner.run(case)
+        metrics = evaluate_intent_quality(case, output.llm_candidate_signals)
+
+        assert output.llm_error is None
+        assert metrics.expected_concept_coverage == 1.0, case.identifier
+        assert metrics.evidence_hint_coverage == 1.0, case.identifier
+        assert metrics.passed_grounding, case.identifier
+
+
 def test_brand_benchmark_suite_summarizes_naming_and_intent_results():
     cases = load_cases()[:2]
 

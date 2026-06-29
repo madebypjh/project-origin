@@ -296,6 +296,260 @@ class MockProvider(LLMProvider):
                 },
             ]
 
+        if "confidence-building" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "middle_school_learners",
+                    "weight": 0.34,
+                    "evidence": ["middle school learners"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "desired_emotion",
+                    "concept": "confidence_building_learning",
+                    "weight": 0.33,
+                    "evidence": ["confidence-building"],
+                    "confidence": 0.85,
+                },
+                {
+                    "kind": "constraint",
+                    "concept": "non_shaming_guidance",
+                    "weight": 0.33,
+                    "evidence": ["without shaming students"],
+                    "confidence": 0.9,
+                },
+            ]
+
+        if "respecting attorney boundaries" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "small_business_owners",
+                    "weight": 0.34,
+                    "evidence": ["small business owners"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "constraint",
+                    "concept": "attorney_boundary_respect",
+                    "weight": 0.33,
+                    "evidence": ["respecting attorney boundaries"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "capability",
+                    "concept": "plain_language_clause_risk",
+                    "weight": 0.33,
+                    "evidence": ["risky clauses in plain language"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "scientific humility" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "municipal_resilience_teams",
+                    "weight": 0.34,
+                    "evidence": ["municipal infrastructure"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "scientific_humility",
+                    "weight": 0.33,
+                    "evidence": ["Scientific humility"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "capability",
+                    "concept": "asset_level_planning",
+                    "weight": 0.33,
+                    "evidence": ["asset-level planning decisions"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "parents of preteens" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "parents_of_preteens",
+                    "weight": 0.34,
+                    "evidence": ["parents of preteens"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "privacy_preserving_safety",
+                    "weight": 0.33,
+                    "evidence": ["without invading children's privacy"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "constraint",
+                    "concept": "non_surveillance_parenting",
+                    "weight": 0.33,
+                    "evidence": [
+                        "without turning parenting into surveillance"
+                    ],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "operator oversight" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "enterprise_operations_leaders",
+                    "weight": 0.34,
+                    "evidence": ["enterprise operations leaders"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "operator_oversight",
+                    "weight": 0.33,
+                    "evidence": ["operator oversight"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "constraint",
+                    "concept": "human_control_of_exceptions",
+                    "weight": 0.33,
+                    "evidence": ["humans in control of exceptions"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "privacy-conscious mobile consumers" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "privacy_conscious_consumers",
+                    "weight": 0.34,
+                    "evidence": ["privacy-conscious mobile consumers"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "user_controlled_personalization",
+                    "weight": 0.33,
+                    "evidence": ["user-controlled"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "constraint",
+                    "concept": "no_behavioral_profile_sales",
+                    "weight": 0.33,
+                    "evidence": ["without selling behavioral profiles"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "platform lock-in" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "independent_creators",
+                    "weight": 0.34,
+                    "evidence": ["Independent creators"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "creator_ownership",
+                    "weight": 0.33,
+                    "evidence": ["ownership"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "constraint",
+                    "concept": "no_platform_lock_in",
+                    "weight": 0.33,
+                    "evidence": ["without platform lock-in"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "human authority" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "warehouse_operations_managers",
+                    "weight": 0.34,
+                    "evidence": ["warehouse operations managers"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "human_authority",
+                    "weight": 0.33,
+                    "evidence": ["human authority"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "capability",
+                    "concept": "fleet_signal_decisions",
+                    "weight": 0.33,
+                    "evidence": ["robot fleet signals"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "pretending to be therapy" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "adults_managing_stress",
+                    "weight": 0.34,
+                    "evidence": ["adults managing everyday stress"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "constraint",
+                    "concept": "not_therapy",
+                    "weight": 0.33,
+                    "evidence": [
+                        "not want an app pretending to be therapy"
+                    ],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "professional_boundaries",
+                    "weight": 0.33,
+                    "evidence": ["professional boundaries"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "clear escalation" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "supply_chain_teams",
+                    "weight": 0.34,
+                    "evidence": ["supply chain and logistics teams"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "clear_escalation",
+                    "weight": 0.33,
+                    "evidence": ["clear escalation"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "capability",
+                    "concept": "prioritized_operational_decisions",
+                    "weight": 0.33,
+                    "evidence": ["prioritized operational decisions"],
+                    "confidence": 0.85,
+                },
+            ]
+
         return None
 
     @staticmethod
