@@ -17,6 +17,7 @@ from .language_engine import BrandLanguageEngine
 from .naming.generator import NamingGenerator
 from .naming.evaluator import NameEvaluator
 from .naming.ranker import NameRanker
+from .naming.filters import NameFilterPipeline
 
 
 DEBUG = False
@@ -60,6 +61,7 @@ class ProjectOriginApplication:
         brand_language = BrandLanguageEngine.build(semantic_profile)
 
         names = NamingGenerator.generate(brand_language, count=100)
+        filtered_names = NameFilterPipeline.apply(names)
         evaluated_names = NameEvaluator.evaluate(names, brand_language)
         ranked_names = NameRanker.rank(evaluated_names, limit=20)
         FileWriter.save_name_candidates(ranked_names)

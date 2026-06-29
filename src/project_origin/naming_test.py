@@ -4,7 +4,7 @@ from src.project_origin.language_engine import BrandLanguageEngine
 from src.project_origin.naming.generator import NamingGenerator
 from src.project_origin.naming.evaluator import NameEvaluator
 from src.project_origin.naming.ranker import NameRanker
-
+from src.project_origin.naming.filters import NameFilterPipeline
 
 def main():
     profile = FounderProfile(
@@ -19,6 +19,7 @@ def main():
     brand_language = BrandLanguageEngine.build(semantic_profile)
 
     names = NamingGenerator.generate(brand_language, count=100)
+    filtered_names = NameFilterPipeline.apply(names)
     evaluated_names = NameEvaluator.evaluate(names, brand_language)
     ranked_names = NameRanker.rank(evaluated_names, limit=20)
 
