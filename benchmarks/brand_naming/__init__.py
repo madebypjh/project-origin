@@ -23,8 +23,16 @@ from benchmarks.brand_naming.results import (
     BrandNamingBenchmarkOutput,
     IntentBenchmarkSignal,
 )
+from benchmarks.brand_naming.suite import (
+    BrandBenchmarkCaseReport,
+    BrandBenchmarkSuite,
+    BrandBenchmarkSuiteReport,
+)
 
 __all__ = [
+    "BrandBenchmarkCaseReport",
+    "BrandBenchmarkSuite",
+    "BrandBenchmarkSuiteReport",
     "BrandIntentBenchmarkOutput",
     "BrandNamingBenchmarkCase",
     "BrandNamingBenchmarkOutput",

@@ -24,8 +24,8 @@ The same cases also define intent-quality expectations through:
 
 `ProjectOriginIntentRunner` executes the active rule-based interpreter and,
 optionally, an LLM candidate in Shadow Mode. `evaluate_intent_quality` checks
-concept coverage, evidence-hint coverage, grounding against the original
-founder input, and known bad pattern violations.
+strict concept coverage, relaxed concept coverage, evidence-hint coverage,
+grounding against the original founder input, and known bad pattern violations.
 
 The initial five cases validate the harness. Expand to at least 20 reviewed
 cases before drawing product conclusions.
@@ -36,6 +36,28 @@ cost. `ProjectOriginIntentRunner` records active baseline signals and optional
 shadow LLM signals without changing the product path. Direct-LLM and
 multi-agent runners remain to be implemented.
 
+Run the current suite with deterministic mock LLM shadow comparison:
+
+```bash
+python research/run_brand_benchmark.py
+```
+
+The script writes `output/brand_benchmark_report.json`. Use
+`--no-mock-llm` to measure only the active rule-based baseline.
+
+Run an OpenAI shadow comparison when external API transmission is explicitly
+approved:
+
+```bash
+python research/run_brand_benchmark.py --llm-provider openai --output output/brand_benchmark_report_openai.json
+```
+
+Recalculate metrics for an existing report without calling the provider again:
+
+```bash
+python research/run_brand_benchmark.py --reevaluate-report output/brand_benchmark_report_openai.json --output output/brand_benchmark_report_openai.json
+```
+
 Planned metrics:
 
 - hard constraint violations;
@@ -44,6 +66,7 @@ Planned metrics:
 - candidate diversity;
 - consistency across repeated runs;
 - intent concept coverage;
+- relaxed intent concept coverage;
 - intent evidence grounding;
 - evidence and reasoning trace completeness;
 - cost and latency.

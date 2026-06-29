@@ -5,6 +5,7 @@ from project_origin.brand.intent import (
     LlmBrandIntentInterpreter,
     RuleBasedBrandIntentInterpreter,
 )
+from project_origin.brand.intent.policy import BrandIntentPolicy
 from project_origin.brand.models import FounderProfile
 from project_origin.brand.semantic.theme_detector import ThemeDetector
 from project_origin.llm.mock_provider import MockProvider
@@ -109,3 +110,14 @@ def test_mock_provider_supports_shadow_intent_interpretation():
     assert record.llm_error is None
     assert record.llm_candidate is not None
     assert len(record.llm_candidate.signals) == 4
+
+
+def test_intent_policy_guides_llm_toward_stable_short_concepts():
+    prompt = BrandIntentPolicy.build_prompt(_health_profile())
+
+    assert "POLICY_VERSION: brand_intent_v2" in prompt
+    assert "prefer 2 to 4 words" in prompt
+    assert "name the reusable concept, not the full sentence" in prompt
+    assert "trusted_decision_layer" in prompt
+    assert "medical_humility" in prompt
+    assert "non_clinician_replacement" in prompt

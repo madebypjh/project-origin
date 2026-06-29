@@ -1,4 +1,5 @@
 from benchmarks.brand_naming import (
+    BrandBenchmarkSuite,
     IntentBenchmarkSignal,
     ProjectOriginIntentRunner,
     evaluate_intent_quality,
@@ -31,11 +32,48 @@ def test_intent_quality_metrics_track_expected_concepts_and_grounding():
 
     assert metrics.signal_count == 2
     assert metrics.expected_concept_coverage == 2 / 3
+    assert metrics.relaxed_concept_coverage == 2 / 3
     assert metrics.evidence_hint_coverage == 2 / 3
     assert metrics.missing_expected_concepts == (
         "explainable_prioritization",
     )
+    assert metrics.relaxed_missing_expected_concepts == (
+        "explainable_prioritization",
+    )
     assert metrics.passed_grounding
+
+
+def test_intent_quality_metrics_count_relaxed_concept_matches():
+    case = load_cases()[0]
+    signals = (
+        IntentBenchmarkSignal(
+            kind="objective",
+            concept="become_trusted_decision_layer_for_security_operations",
+            weight=0.34,
+            confidence=0.9,
+            evidence=("trusted decision layer",),
+        ),
+        IntentBenchmarkSignal(
+            kind="value",
+            concept="accuracy_evidence_and_operator_control",
+            weight=0.33,
+            confidence=0.9,
+            evidence=("operator control",),
+        ),
+        IntentBenchmarkSignal(
+            kind="differentiation",
+            concept="convert_fragmented_findings_into_explainable_priorities",
+            weight=0.33,
+            confidence=0.9,
+            evidence=("explainable priorities",),
+        ),
+    )
+
+    metrics = evaluate_intent_quality(case, signals)
+
+    assert metrics.expected_concept_coverage == 0.0
+    assert metrics.relaxed_concept_coverage == 1.0
+    assert metrics.relaxed_missing_expected_concepts == ()
 
 
 def test_intent_quality_metrics_detect_unsupported_evidence():
@@ -82,3 +120,20 @@ def test_project_origin_intent_runner_can_include_mock_llm_shadow():
     assert len(output.llm_candidate_signals) == 4
     assert metrics.evidence_hint_coverage >= 2 / 3
     assert metrics.passed_grounding
+
+
+def test_brand_benchmark_suite_summarizes_naming_and_intent_results():
+    cases = load_cases()[:2]
+
+    report = BrandBenchmarkSuite.with_mock_llm().run(cases)
+    summary = report.summary()
+    report_dict = report.to_dict()
+
+    assert len(report.cases) == 2
+    assert summary["case_count"] == 2
+    assert summary["naming_hard_constraint_pass_rate"] == 1.0
+    assert summary["active_intent"]["grounding_pass_rate"] == 1.0
+    assert "average_strict_concept_coverage" in summary["active_intent"]
+    assert "average_relaxed_concept_coverage" in summary["active_intent"]
+    assert summary["llm_shadow_intent"] is not None
+    assert report_dict["cases"][0]["llm_intent_metrics"] is not None
