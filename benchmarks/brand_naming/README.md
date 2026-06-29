@@ -15,6 +15,11 @@ checks such as candidate count and forbidden-term violations are evaluated
 without an LLM judge. Subjective strategic quality will use a separate blinded
 human rubric.
 
+The benchmark also computes case-aware naming calibration metrics without an
+LLM judge. These metrics use each case's required qualities, known bad
+patterns, candidate evaluation traces, and score margins to flag outputs that
+look acceptable but may be over-confident.
+
 The same cases also define intent-quality expectations through:
 
 - `expected_intent_signals`: evidence-backed concepts the interpreter should
@@ -82,4 +87,9 @@ Planned metrics:
 - evidence and reasoning trace completeness;
 - candidate-level evaluation trace completeness;
 - naming knowledge guidance application rate;
+- required quality coverage;
+- known bad pattern risk;
+- selected candidate risk score;
+- low-confidence decision rate;
+- score margin distribution;
 - cost and latency.

@@ -11,7 +11,9 @@ from benchmarks.brand_naming.intent_metrics import (
 from benchmarks.brand_naming.intent_runner import ProjectOriginIntentRunner
 from benchmarks.brand_naming.loader import load_cases
 from benchmarks.brand_naming.metrics import (
+    CaseAwareNamingMetrics,
     HardConstraintMetrics,
+    evaluate_case_aware_naming,
     evaluate_hard_constraints,
 )
 from benchmarks.brand_naming.models import BrandNamingBenchmarkCase
@@ -36,8 +38,10 @@ class BrandBenchmarkCaseReport:
     case_id: str
     naming_output: BrandNamingBenchmarkOutput
     naming_metrics: HardConstraintMetrics
+    naming_case_metrics: CaseAwareNamingMetrics
     intent_shadow_naming_output: BrandNamingBenchmarkOutput | None
     intent_shadow_naming_metrics: HardConstraintMetrics | None
+    intent_shadow_naming_case_metrics: CaseAwareNamingMetrics | None
     intent_shadow_name_overlap: tuple[str, ...]
     intent_output: BrandIntentBenchmarkOutput
     active_intent_metrics: IntentQualityMetrics
@@ -48,6 +52,9 @@ class BrandBenchmarkCaseReport:
             "case_id": self.case_id,
             "naming_output": self.naming_output.to_dict(),
             "naming_metrics": _hard_metrics_to_dict(self.naming_metrics),
+            "naming_case_metrics": _case_metrics_to_dict(
+                self.naming_case_metrics
+            ),
             "intent_shadow_naming_output": (
                 self.intent_shadow_naming_output.to_dict()
                 if self.intent_shadow_naming_output is not None
@@ -56,6 +63,11 @@ class BrandBenchmarkCaseReport:
             "intent_shadow_naming_metrics": (
                 _hard_metrics_to_dict(self.intent_shadow_naming_metrics)
                 if self.intent_shadow_naming_metrics is not None
+                else None
+            ),
+            "intent_shadow_naming_case_metrics": (
+                _case_metrics_to_dict(self.intent_shadow_naming_case_metrics)
+                if self.intent_shadow_naming_case_metrics is not None
                 else None
             ),
             "intent_shadow_name_overlap": self.intent_shadow_name_overlap,
@@ -85,6 +97,7 @@ class BrandBenchmarkSuiteReport:
 
     def summary(self) -> dict:
         naming_metrics = [case.naming_metrics for case in self.cases]
+        naming_case_metrics = [case.naming_case_metrics for case in self.cases]
         naming_outputs = [case.naming_output for case in self.cases]
         shadow_naming_metrics = [
             case.intent_shadow_naming_metrics
@@ -95,6 +108,11 @@ class BrandBenchmarkSuiteReport:
             case.intent_shadow_naming_output
             for case in self.cases
             if case.intent_shadow_naming_output is not None
+        ]
+        shadow_naming_case_metrics = [
+            case.intent_shadow_naming_case_metrics
+            for case in self.cases
+            if case.intent_shadow_naming_case_metrics is not None
         ]
         shadow_overlaps = [
             len(case.intent_shadow_name_overlap)
@@ -115,6 +133,9 @@ class BrandBenchmarkSuiteReport:
             ),
             "active_naming_diversity": _candidate_diversity(naming_outputs),
             "active_naming_evaluation": _evaluation_summary(naming_outputs),
+            "active_naming_case_fit": _case_metric_summary(
+                naming_case_metrics
+            ),
             "intent_shadow_naming": (
                 {
                     "hard_constraint_pass_rate": _pass_rate(
@@ -135,6 +156,13 @@ class BrandBenchmarkSuiteReport:
                             output
                             for output in shadow_naming_outputs
                             if output is not None
+                        )
+                    ),
+                    "case_fit": _case_metric_summary(
+                        tuple(
+                            metric
+                            for metric in shadow_naming_case_metrics
+                            if metric is not None
                         )
                     ),
                 }
@@ -184,10 +212,12 @@ class BrandBenchmarkSuite:
     ) -> BrandBenchmarkCaseReport:
         naming_output = self.naming_runner.run(case)
         naming_metrics = evaluate_hard_constraints(case, naming_output)
+        naming_case_metrics = evaluate_case_aware_naming(case, naming_output)
 
         intent_output = self.intent_runner.run(case)
         intent_shadow_naming_output = None
         intent_shadow_naming_metrics = None
+        intent_shadow_naming_case_metrics = None
         intent_shadow_name_overlap: tuple[str, ...] = ()
         active_metrics = evaluate_intent_quality(
             case,
@@ -207,6 +237,10 @@ class BrandBenchmarkSuite:
                 case,
                 intent_shadow_naming_output,
             )
+            intent_shadow_naming_case_metrics = evaluate_case_aware_naming(
+                case,
+                intent_shadow_naming_output,
+            )
             intent_shadow_name_overlap = _name_overlap(
                 naming_output,
                 intent_shadow_naming_output,
@@ -216,8 +250,12 @@ class BrandBenchmarkSuite:
             case_id=case.identifier,
             naming_output=naming_output,
             naming_metrics=naming_metrics,
+            naming_case_metrics=naming_case_metrics,
             intent_shadow_naming_output=intent_shadow_naming_output,
             intent_shadow_naming_metrics=intent_shadow_naming_metrics,
+            intent_shadow_naming_case_metrics=(
+                intent_shadow_naming_case_metrics
+            ),
             intent_shadow_name_overlap=intent_shadow_name_overlap,
             intent_output=intent_output,
             active_intent_metrics=active_metrics,
@@ -268,6 +306,24 @@ def _hard_metrics_to_dict(metrics: HardConstraintMetrics) -> dict:
         "has_exactly_five_candidates": metrics.has_exactly_five_candidates,
         "forbidden_term_violations": metrics.forbidden_term_violations,
         "passed": metrics.passed,
+    }
+
+
+def _case_metrics_to_dict(metrics: CaseAwareNamingMetrics) -> dict:
+    return {
+        "required_quality_coverage": metrics.required_quality_coverage,
+        "selected_required_quality_coverage": (
+            metrics.selected_required_quality_coverage
+        ),
+        "matched_required_qualities": metrics.matched_required_qualities,
+        "missing_required_qualities": metrics.missing_required_qualities,
+        "known_bad_pattern_violations": (
+            metrics.known_bad_pattern_violations
+        ),
+        "average_risk_score": metrics.average_risk_score,
+        "selected_risk_score": metrics.selected_risk_score,
+        "score_margin": metrics.score_margin,
+        "low_confidence_decision": metrics.low_confidence_decision,
     }
 
 
@@ -423,4 +479,55 @@ def _evaluation_summary(
             knowledge_applied / len(evaluations),
             4,
         ),
+    }
+
+
+def _case_metric_summary(
+    metrics: Iterable[CaseAwareNamingMetrics],
+) -> dict:
+    metrics = tuple(metrics)
+    if not metrics:
+        return {
+            "average_required_quality_coverage": 0.0,
+            "average_selected_required_quality_coverage": 0.0,
+            "average_risk_score": 0.0,
+            "average_selected_risk_score": 0.0,
+            "known_bad_pattern_violation_count": 0,
+            "low_confidence_decision_rate": 0.0,
+            "average_score_margin": 0.0,
+        }
+
+    margins = [
+        metric.score_margin
+        for metric in metrics
+        if metric.score_margin is not None
+    ]
+    return {
+        "average_required_quality_coverage": round(
+            mean(metric.required_quality_coverage for metric in metrics),
+            4,
+        ),
+        "average_selected_required_quality_coverage": round(
+            mean(
+                metric.selected_required_quality_coverage
+                for metric in metrics
+            ),
+            4,
+        ),
+        "average_risk_score": round(
+            mean(metric.average_risk_score for metric in metrics),
+            4,
+        ),
+        "average_selected_risk_score": round(
+            mean(metric.selected_risk_score for metric in metrics),
+            4,
+        ),
+        "known_bad_pattern_violation_count": sum(
+            len(metric.known_bad_pattern_violations)
+            for metric in metrics
+        ),
+        "low_confidence_decision_rate": _pass_rate(
+            metric.low_confidence_decision for metric in metrics
+        ),
+        "average_score_margin": round(mean(margins), 2) if margins else 0.0,
     }

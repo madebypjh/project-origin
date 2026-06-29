@@ -5,6 +5,7 @@ import pytest
 from benchmarks.brand_naming import (
     BrandNamingBenchmarkOutput,
     ProjectOriginNamingRunner,
+    evaluate_case_aware_naming,
     evaluate_hard_constraints,
     load_cases,
 )
@@ -81,6 +82,76 @@ def test_hard_constraint_metrics_detect_forbidden_terms():
     assert metrics.has_exactly_five_candidates
     assert metrics.forbidden_term_violations == ("Cybera: cyber",)
     assert not metrics.passed
+
+
+def test_case_aware_metrics_track_quality_risk_and_confidence():
+    case = load_cases()[0]
+    output = BrandNamingBenchmarkOutput(
+        case_id=case.identifier,
+        approach="test",
+        candidates=("Hackera", "Verity", "Sentry", "Lumis", "Axiom"),
+        selected_name="Verity",
+        reasoning="Verity communicates evidence and operator control.",
+        candidate_evaluations=(
+            {
+                "name": "Verity",
+                "total_score": 8.5,
+                "scores": {
+                    "pronunciation": 9.0,
+                    "originality": 8.0,
+                    "strategic_fit": 8.0,
+                    "memorability": 8.0,
+                },
+            },
+            {
+                "name": "Hackera",
+                "total_score": 8.45,
+                "scores": {
+                    "pronunciation": 9.0,
+                    "originality": 7.0,
+                    "strategic_fit": 7.5,
+                    "memorability": 8.0,
+                },
+            },
+        ),
+    )
+
+    metrics = evaluate_case_aware_naming(case, output)
+
+    assert metrics.selected_required_quality_coverage == 1.0
+    assert metrics.score_margin == 0.05
+    assert metrics.low_confidence_decision
+    assert "Hackera: hacker imagery" in metrics.known_bad_pattern_violations
+    assert metrics.average_risk_score > 0
+
+
+def test_case_aware_metrics_flag_missing_required_qualities():
+    case = load_cases()[1]
+    output = BrandNamingBenchmarkOutput(
+        case_id=case.identifier,
+        approach="test",
+        candidates=("Harshx", "Coldq"),
+        selected_name="Harshx",
+        reasoning="Harshx is efficient.",
+        candidate_evaluations=(
+            {
+                "name": "Harshx",
+                "total_score": 6.2,
+                "scores": {
+                    "pronunciation": 6.0,
+                    "originality": 6.0,
+                    "strategic_fit": 6.0,
+                    "memorability": 6.0,
+                },
+            },
+        ),
+    )
+
+    metrics = evaluate_case_aware_naming(case, output)
+
+    assert metrics.selected_required_quality_coverage < 1.0
+    assert metrics.missing_required_qualities
+    assert metrics.low_confidence_decision
 
 
 def test_benchmark_output_requires_selected_candidate():
