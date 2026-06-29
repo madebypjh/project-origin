@@ -6,13 +6,13 @@ Benchmarks Naming Engine output quality.
 
 from statistics import mean
 
-from src.project_origin.models import FounderProfile
-from src.project_origin.semantic.semantic_engine import SemanticEngine
-from src.project_origin.language_engine import BrandLanguageEngine
-from src.project_origin.naming.generator import NamingGenerator
-from src.project_origin.naming.filters import NameFilterPipeline
-from src.project_origin.naming.evaluator import NameEvaluator
-from src.project_origin.naming.ranker import NameRanker
+from project_origin.brand.language_engine import BrandLanguageEngine
+from project_origin.brand.models import FounderProfile
+from project_origin.brand.naming.evaluator import NameEvaluator
+from project_origin.brand.naming.filters import NameFilterPipeline
+from project_origin.brand.naming.generator import NamingGenerator
+from project_origin.brand.naming.ranker import NameRanker
+from project_origin.brand.semantic.semantic_engine import SemanticEngine
 
 
 class NamingBenchmark:
@@ -29,7 +29,11 @@ class NamingBenchmark:
         semantic_profile = SemanticEngine.build(profile)
         brand_language = BrandLanguageEngine.build(semantic_profile)
 
-        generated_names = NamingGenerator.generate(brand_language, count=300)
+        generated_names = NamingGenerator.generate(
+            brand_language,
+            count=300,
+            seed=42,
+        )
         filtered_names = NameFilterPipeline.apply(generated_names)
         evaluated_names = NameEvaluator.evaluate(filtered_names, brand_language)
         ranked_names = NameRanker.rank(evaluated_names, limit=20)
@@ -46,7 +50,12 @@ class NamingBenchmark:
         filtered_names,
         ranked_names,
     ) -> None:
-        duplicate_rate = 1 - (len(set(generated_names)) / len(generated_names))
+        generated_values = [candidate.name.casefold() for candidate in generated_names]
+        duplicate_rate = (
+            1 - (len(set(generated_values)) / len(generated_values))
+            if generated_values
+            else 0.0
+        )
 
         print("\n===== NAMING ENGINE BENCHMARK =====\n")
 
@@ -65,7 +74,7 @@ class NamingBenchmark:
         print("\n===== TOP 20 =====\n")
 
         for index, name in enumerate(ranked_names, start=1):
-            print(f"{index}. {name.name} — {name.total_score}/10")
+            print(f"{index}. {name.name} - {name.total_score}/10")
 
 
 def main() -> None:

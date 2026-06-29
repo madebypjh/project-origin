@@ -1,408 +1,96 @@
-# Project Origin Architecture
+# Brand Domain Architecture
 
-> **Design the reasoning. Not the answer.**
+Version: 2.0
 
-Version: 1.0
+Status: Active
 
----
+## Purpose
 
-# Purpose
+This document describes the first domain implementation of Project Origin. The
+domain validates the Core contracts through Brand Strategy and naming
+decisions.
 
-This document defines the core architecture of Project Origin.
+The Brand package may depend on Core. Core must never depend on Brand.
 
-The objective is not to describe implementation details.
-
-The objective is to define responsibilities.
-
-Every module should have one responsibility.
-
-Every layer should be replaceable.
-
----
-
-# Core Philosophy
-
-Project Origin is **not an AI naming generator.**
-
-Project Origin is an **AI Decision Intelligence System.**
-
-The AI model is not the product.
-
-The reasoning process is the product.
-
-The report is the product delivered to users.
-
----
-
-# Design Principles
-
-## Single Responsibility
-
-Each module has exactly one responsibility.
-
-No module should perform multiple unrelated tasks.
-
----
-
-## Provider Independence
-
-The system must never depend on a specific LLM.
-
-OpenAI is one provider.
-
-Claude is one provider.
-
-Gemini is one provider.
-
-The architecture must support replacing providers without changing business logic.
-
----
-
-## Framework First
-
-Business reasoning should never be hardcoded.
-
-Instead, reasoning should be expressed as reusable strategic frameworks.
-
-Examples:
-
-* Golden Circle
-* Brand DNA
-* Positioning
-* Brand Archetypes
-* Value Proposition
-* Naming Evaluation
-
----
-
-## Output First
-
-The user's experience is the report.
-
-Everything exists to produce a higher-quality report.
-
----
-
-# High-Level Architecture
+## Current flow
 
 ```text
-Founder Interview
-        │
-        ▼
-FounderProfile
-        │
-        ▼
-PromptBuilder
-        │
-        ▼
-Reasoning Frameworks
-        │
-        ▼
-LLM Provider
-        │
-        ▼
-JSON Validator
-        │
-        ▼
-Report Parser
-        │
-        ▼
-Brand Strategy Report
-        │
-        ▼
-Markdown Template
-        │
-        ▼
-PDF Report
+InterviewSession
+    -> FounderProfile
+    -> KnowledgeBuilder / BrandKnowledge
+    -> SemanticEngine / SemanticProfile
+    -> BrandLanguageEngine / BrandLanguage
+    -> NamingGenerator / NameCandidate[]
+    -> NameFilterPipeline
+    -> NameEvaluator
+    -> NameRanker
+    -> PromptBuilder
+    -> LLMProvider
+    -> ReportValidator
+    -> ReportParser / BrandStrategyReport
+    -> MarkdownReportGenerator
 ```
 
----
-
-# Module Responsibilities
-
-## interview.py
-
-Responsibility
-
-Collect founder information.
-
-Output
-
-FounderProfile
-
-Never performs reasoning.
-
----
-
-## models.py
-
-Responsibility
-
-Define domain models.
-
-Contains:
-
-* FounderProfile
-* BrandStrategyReport
-* Future domain models
-
-No business logic.
-
----
-
-## frameworks.py
-
-Responsibility
-
-Define strategic reasoning frameworks.
-
-Contains:
-
-* Golden Circle
-* Brand DNA
-* Positioning
-* Archetypes
-* Value Proposition
-* Naming Evaluation
-
-Frameworks describe how the AI should think.
-
-Frameworks do not generate conclusions.
-
----
-
-## prompt_builder.py
-
-Responsibility
-
-Construct the complete reasoning prompt.
-
-Responsibilities include:
-
-* Founder context
-* Strategic frameworks
-* Output schema
-* Constraints
-* Quality instructions
-
-PromptBuilder designs the AI's thinking process.
-
----
-
-## llm/
-
-Responsibility
-
-Provide provider-independent LLM access.
-
-Architecture
-
-```
-llm/
-
-base.py
-
-factory.py
-
-openai_provider.py
-
-anthropic_provider.py
-
-gemini_provider.py
-
-ollama_provider.py
-```
-
-Business logic must never depend on OpenAI directly.
-
----
-
-## validator.py
-
-Responsibility
-
-Validate LLM output.
-
-Checks include:
-
-* Valid JSON
-* Required fields
-* Type validation
-* Missing sections
-
-Invalid responses should never reach users.
-
----
-
-## report_parser.py
-
-Responsibility
-
-Convert validated JSON into domain objects.
-
-Output
-
-BrandStrategyReport
-
-No formatting.
-
----
-
-## markdown_report.py
-
-Responsibility
-
-Render reports into Markdown.
-
-Uses Jinja2 templates.
-
-No business logic.
-
----
-
-## pdf_report.py
-
-Responsibility
-
-Generate professional PDF reports.
-
-PDF generation is a presentation layer.
-
----
-
-# Data Flow
+## Package responsibilities
 
 ```text
-Interview
-
-↓
-
-FounderProfile
-
-↓
-
-PromptBuilder
-
-↓
-
-Reasoning Frameworks
-
-↓
-
-LLM
-
-↓
-
-Validated JSON
-
-↓
-
-BrandStrategyReport
-
-↓
-
-Markdown
-
-↓
-
-PDF
+project_origin/
+|-- core/                  # Domain-neutral contracts
+|-- brand/
+|   |-- application.py     # Brand workflow orchestration
+|   |-- models.py          # Brand-only models
+|   |-- semantic/          # Meaning and theme extraction
+|   |-- naming/            # Candidate generation and evaluation
+|   |-- prompt_builder.py  # Brand report request construction
+|   |-- validator.py       # Brand report schema validation
+|   `-- markdown_report.py # Brand presentation
+|-- llm/                   # Provider adapters
+`-- main.py                # CLI entry point
 ```
 
----
+### `project_origin.core`
 
-# What Each Layer Knows
+Owns only domain-neutral decision contracts. It contains no Brand terminology,
+prompt templates, provider clients, or report formatting.
 
-Interview
+### `project_origin.brand`
 
-Knows user input.
+Owns founder interviews, Brand knowledge, semantic language, naming, report
+schemas, and presentation.
 
----
+### `project_origin.llm`
 
-PromptBuilder
+Provides replaceable text-generation adapters. Providers return text; domain
+validators determine whether that text is acceptable.
 
-Knows how to ask the AI.
+### `research`
 
----
+Collects and validates Brand Genome data, extracts patterns, and compiles
+Brand-specific naming knowledge. It is not the Universal Knowledge Engine.
 
-Frameworks
+## Data model rule
 
-Know how experts think.
+Generated names remain `NameCandidate` objects from generation through ranking.
+Downstream code must not reduce them to strings except at an external
+serialization boundary.
 
----
+## LLM boundary
 
-LLM
+The LLM may assist semantic judgment, critique, and report writing. It does not
+own the system’s decision schema or validation rules.
 
-Knows how to reason.
+All LLM report output must:
 
----
+1. use the required JSON structure;
+2. pass `ReportValidator`;
+3. become a typed domain model before presentation.
 
-Parser
+## Known transitional gaps
 
-Knows how to structure.
+- Brand models are not yet mapped into all Core contracts.
+- Generator V2 does not yet consume all compiled naming knowledge.
+- Report recommendation is still LLM-assisted rather than a complete
+  `DecisionResult`.
+- A benchmark against direct LLM and multi-agent baselines is not yet complete.
 
----
-
-Template
-
-Knows how to present.
-
----
-
-# What Must Never Happen
-
-The following are architecture violations.
-
-❌ Hardcoded business conclusions
-
-❌ LLM-specific logic inside business modules
-
-❌ Formatting inside PromptBuilder
-
-❌ Prompt generation inside Frameworks
-
-❌ Business logic inside templates
-
-❌ PDF generation inside Parser
-
----
-
-# Long-Term Evolution
-
-The architecture is intentionally designed for multiple products.
-
-Current product
-
-Project Origin
-
-Future products
-
-* ReconOS
-* Security Intelligence
-* Decision Intelligence
-* AI Research Assistant
-
-Only the frameworks and prompts should change.
-
-The architecture should remain identical.
-
----
-
-# Architecture Motto
-
-> Code should be replaceable.
-
-> Reasoning should be reusable.
-
-> Reports should be valuable.
-
----
-
-# Final Principle
-
-Users never buy prompts.
-
-Users never buy Python code.
-
-Users buy better decisions.
-
-Every architectural decision should move Project Origin closer to that goal.
+These are explicit migration targets, not reasons to put Brand logic into Core.

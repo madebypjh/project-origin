@@ -1,5 +1,5 @@
-from src.project_origin.models import FounderProfile, SemanticProfile
-from src.project_origin.semantic_engine import SemanticEngine
+from project_origin.brand.models import FounderProfile, SemanticProfile
+from project_origin.brand.semantic.semantic_engine import SemanticEngine
 
 
 def test_semantic_engine_creates_semantic_profile():

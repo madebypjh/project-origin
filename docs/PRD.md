@@ -1,143 +1,80 @@
-# Project Origin
+# Project Origin Brand — Product Requirement Document
 
-## Product Requirement Document (PRD)
+Version: 0.2
 
-**Version:** 0.1  
-**Status:** Draft  
-**Author:** Park Junghyun  
-**Date:** 2026-06-27
+Status: Active
 
-# Project Origin
+Product role: First validation domain for Project Origin Core
 
-## Product Requirement Document (PRD)
+## Overview
 
-**Version:** 0.1
-**Status:** Draft
-**Author:** Park Junghyun (Founder)
-**Project:** Project Origin
+Project Origin Brand is an AI-assisted Brand Strategy product. It helps founders
+turn mission, values, audience, and long-term goals into an explainable Brand
+direction and professional report.
 
----
+It is not a random name generator. Naming is one decision inside the report.
 
-# 1. Overview
+## Validation question
 
-Project Origin is an AI-powered Brand Intelligence Platform.
+Would a founder pay for a Brand Strategy Report because it provides insight,
+confidence, and decision support that a strong generic AI response does not?
 
-Unlike conventional name generators, Project Origin helps founders discover brand identities based on their mission, vision, values, long-term goals, and business philosophy.
+## Target users
 
-The objective is not to generate random names, but to build meaningful brands with a compelling story.
+- startup founders and product builders;
+- small teams defining a new company or product identity;
+- agencies that need a repeatable strategic discovery process.
 
----
+## Concierge MVP
 
-# 2. Mission
+```text
+Founder interview
+    -> operator-assisted CLI
+    -> structured Brand analysis
+    -> candidate generation and evaluation
+    -> professional Brand Strategy Report
+    -> founder feedback
+```
 
-**Reveal What Matters.**
+The user does not need to interact with the internal software.
 
-Project Origin exists to discover brands that truly represent a company's purpose.
+## Required output
 
----
+- executive summary;
+- founder and business insights;
+- Brand identity, mission, vision, and values;
+- target audience and positioning;
+- Brand personality and narrative direction;
+- naming strategy and five evaluated candidates;
+- one explainable final recommendation.
 
-# 3. Vision
+## Quality requirements
 
-To become the world's most intelligent brand discovery platform.
+- Claims must be grounded in interview or validated knowledge.
+- Facts, inferences, and uncertainty must be distinguishable.
+- Recommendations must include strengths, weaknesses, and rationale.
+- Reports must target at least 22/25 under the Report Quality Standard.
 
-Project Origin will help founders transform ideas into meaningful identities through AI-assisted reasoning rather than simple text generation.
+## MVP exclusions
 
----
+- accounts, authentication, and team collaboration;
+- payment and public web application;
+- automatic trademark or domain clearance;
+- logo generation;
+- universal cross-domain decision functionality.
 
-# 4. Problem Statement
+These features require product evidence before implementation.
 
-Most branding tools generate random names without understanding the company's philosophy.
+## Product success
 
-As a result:
+- target founders consistently report non-generic strategic insight;
+- target founders express willingness to pay;
+- report quality is repeatable;
+- the structured pipeline outperforms or complements a strong direct-LLM
+  baseline in a measurable way.
 
-* Names lack meaning.
-* Brand stories are weak.
-* Long-term identity is not considered.
-* Founders spend weeks searching for the right name.
+## Relationship to Core and ReconOS
 
-Project Origin solves this by understanding the founder before suggesting a brand.
-
----
-
-# 5. Target Users
-
-* Startup founders
-* Product builders
-* Indie hackers
-* Software companies
-* Design agencies
-* Marketing teams
-* Entrepreneurs
-* Personal brand creators
-
----
-
-# 6. Core Idea
-
-A company should not begin with a random name.
-
-It should begin with purpose.
-
-Project Origin analyzes:
-
-* Mission
-* Vision
-* Core Values
-* Long-term Goals
-* Target Audience
-* Industry
-* Desired Brand Image
-* Words to Avoid
-
-Then creates a brand identity instead of merely generating names.
-
----
-
-# 7. MVP Goal
-
-The first version will provide:
-
-1. Founder interview
-2. Brand DNA generation
-3. Name generation
-4. Brand story generation
-5. Slogan generation
-6. Brand scoring
-7. Final recommendation report
-
----
-
-# 8. Success Criteria
-
-Users should finish the process with:
-
-* A meaningful company name
-* A compelling brand story
-* Mission alignment
-* Visual branding direction
-* Clear explanation of why the selected name fits their company
-
----
-
-# 9. Long-term Vision
-
-Project Origin is the first internal product that will validate technologies later used in ReconOS.
-
-Core technologies include:
-
-* LLM integration
-* AI reasoning
-* Structured evaluation
-* Report generation
-* Knowledge storage
-* Decision support
-
-These technologies will later become the foundation of the ReconOS platform.
-
----
-
-# Status
-
-Day 1
-
-Draft Version 0.1
+Brand is the first domain used to validate domain-neutral decision contracts.
+ReconOS is a future Security product/domain that may reuse only the contracts
+and implementations proven to be genuinely reusable.

@@ -2,11 +2,11 @@
 Project Origin - CLI Entry Point
 """
 
-from .application import ProjectOriginApplication
+from project_origin.brand.application import BrandApplication
 
 
 def main():
-    app = ProjectOriginApplication()
+    app = BrandApplication()
     app.run()
 
 

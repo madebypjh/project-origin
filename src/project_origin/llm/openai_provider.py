@@ -3,12 +3,13 @@ Project Origin - OpenAI Provider
 """
 
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from openai import OpenAI
 
 from .base import LLMProvider
-from pathlib import Path
+
 
 class OpenAIProvider(LLMProvider):
     def __init__(self) -> None:
@@ -40,4 +41,4 @@ class OpenAIProvider(LLMProvider):
         if text.endswith("```"):
             text = text.removesuffix("```").strip()
 
-        return text        
+        return text

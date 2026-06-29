@@ -1,274 +1,109 @@
 # Project Origin
 
-> **Reveal What Matters.**
+> Reveal What Matters.
 
-Project Origin is an AI-powered Brand Decision Intelligence Platform.
+Project Origin is an explainable AI Decision Engine Platform. It transforms
+human intent and domain knowledge into structured reasoning and traceable
+decisions.
 
-AND
+Brand Strategy is the first product and validation domain. It is not the final
+scope of the platform.
 
-Project Origin is the first application built on the Origin Reasoning Architecture.
+## Development principle
 
-Rather than generating random brand names, Project Origin helps founders make better branding decisions through structured reasoning, strategic frameworks, and AI-assisted analysis.
+Project Origin is **product-driven and Core-aware**:
 
-The goal is not to generate names.
+- Product evidence determines what to build next.
+- Core contracts define dependency boundaries from the beginning.
+- Reusable implementations move into Core only after real domain validation.
+- LLMs are replaceable assistants, not owners of the decision contract.
 
-The goal is to generate confidence.
-
----
-
-# Mission
-
-**Reveal What Matters.**
-
----
-
-# Why Project Origin Exists
-
-A brand is more than a name.
-
-A brand is a promise.
-
-Most naming tools generate hundreds of possible names.
-
-Project Origin takes a different approach.
-
-Instead of asking,
-
-> *"What should this company be called?"*
-
-Project Origin asks,
-
-> *"Who is this company, and why should it exist?"*
-
-Only then does it recommend names that align with the founder's mission, values, and long-term vision.
-
----
-
-# Project Philosophy
-
-> **Code should be replaceable.**
-
-> **Reasoning should be reusable.**
-
-> **Reports should be valuable.**
-
----
-
-# Current Status
-
-| Milestone                       | Status         |
-| ------------------------------- | -------------- |
-| Milestone 1 — Foundation        | ✅ Complete     |
-| Milestone 2 — Core Architecture | ✅ Complete     |
-| Milestone 3 — AI Integration    | 🚧 In Progress |
-
-**Development Stage**
-
-**Pre-MVP**
-
----
-
-# Architecture
+## Architecture
 
 ```text
-Founder Interview
-        │
-        ▼
-FounderProfile
-        │
-        ▼
-PromptBuilder
-        │
-        ▼
-Reasoning Frameworks
-        │
-        ▼
-LLM Provider
-        │
-        ▼
-JSON Validator
-        │
-        ▼
-Report Parser
-        │
-        ▼
-Brand Strategy Report
-        │
-        ▼
-Markdown Template
-        │
-        ▼
-PDF Report
+Human Input
+    -> IntentProfile
+    -> KnowledgePacket
+    -> ReasoningTrace
+    -> DecisionOption[]
+    -> DecisionResult
+    -> Domain Output
 ```
 
-Project Origin is built around **Reasoning Engineering**, not Prompt Engineering.
-
-* The reasoning process is reusable.
-* The AI provider is replaceable.
-* The report is the product.
-
----
-
-# Documentation
-
-Project Origin follows a **Documentation-First Development** approach.
-
-Read the documents in the following order.
-
-## Foundation
-
-* `01_mission.md`
-* `02_brand_dna.md`
-* `03_vision.md`
-* `04_core_values.md`
-* `05_decision_principles.md`
-* `06_founder_philosophy.md`
-* `07_naming_principles.md`
-
-## Product
-
-* `08_mvp_spec.md`
-* `09_master_roadmap.md`
-* `10_brand_frameworks.md`
-* `11_report_quality_standard.md`
-* `12_architecture.md`
-
-Each document builds upon the previous one.
-
-The philosophy, architecture, and implementation are intentionally separated to keep the project maintainable and extensible.
-
----
-
-# Development Roadmap
-
-## Milestone 1 — Foundation
-
-Completed
-
-* Mission
-* Brand DNA
-* Vision
-* Core Values
-* Decision Principles
-* Founder Philosophy
-* Naming Principles
-
----
-
-## Milestone 2 — Core Architecture
-
-Completed
-
-* Interview Engine
-* FounderProfile
-* Prompt Builder
-* Reasoning Frameworks
-* Report Parser
-* Markdown Generator
-* Template Engine
-
----
-
-## Milestone 3 — AI Integration
-
-In Progress
-
-* Provider-independent LLM Layer
-* OpenAI Integration
-* JSON Validation
-* PDF Generator
-* MVP Release
-
----
-
-## Future
-
-* Web Application
-* User Authentication
-* Payment Integration
-* Origin Engine Extraction
-* ReconOS
-
----
-
-# Current Progress
-
-| Area               | Progress       |
-| ------------------ | -------------- |
-| Foundation         | ✅ 100%         |
-| Architecture       | ✅ 100%         |
-| Prompt Engineering | ✅ 100%         |
-| Template Engine    | ✅ 100%         |
-| LLM Integration    | 🚧 In Progress |
-| PDF Generator      | ⏳ Planned      |
-| Web Application    | ⏳ Planned      |
-
----
-
-# Repository Structure
+Current source layout:
 
 ```text
-project-origin/
+src/project_origin/
+|-- core/          # Domain-neutral decision contracts
+|-- brand/         # Brand domain implementation
+|   |-- naming/
+|   `-- semantic/
+|-- llm/           # Replaceable provider adapters
+`-- main.py        # Brand CLI entry point
 
-docs/
-templates/
-tests/
-
-src/
-└── project_origin/
-    ├── interview.py
-    ├── prompt_builder.py
-    ├── frameworks.py
-    ├── report_parser.py
-    ├── markdown_report.py
-    ├── llm/
-    ├── models.py
-    └── ...
+research/           # Brand research and knowledge compilation
+dataset/            # Versioned research assets
+tests/              # Automated verification
 ```
 
----
+Core must never import Brand, Recon, or another domain.
 
-# Design Principles
+## Current state
 
-Project Origin is built on the following principles.
+Implemented:
 
-* Single Responsibility
-* Provider Independence
-* Framework First
-* Output First
-* Long-Term Thinking
-* Explain Everything
+- Brand founder interview and structured profile
+- Semantic and Brand Language pipelines
+- Structured name candidate generation, filtering, evaluation, and ranking
+- Brand research, validation, pattern extraction, and knowledge compilation
+- Provider-independent LLM adapter
+- JSON validation and Markdown report rendering
+- Initial domain-neutral Core contracts
 
----
+Not yet implemented as complete engines:
 
-# Long-Term Vision
+- Structured Reasoning Engine
+- Decision Engine
+- Memory Engine
+- Cross-domain benchmark
 
-Project Origin is the first product built on a reusable AI Reasoning Architecture.
+## Running tests
 
-Future products may include:
+```powershell
+.\venv\Scripts\python.exe -m pytest -q
+```
 
-* Project Origin
-* ReconOS
-* Security Intelligence
-* Decision Intelligence
-* AI Research Assistant
+## Running the Brand CLI
 
-The architecture remains the same.
+Create a local `.env` containing `OPENAI_API_KEY`, then run:
 
-Only the reasoning frameworks change.
+```powershell
+$env:PYTHONPATH = "src"
+.\venv\Scripts\python.exe -m project_origin.main
+```
 
----
+Generated reports are written to `output/` and are intentionally not versioned.
 
-# Contributing
+Run the deterministic naming benchmark with the same source path:
 
-Project Origin is currently under active development.
+```powershell
+$env:PYTHONPATH = "src"
+.\venv\Scripts\python.exe -m research.benchmark
+```
 
-The architecture, reasoning system, and report quality standards are evolving rapidly as the MVP is being built.
+## Documentation order
 
----
+1. `docs/00_PROJECT_ORIGIN_MASTER_CONTEXT.md`
+2. `docs/adr/ADR-001-core-domain-separation.md`
+3. `docs/adr/ADR-002-product-driven-core-evolution.md`
+4. `docs/16_core_architecture.md`
+5. `docs/12_architecture.md`
+6. Domain and product specifications
 
-> **Users never buy prompts.**
+When documents disagree, the Master Context and accepted ADRs take precedence.
 
-> **Users never buy Python code.**
+## Standard
 
-> **Users buy better decisions.**
+The project must prove that its structured pipeline improves decision quality,
+consistency, explainability, or accumulated knowledge over a strong direct-LLM
+or multi-agent baseline. Architecture alone is not evidence of value.

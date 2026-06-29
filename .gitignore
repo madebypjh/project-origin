@@ -53,6 +53,11 @@ dist/
 *.log
 
 # =========================
+# Generated Application Output
+# =========================
+output/
+
+# =========================
 # Jupyter
 # =========================
 .ipynb_checkpoints/

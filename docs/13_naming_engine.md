@@ -322,14 +322,15 @@ Luxury
 # Architecture
 
 ```text
-naming/
-
-phonetics.py
-morphology.py
-generator.py
-evaluator.py
-ranker.py
-filters.py
+project_origin/brand/naming/
+|-- candidate.py
+|-- phonetics.py
+|-- morphology.py
+|-- generation_rules.py
+|-- generator.py
+|-- filters.py
+|-- evaluator.py
+`-- ranker.py
 ```
 
 ---
@@ -350,7 +351,15 @@ Defines pronunciation and readability rules.
 
 ## generator.py
 
-Generates original candidate names.
+Generates structured `NameCandidate` objects. The pipeline must not downgrade
+candidates to bare strings.
+
+---
+
+## candidate.py
+
+Defines the single candidate model used by generation, filtering, evaluation,
+ranking, and output.
 
 ---
 

@@ -1,14 +1,14 @@
 # MVP Specification
 
-**Project:** Project Origin
-**Version:** 2.0
+**Project:** Project Origin Brand
+**Version:** 2.1
 **Status:** Active
 
 ---
 
 # Purpose
 
-The purpose of the MVP is not to build a branding platform.
+The purpose of the MVP is not to build the complete Project Origin platform.
 
 The purpose is to validate whether founders are willing to pay for an AI-generated Brand Strategy Report.
 
@@ -20,7 +20,8 @@ Everything else is secondary.
 
 # Product Positioning
 
-Project Origin is an AI Brand Strategy Consultant.
+Project Origin Brand is an AI Brand Strategy Consultant and the first
+validation domain for Project Origin Core.
 
 We do not sell brand names.
 

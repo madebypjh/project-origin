@@ -1,310 +1,107 @@
 # Core Architecture
 
-Version: Alpha 0.2
+Version: Alpha 0.3
 
----
+Status: Active
 
 ## Purpose
 
-Project Origin is not only a brand naming tool.
+Project Origin Core defines reusable contracts for explainable decisions. It
+does not attempt to be a complete universal reasoning engine before product
+evidence exists.
 
-Project Origin is evolving into an AI Decision Engine Platform.
-
-Brand naming is the first domain used to test and prove the core architecture.
-
----
-
-## Core Idea
-
-Project Origin should help humans make better decisions by transforming unclear intent into structured reasoning, domain knowledge, and explainable recommendations.
-
-The long-term goal is not only to generate brand names.
-
-The long-term goal is to build a reusable reasoning system.
-
----
-
-## Current State
-
-The current Brand Engine already contains early versions of the future Core.
+## Dependency rule
 
 ```text
-Founder Interview
-        ↓
+Brand ----\
+Recon -----+--> Core
+Future ---/
+
+Core -X-> any domain
+```
+
+Provider clients and presentation formats are infrastructure concerns. Brand
+knowledge and naming concepts are domain concerns.
+
+## Current Core contracts
+
+### `IntentProfile`
+
+Captures a domain-neutral objective, constraints, preferences, and context.
+`FounderProfile` remains a Brand model and may later be adapted into this
+contract.
+
+### `KnowledgeItem` and `KnowledgePacket`
+
+Represent sourced knowledge selected for a decision. Brand Genome and naming
+patterns are Brand knowledge sources, not universal Core knowledge.
+
+### `ReasoningStep` and `ReasoningTrace`
+
+Represent claims, rationales, evidence, assumptions, uncertainty, and
+confidence as inspectable data.
+
+### `DecisionOption`
+
+Represents one comparable alternative with explicit scores, strengths,
+weaknesses, and metadata.
+
+### `DecisionResult`
+
+References one selected option and preserves the complete trace, rationale,
+confidence, and warnings.
+
+## What Core does not currently contain
+
+- a universal prompt builder;
+- an LLM-specific provider abstraction;
+- Brand naming or report models;
+- a completed Reasoning Engine;
+- a completed Decision Engine;
+- speculative adapters for future domains.
+
+This absence is intentional. Contracts come first; generalized implementations
+require evidence.
+
+## Evolution strategy
+
+1. Define the smallest stable contract required by a real product decision.
+2. Implement the behavior in the domain.
+3. Benchmark quality, consistency, evidence, cost, and latency.
+4. Identify reuse in a second use case or domain.
+5. Promote only the proven reusable implementation into Core.
+6. Preserve tests at both the Core and domain boundaries.
+
+## Brand relationship
+
+Brand is the first validation domain:
+
+```text
 FounderProfile
-        ↓
-SemanticEngine
-        ↓
-SemanticProfile
-        ↓
-BrandLanguageEngine
-        ↓
-BrandLanguage
-        ↓
-NamingGenerator
-        ↓
-Evaluator
-        ↓
-Ranker
-        ↓
-Report
+    -> future Brand adapter
+    -> IntentProfile
+
+BrandKnowledge
+    -> future Brand adapter
+    -> KnowledgePacket
+
+NameCandidate
+    -> future Brand adapter
+    -> DecisionOption
 ```
 
-This works for the brand domain.
+These adapters should be introduced when the first structured Brand decision is
+implemented. They should not erase useful Brand-specific information.
 
-However, many components are still brand-specific.
+## Agents and LLMs
 
----
+Agents and LLMs are replaceable workers that may research, critique, or write.
+Core owns the contracts needed to verify and retain their work.
 
-## Future Core Structure
+A multi-agent workflow is not itself a Decision Engine unless it produces
+validated evidence, options, reasoning traces, and a final decision record.
 
-```text
-User Input
-        ↓
-Intent Engine
-        ↓
-IntentProfile
-        ↓
-Knowledge Engine
-        ↓
-Reasoning Engine
-        ↓
-Decision Engine
-        ↓
-Domain Adapter
-        ↓
-Domain Output
-```
+## Success criterion
 
----
-
-## Core Components
-
-### Intent Engine
-
-Transforms raw human input into structured intent.
-
-Current related components:
-
-* InterviewSession
-* FounderProfile
-* SemanticEngine
-* SemanticProfile
-
-Future direction:
-
-* Create a domain-neutral IntentProfile.
-* Keep FounderProfile as a brand-specific input model.
-* Convert FounderProfile into IntentProfile when needed.
-
----
-
-### Knowledge Engine
-
-Collects and provides relevant knowledge for reasoning.
-
-Current related components:
-
-* Brand Genome
-* PatternExtractor
-* KnowledgeCompiler
-* NamingKnowledgeLoader
-
-Future direction:
-
-* Rename brand-specific knowledge components clearly.
-* Treat Brand Knowledge as one knowledge source.
-* Add other knowledge sources later:
-
-  * Business Knowledge
-  * Marketing Knowledge
-  * Security Knowledge
-  * Product Knowledge
-  * User Memory
-
----
-
-### Reasoning Engine
-
-Combines intent and knowledge to produce structured reasoning.
-
-Current status:
-
-* Not yet fully implemented.
-
-Current related components:
-
-* PromptBuilder
-* ReasoningFrameworks
-* SemanticEngine
-
-Future direction:
-
-* Move reasoning out of prompts.
-* Represent reasoning as structured data.
-* Make reasoning reusable across domains.
-
----
-
-### Decision Engine
-
-Chooses the best strategic direction or recommendation.
-
-Current status:
-
-* Not yet implemented as a separate engine.
-
-Current related components:
-
-* NameEvaluator
-* NameRanker
-* ReportParser
-
-Future direction:
-
-* Separate evaluation from final decision.
-* Create reusable decision models.
-* Support trade-off analysis.
-
----
-
-### Domain Adapter
-
-Turns core reasoning into domain-specific outputs.
-
-Current domain:
-
-* Brand
-
-Future domains:
-
-* Product Strategy
-* Business Strategy
-* Security Strategy
-* Marketing Strategy
-* Naming
-* Research Planning
-
----
-
-## Brand as the First Domain
-
-The current Brand Engine should not be discarded.
-
-It should become the first domain implementation of Project Origin Core.
-
-```text
-Core
-        ↓
-Brand Domain
-        ↓
-Brand Strategy
-        ↓
-Naming Engine
-        ↓
-Brand Report
-```
-
----
-
-## What Should Move Later
-
-### To Core
-
-Potentially reusable components:
-
-* SemanticProfile concept
-* Intent extraction logic
-* Reasoning framework structure
-* Decision ranking logic
-* LLM provider layer
-* Validator patterns
-
----
-
-### To Brand Domain
-
-Brand-specific components:
-
-* BrandLanguageEngine
-* BrandLanguage
-* NamingGenerator
-* NameEvaluator
-* NameRanker
-* CandidateName
-* Brand Genome
-* Brand Research Pipeline
-* Naming Knowledge
-
----
-
-## Important Distinction
-
-### Brand Knowledge
-
-Brand-specific knowledge used to improve brand naming.
-
-Examples:
-
-* Naming patterns
-* Brand Genome
-* Phonetic patterns
-* Industry naming styles
-
----
-
-### Universal Knowledge Engine
-
-A future core system that selects and provides knowledge from multiple domains.
-
-Examples:
-
-* Brand Knowledge
-* Business Knowledge
-* Security Knowledge
-* Product Knowledge
-* User Memory
-
----
-
-## Migration Strategy
-
-Do not move files immediately.
-
-The current system works.
-
-Instead:
-
-1. Document the future structure.
-2. Continue improving the Brand Engine.
-3. Identify reusable abstractions.
-4. Introduce `core/` only when the need becomes clear.
-5. Move code gradually with tests.
-
----
-
-## Design Principle
-
-Brand Engine is not a detour.
-
-Brand Engine is the first proof of the AI Decision Engine.
-
----
-
-## Final Direction
-
-Project Origin should evolve from:
-
-```text
-Brand Naming Tool
-```
-
-to:
-
-```text
-AI Decision Engine Platform
-```
-
-Brand naming remains the first and most important test case.
-
-But the architecture must stay reusable beyond branding.
+Core is valuable only when it improves measurable decision behavior or is
+demonstrably reused. A larger abstraction surface is not progress by itself.

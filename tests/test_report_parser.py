@@ -1,6 +1,6 @@
 import json
 
-from src.project_origin.report_parser import ReportParser
+from project_origin.brand.report_parser import ReportParser
 
 
 def test_report_parser_creates_brand_strategy_report():
@@ -36,6 +36,6 @@ def test_report_parser_creates_brand_strategy_report():
     report = ReportParser.parse(raw_response)
 
     assert report.executive_summary == "요약"
-    assert report.name_recommendations[0]["name"] == "OriginIQ0"
+    assert report.name_recommendations[0].name == "OriginIQ0"
     assert len(report.name_recommendations) == 5
     assert report.final_recommendation == "최종 추천"

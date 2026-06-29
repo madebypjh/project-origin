@@ -17,9 +17,10 @@ We envision a future where artificial intelligence is not merely a tool for auto
 
 Our long-term ambition is to create technologies that become indispensable across industries and everyday life.
 
-Project Origin is the first step toward that future.
+Project Origin Brand is the first product and validation domain.
 
-ReconOS will be the first major platform built on the same philosophy.
+ReconOS is the planned Security product and domain built on validated Project
+Origin Core contracts.
 
 Future products will continue expanding this vision into new domains.
 
@@ -57,9 +58,9 @@ Our strategy is to develop a reusable AI reasoning engine that can be applied ac
 
 Each product validates and strengthens the underlying engine.
 
-Project Origin is the first application.
+Project Origin Brand is the first application.
 
-ReconOS will be the second.
+ReconOS is the second planned product and domain.
 
 Future products will continue building upon the same foundation.
 

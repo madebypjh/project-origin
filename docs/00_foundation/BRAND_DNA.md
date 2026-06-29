@@ -7,13 +7,15 @@
 
 # Purpose
 
-Brand DNA defines how Project Origin understands brands.
+Brand DNA defines how the Project Origin Brand domain understands brands.
 
 It is not a list of keywords.
 
 It is the personality, philosophy, and decision-making foundation that guides every recommendation produced by the AI.
 
-Every generated name, story, slogan, and recommendation must remain consistent with this Brand DNA.
+Every Brand-domain name, story, slogan, and recommendation must remain
+consistent with this Brand DNA. This document does not define the behavior of
+every future Project Origin domain.
 
 ---
 

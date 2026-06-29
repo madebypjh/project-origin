@@ -1,306 +1,120 @@
-# Master Roadmap v2.1
+# Master Roadmap v3.0
 
-## Long-Term Mission
+## Mission
 
-Build trusted AI systems that help people make better decisions.
+Build trusted AI systems that help people make better, explainable decisions.
 
-Project Origin is our first product.
+Project Origin Brand is the first product and validation domain. ReconOS is the
+second planned product and Security domain.
 
-ReconOS is our second product.
+## Strategy
 
-Every future product should strengthen the company's ability to help people think, decide, and act with greater confidence.
+### Product validation first. Core boundaries from day one.
 
----
+We build the smallest useful product, establish domain-neutral contracts early,
+and generalize implementations only after evidence of reuse.
 
-# Company Strategy
+The report validates customer value. The benchmark validates technical value.
+Both are required.
 
-## Product First. Engine Later.
+## Phase 1 — Foundation
 
-We do not build platforms before products.
+Status: Completed
 
-We build valuable products.
+- Mission, vision, values, and Brand DNA
+- Concierge MVP definition
+- Brand report quality standard
+- Initial Brand pipeline
 
-Only after repeated validation do reusable components become the Origin Engine.
+## Phase 2 — Core boundary
 
-The Origin Engine is not the goal.
+Status: In progress
 
-It is the result of building successful products.
+- Separate `project_origin.core` and `project_origin.brand`
+- Define `IntentProfile`, `KnowledgePacket`, `ReasoningTrace`,
+  `DecisionOption`, and `DecisionResult`
+- Keep Core independent from every domain
+- Record architectural decisions through ADRs
 
----
+Exit criterion: dependency direction is enforced by code structure and tests.
 
-# Company Philosophy
+## Phase 3 — Brand pipeline validation
 
-Products evolve.
+Status: In progress
 
-Technology changes.
+- Complete Generator V2 knowledge integration
+- Keep `NameCandidate` structured through the whole pipeline
+- Improve interview, reasoning, and report quality
+- Validate research data before compilation
+- Deliver Concierge reports to real founders
 
-Artificial intelligence advances.
+Exit criteria:
 
-Trust, quality, and reasoning endure.
+- repeatable report generation;
+- report quality average of at least 22/25;
+- evidence that target users would pay.
 
-Everything we build should reinforce those principles.
+## Phase 4 — Decision benchmark
 
----
+Compare the same Brand cases using:
 
-# Phase 1 — Foundation ✅
+1. a strong direct-LLM prompt;
+2. a role-based multi-agent workflow;
+3. the Project Origin structured pipeline.
 
-## Purpose
+Measure:
 
-Define the company's immutable principles.
+- expert-rated decision quality;
+- consistency;
+- evidence accuracy;
+- trace completeness;
+- cost and latency.
 
-Completed
+Exit criterion: Project Origin demonstrates a meaningful advantage in at least
+one product-relevant dimension without unacceptable regressions elsewhere.
 
-* README
-* PRD
-* Mission
-* Brand DNA
-* Vision
-* Core Values
+## Phase 5 — Structured reasoning and decision
 
-These documents form the company's constitution.
+- Implement one narrow Brand reasoning use case
+- Produce an explicit `ReasoningTrace`
+- Compare `DecisionOption` objects using testable criteria
+- Return a validated `DecisionResult`
+- Keep LLMs as replaceable assistants
 
-They should change only when absolutely necessary.
+Do not create a universal Reasoning or Decision Engine before the narrow case is
+measurable.
 
----
+## Phase 6 — Market validation
 
-# Phase 2 — Concierge MVP
+- Acquire the first paying customers
+- Validate pricing, interview quality, report usefulness, and trust
+- Improve the product from observed failures
 
-## Goal
+Infrastructure such as accounts, payments, and a web application remains
+secondary until it removes a proven operational constraint.
 
-Validate whether founders are willing to pay for an AI-generated Brand Strategy Report.
+## Phase 7 — ReconOS validation
 
-The MVP is intentionally simple.
+Implement ReconOS as a Security product on Project Origin Core.
 
-The software is **not** the product.
+Reuse:
 
-The report is the product.
+- Core decision contracts;
+- validated provider and validation patterns;
+- proven reasoning and evaluation infrastructure.
 
----
+Do not force reuse of Brand knowledge, policies, evaluators, workflows, or
+outputs.
 
-## Workflow
+## Guiding questions
 
-Founder
+Before building:
 
-↓
+- Does this improve a real decision or report?
+- Can the improvement be measured?
+- Is the abstraction already required by more than one use case?
+- Does this preserve explainability and provider independence?
+- Would a direct LLM or agent workflow solve this more simply?
 
-Interview (Google Meet / Google Form)
-
-↓
-
-Operator (PJH)
-
-↓
-
-Project Origin CLI
-
-↓
-
-AI Reasoning
-
-↓
-
-Professional Brand Strategy Report
-
-↓
-
-Founder
-
-The CLI exists only as an internal operational tool.
-
-Users never need to interact with it.
-
----
-
-## MVP Success Criteria
-
-The MVP succeeds when founders consistently say:
-
-"This report provides insights that I could not easily obtain elsewhere."
-
-and
-
-"I would pay for this."
-
-Nothing else matters before this validation.
-
----
-
-# Phase 3 — Market Validation
-
-## Goal
-
-Acquire the first paying customers.
-
-Target
-
-10 paying customers.
-
-Validate
-
-* Report quality
-* Interview quality
-* AI reasoning quality
-* User satisfaction
-* Pricing
-
-Avoid building infrastructure before validating demand.
-
----
-
-# Phase 4 — Product Evolution
-
-Improve the product based on real customer feedback.
-
-Possible additions include:
-
-* Better interviews
-* Better reasoning
-* Improved reports
-* Better recommendations
-* Better user experience
-
-Every improvement should directly increase report quality.
-
----
-
-# Phase 5 — Origin Engine
-
-Only after repeated validation.
-
-Extract reusable components discovered during product development.
-
-Potential reusable modules:
-
-* Knowledge Layer
-* Reasoning Layer
-* Evaluation Layer
-* Report Engine
-* LLM Provider Layer
-
-Avoid premature abstraction.
-
-Extract only what has already proven reusable.
-
----
-
-# Phase 6 — ReconOS
-
-ReconOS applies proven concepts from Project Origin to cybersecurity.
-
-The objective is not code reuse.
-
-The objective is knowledge reuse.
-
-Some components may be shared.
-
-Some components will remain domain-specific.
-
-Do not force reuse.
-
----
-
-# Engineering Principles
-
-1. Product First
-
-Products validate ideas.
-
-Platforms do not.
-
----
-
-2. Validate Before Optimizing
-
-Never optimize what has not been validated.
-
----
-
-3. Users Before Architecture
-
-A satisfied customer is more valuable than a perfect architecture.
-
----
-
-4. Reports Are the Product
-
-Users purchase confidence.
-
-The report represents that confidence.
-
----
-
-5. Explain Every Decision
-
-AI should explain every important recommendation.
-
-Reasoning builds trust.
-
----
-
-6. Quality Before Speed
-
-Move deliberately.
-
-Ship valuable work.
-
-Avoid unnecessary complexity.
-
----
-
-# Success Metrics
-
-## Short-term
-
-* Working Concierge MVP
-* Professional Brand Strategy Report
-* 10 paying customers
-
----
-
-## Mid-term
-
-* Repeatable report generation process
-* Proven product-market fit
-* Reusable engineering patterns
-
----
-
-## Long-term
-
-* Origin Engine extracted naturally
-* ReconOS
-* Multiple AI products
-* Sustainable AI company
-
----
-
-# Guiding Questions
-
-Before building anything, ask:
-
-* Does this help create a better report?
-* Does this help validate demand?
-* Would a customer pay because of this?
-* Does this reduce unnecessary complexity?
-
-If the answer is "No",
-
-do not build it yet.
-
----
-
-# Final Principle
-
-Project Origin is not a brand name generator.
-
-It is an AI Brand Strategy Consultant.
-
-The goal is not to generate names.
-
-The goal is to help founders make better branding decisions.
-
-Brand names are only one part of that journey.
-
-Every product we build should help people make better decisions.
-
-That is the company's true mission.
+If the last answer is yes and Origin adds no measurable value, do not add the
+abstraction.

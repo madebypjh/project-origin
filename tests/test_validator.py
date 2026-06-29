@@ -1,7 +1,7 @@
 import json
 import pytest
 
-from src.project_origin.validator import ReportValidator
+from project_origin.brand.validator import ReportValidator
 
 
 def valid_response() -> str:
@@ -68,4 +68,17 @@ def test_validator_rejects_invalid_score():
     data["name_recommendations"][0]["score"] = 11
 
     with pytest.raises(ValueError, match="between 0 and 10"):
+        ReportValidator.validate(json.dumps(data, ensure_ascii=False))
+
+
+def test_validator_rejects_non_object_root():
+    with pytest.raises(ValueError, match="JSON object"):
+        ReportValidator.validate("[]")
+
+
+def test_validator_rejects_non_text_recommendation_field():
+    data = json.loads(valid_response())
+    data["name_recommendations"][0]["meaning"] = ["not", "text"]
+
+    with pytest.raises(ValueError, match="fields must be text"):
         ReportValidator.validate(json.dumps(data, ensure_ascii=False))
