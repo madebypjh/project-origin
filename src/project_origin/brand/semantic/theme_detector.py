@@ -115,7 +115,7 @@ class ThemeDetector:
                 for keyword in cls._keywords_for_theme(theme)
                 if cls._contains_keyword(text, keyword)
             )
-            for theme in set(cls.THEME_KEYWORDS) | set(cls.DOMAIN_KEYWORDS)
+            for theme in cls._theme_names()
         }
 
     @staticmethod
@@ -134,9 +134,7 @@ class ThemeDetector:
     def _score_themes(cls, text: str) -> dict[str, int]:
         scores = {}
 
-        theme_names = set(cls.THEME_KEYWORDS) | set(cls.DOMAIN_KEYWORDS)
-
-        for theme in theme_names:
+        for theme in cls._theme_names():
             keywords = cls._keywords_for_theme(theme)
             score = 0
 
@@ -154,6 +152,17 @@ class ThemeDetector:
             *cls.THEME_KEYWORDS.get(theme, []),
             *cls.DOMAIN_KEYWORDS.get(theme, []),
         ]
+
+    @classmethod
+    def _theme_names(cls) -> tuple[str, ...]:
+        return tuple(
+            dict.fromkeys(
+                [
+                    *cls.THEME_KEYWORDS.keys(),
+                    *cls.DOMAIN_KEYWORDS.keys(),
+                ]
+            )
+        )
 
     @staticmethod
     def _contains_keyword(text: str, keyword: str) -> bool:

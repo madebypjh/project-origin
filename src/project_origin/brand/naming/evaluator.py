@@ -63,6 +63,17 @@ class NameEvaluator:
                 + knowledge_score * guidance_strength,
                 2,
             )
+        evaluation_breakdown = cls._build_evaluation_breakdown(
+            pronunciation_score=pronunciation_score,
+            originality_score=originality_score,
+            strategy_score=strategy_score,
+            memorability_score=memorability_score,
+            base_score=base_score,
+            total_score=total_score,
+            rules=rules,
+            knowledge_score=knowledge_score,
+            guidance_strength=guidance_strength,
+        )
 
         reason = (
             f"{name} scored {total_score}/10 based on pronunciation, "
@@ -82,6 +93,10 @@ class NameEvaluator:
             memorability_score=memorability_score,
             total_score=total_score,
             evaluation_reason=reason,
+            metadata={
+                **candidate.metadata,
+                "evaluation_breakdown": evaluation_breakdown,
+            },
         )
 
     @staticmethod
@@ -189,6 +204,62 @@ class NameEvaluator:
             (length_score + vowel_score + hard_score + soft_score) / 4,
             2,
         )
+
+    @staticmethod
+    def _build_evaluation_breakdown(
+        pronunciation_score: float,
+        originality_score: float,
+        strategy_score: float,
+        memorability_score: float,
+        base_score: float,
+        total_score: float,
+        rules: GenerationRules | None,
+        knowledge_score: float | None,
+        guidance_strength: float,
+    ) -> dict:
+        breakdown = {
+            "version": "brand_naming_evaluation_v1",
+            "components": {
+                "pronunciation": {
+                    "score": pronunciation_score,
+                    "weight": 0.25,
+                },
+                "originality": {
+                    "score": originality_score,
+                    "weight": 0.25,
+                },
+                "strategic_fit": {
+                    "score": strategy_score,
+                    "weight": 0.30,
+                },
+                "memorability": {
+                    "score": memorability_score,
+                    "weight": 0.20,
+                },
+            },
+            "base_score": round(base_score, 2),
+            "total_score": total_score,
+            "knowledge_guidance": {
+                "applied": False,
+                "score": None,
+                "usage": None,
+                "strength": 0.0,
+                "confidence": None,
+                "sample_size": 0,
+            },
+        }
+
+        if rules is not None:
+            breakdown["knowledge_guidance"] = {
+                "applied": knowledge_score is not None,
+                "score": knowledge_score,
+                "usage": rules.recommended_usage,
+                "strength": guidance_strength,
+                "confidence": rules.knowledge_confidence,
+                "sample_size": rules.sample_size,
+            }
+
+        return breakdown
 
     @staticmethod
     def _ratio(letters: list[str], matches: str) -> float:

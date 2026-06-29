@@ -94,6 +94,46 @@ def test_benchmark_output_requires_selected_candidate():
         )
 
 
+def test_benchmark_output_accepts_candidate_evaluation_trace():
+    output = BrandNamingBenchmarkOutput(
+        case_id="case",
+        approach="test",
+        candidates=("One", "Two"),
+        selected_name="One",
+        reasoning="Trace output",
+        candidate_evaluations=(
+            {
+                "name": "One",
+                "total_score": 8.0,
+                "scores": {"strategic_fit": 8.0},
+                "evaluation_breakdown": {
+                    "version": "brand_naming_evaluation_v1",
+                },
+            },
+        ),
+    )
+
+    assert output.to_dict()["candidate_evaluations"][0]["name"] == "One"
+
+
+def test_benchmark_output_rejects_unknown_candidate_evaluation():
+    with pytest.raises(ValueError, match="candidate_evaluations"):
+        BrandNamingBenchmarkOutput(
+            case_id="case",
+            approach="test",
+            candidates=("One", "Two"),
+            selected_name="One",
+            reasoning="Trace output",
+            candidate_evaluations=(
+                {
+                    "name": "Missing",
+                    "total_score": 8.0,
+                    "scores": {},
+                },
+            ),
+        )
+
+
 def test_project_origin_runner_is_reproducible():
     case = load_cases()[0]
     runner = ProjectOriginNamingRunner(seed=11)
@@ -104,5 +144,7 @@ def test_project_origin_runner_is_reproducible():
     assert first.candidates == second.candidates
     assert first.selected_name == second.selected_name
     assert len(first.candidates) == 5
+    assert len(first.candidate_evaluations) == 5
+    assert first.candidate_evaluations[0]["evaluation_breakdown"]
     assert first.estimated_cost_usd == 0.0
     assert '"approach": "project_origin"' in first.to_json()

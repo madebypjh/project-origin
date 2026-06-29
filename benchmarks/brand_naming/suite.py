@@ -114,6 +114,7 @@ class BrandBenchmarkSuiteReport:
                 metric.passed for metric in naming_metrics
             ),
             "active_naming_diversity": _candidate_diversity(naming_outputs),
+            "active_naming_evaluation": _evaluation_summary(naming_outputs),
             "intent_shadow_naming": (
                 {
                     "hard_constraint_pass_rate": _pass_rate(
@@ -123,6 +124,13 @@ class BrandBenchmarkSuiteReport:
                         mean(shadow_overlaps) if shadow_overlaps else 0.0
                     ),
                     "diversity": _candidate_diversity(
+                        tuple(
+                            output
+                            for output in shadow_naming_outputs
+                            if output is not None
+                        )
+                    ),
+                    "evaluation": _evaluation_summary(
                         tuple(
                             output
                             for output in shadow_naming_outputs
@@ -350,4 +358,69 @@ def _candidate_diversity(
         "candidate_count": len(candidates),
         "unique_candidate_count": unique_count,
         "duplicate_rate": round(1 - (unique_count / len(candidates)), 4),
+    }
+
+
+def _evaluation_summary(
+    outputs: Iterable[BrandNamingBenchmarkOutput],
+) -> dict:
+    evaluations = [
+        evaluation
+        for output in outputs
+        for evaluation in output.candidate_evaluations
+    ]
+    if not evaluations:
+        return {
+            "candidate_count": 0,
+            "trace_completeness": 0.0,
+            "average_total_score": 0.0,
+            "average_component_scores": {},
+            "knowledge_guidance_applied_rate": 0.0,
+        }
+
+    complete_count = sum(
+        1
+        for evaluation in evaluations
+        if evaluation.get("evaluation_breakdown")
+    )
+    component_names = (
+        "pronunciation",
+        "originality",
+        "strategic_fit",
+        "memorability",
+    )
+    knowledge_applied = sum(
+        1
+        for evaluation in evaluations
+        if evaluation.get("evaluation_breakdown", {})
+        .get("knowledge_guidance", {})
+        .get("applied")
+    )
+
+    return {
+        "candidate_count": len(evaluations),
+        "trace_completeness": round(complete_count / len(evaluations), 4),
+        "average_total_score": round(
+            mean(
+                float(evaluation.get("total_score", 0.0))
+                for evaluation in evaluations
+            ),
+            2,
+        ),
+        "average_component_scores": {
+            component: round(
+                mean(
+                    float(
+                        evaluation.get("scores", {}).get(component, 0.0)
+                    )
+                    for evaluation in evaluations
+                ),
+                2,
+            )
+            for component in component_names
+        },
+        "knowledge_guidance_applied_rate": round(
+            knowledge_applied / len(evaluations),
+            4,
+        ),
     }

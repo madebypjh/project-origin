@@ -97,6 +97,28 @@ class ProjectOriginNamingRunner:
             candidates=tuple(option.label for option in decision.options),
             selected_name=selected,
             reasoning=decision.rationale,
+            candidate_evaluations=tuple(
+                _candidate_evaluation(candidate)
+                for candidate in ranked
+            ),
             latency_ms=latency_ms,
             estimated_cost_usd=0.0,
         )
+
+
+def _candidate_evaluation(candidate) -> dict:
+    return {
+        "name": candidate.name,
+        "total_score": candidate.total_score,
+        "scores": {
+            "pronunciation": candidate.pronunciation_score,
+            "originality": candidate.originality_score,
+            "strategic_fit": candidate.strategy_score,
+            "memorability": candidate.memorability_score,
+        },
+        "evaluation_reason": candidate.evaluation_reason,
+        "evaluation_breakdown": candidate.metadata.get(
+            "evaluation_breakdown",
+            {},
+        ),
+    }

@@ -40,6 +40,13 @@ def test_filter_and_evaluator_keep_candidate_objects():
     assert [candidate.name for candidate in filtered] == ["Validora"]
     assert evaluated[0].name == "Validora"
     assert evaluated[0].total_score > 0
+    assert (
+        evaluated[0].metadata["evaluation_breakdown"]["version"]
+        == "brand_naming_evaluation_v1"
+    )
+    assert "strategic_fit" in (
+        evaluated[0].metadata["evaluation_breakdown"]["components"]
+    )
 
 
 def test_generation_rules_builder_marks_small_sample_as_weak_guidance():
@@ -83,4 +90,10 @@ def test_evaluator_can_apply_naming_knowledge_as_soft_guidance():
     )
     assert "Naming knowledge contributed weakly" in (
         with_rules.evaluation_reason or ""
+    )
+    assert (
+        with_rules.metadata["evaluation_breakdown"]["knowledge_guidance"][
+            "applied"
+        ]
+        is True
     )

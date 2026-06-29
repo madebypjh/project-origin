@@ -95,6 +95,8 @@ class BlindReviewMarkdownReport:
             "",
             *_candidate_lines(set_a),
             "",
+            *_selected_evaluation_lines(set_a),
+            "",
             "Reviewer notes:",
             "",
             "- Strategic fit:",
@@ -107,6 +109,8 @@ class BlindReviewMarkdownReport:
             "#### Candidate Set B",
             "",
             *_candidate_lines(set_b),
+            "",
+            *_selected_evaluation_lines(set_b),
             "",
             "Reviewer notes:",
             "",
@@ -165,6 +169,42 @@ def _candidate_lines(output: dict[str, Any]) -> list[str]:
         f"{index}. {candidate}"
         for index, candidate in enumerate(candidates, start=1)
     ]
+
+
+def _selected_evaluation_lines(output: dict[str, Any]) -> list[str]:
+    selected_name = output.get("selected_name")
+    evaluations = output.get("candidate_evaluations", [])
+    selected = next(
+        (
+            evaluation
+            for evaluation in evaluations
+            if evaluation.get("name") == selected_name
+        ),
+        None,
+    )
+    if selected is None:
+        return []
+
+    scores = selected.get("scores", {})
+    breakdown = selected.get("evaluation_breakdown", {})
+    knowledge = breakdown.get("knowledge_guidance", {})
+    lines = [
+        "Selected candidate evaluation:",
+        "",
+        f"- Total score: {selected.get('total_score', 0)}/10",
+        f"- Strategic fit: {scores.get('strategic_fit', 0)}/10",
+        f"- Pronunciation: {scores.get('pronunciation', 0)}/10",
+        f"- Originality: {scores.get('originality', 0)}/10",
+        f"- Memorability: {scores.get('memorability', 0)}/10",
+    ]
+    if knowledge.get("applied"):
+        lines.append(
+            "- Naming knowledge guidance: "
+            f"{knowledge.get('usage')} "
+            f"({knowledge.get('confidence')}, "
+            f"sample {knowledge.get('sample_size')})"
+        )
+    return lines
 
 
 def _format_violations(metrics: dict[str, Any]) -> str:

@@ -2,6 +2,7 @@
 
 from dataclasses import asdict, dataclass
 import json
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -11,6 +12,7 @@ class BrandNamingBenchmarkOutput:
     candidates: tuple[str, ...]
     selected_name: str
     reasoning: str
+    candidate_evaluations: tuple[dict[str, Any], ...] = ()
     latency_ms: float | None = None
     estimated_cost_usd: float | None = None
 
@@ -26,6 +28,14 @@ class BrandNamingBenchmarkOutput:
             raise ValueError("candidate names must be unique")
         if self.selected_name.casefold() not in normalized:
             raise ValueError("selected_name must reference one of candidates")
+        evaluated_names = {
+            str(evaluation.get("name", "")).casefold()
+            for evaluation in self.candidate_evaluations
+        }
+        if evaluated_names and not evaluated_names.issubset(set(normalized)):
+            raise ValueError(
+                "candidate_evaluations must reference output candidates"
+            )
         if self.latency_ms is not None and self.latency_ms < 0:
             raise ValueError("latency_ms must be non-negative")
         if self.estimated_cost_usd is not None and self.estimated_cost_usd < 0:
