@@ -9,7 +9,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from openai import OpenAI
-
+from research.normalizer import BrandGenomeNormalizer
+from research.validator import BrandGenomeValidator
 
 class BrandAnalyzer:
     def __init__(self) -> None:
@@ -37,10 +38,31 @@ class BrandAnalyzer:
         raw_text = self._clean_json_response(response.output_text)
 
         data = json.loads(raw_text)
+        data = BrandGenomeNormalizer.normalize_many(data)
+
+        errors = BrandGenomeValidator.validate_many(data)
+
+        if errors:
+            error_messages = []
+
+            for item in errors:
+                error_messages.append(
+                    f"{item['name']} -> {', '.join(item['errors'])}"
+                )
+
+            raise ValueError(
+                "Brand Genome validation failed:\n\n"
+                + "\n".join(error_messages)
+            )
 
         output_path = self.output_dir / filename
+
         output_path.write_text(
-            json.dumps(data, ensure_ascii=False, indent=2),
+            json.dumps(
+                data,
+                ensure_ascii=False,
+                indent=2,
+            ),
             encoding="utf-8",
         )
 
