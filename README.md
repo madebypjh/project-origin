@@ -66,6 +66,7 @@ Implemented:
 - Initial Brand naming benchmark cases and objective constraint metrics
 - Deterministic Project Origin runner for the Brand naming benchmark
 - Evidence-backed LLM Intent Interpreter running behind a Shadow Mode flag
+- Experimental intent-shadow naming path available behind an environment flag
 
 Not yet implemented as complete engines:
 
@@ -97,8 +98,19 @@ Enable LLM intent interpretation in non-authoritative Shadow Mode:
 $env:PROJECT_ORIGIN_INTENT_SHADOW = "true"
 ```
 
-Shadow output is written to `output/intent_shadow.json`. The current naming
+Shadow output is written to `output/intent_shadow.json`. By default, the naming
 pipeline continues to use the rule-based semantic path.
+
+Run the experimental intent-shadow naming path, equivalent to the benchmark's
+Candidate Set B:
+
+```powershell
+$env:PROJECT_ORIGIN_NAMING_PATH = "intent_shadow"
+```
+
+This option uses LLM-interpreted intent to build Brand Language before naming.
+It is still experimental and should be compared against benchmark evidence
+before becoming the default.
 
 Run the deterministic naming benchmark with the same source path:
 

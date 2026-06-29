@@ -13,6 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from benchmarks.brand_naming import (  # noqa: E402
+    BlindReviewMarkdownReport,
     BrandBenchmarkSuite,
     IntentBenchmarkSignal,
     evaluate_intent_quality,
@@ -29,6 +30,10 @@ def main() -> None:
         "--output",
         default="output/brand_benchmark_report.json",
         help="Path to write the JSON report.",
+    )
+    parser.add_argument(
+        "--markdown-output",
+        help="Optional path to write a blinded Markdown review report.",
     )
     parser.add_argument(
         "--no-mock-llm",
@@ -69,9 +74,18 @@ def main() -> None:
         json.dumps(report_data, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
+    if args.markdown_output:
+        markdown_path = PROJECT_ROOT / args.markdown_output
+        markdown_path.parent.mkdir(parents=True, exist_ok=True)
+        markdown_path.write_text(
+            BlindReviewMarkdownReport.from_report_data(report_data),
+            encoding="utf-8",
+        )
 
     summary = report_data["summary"]
     print(f"Saved benchmark report: {output_path}")
+    if args.markdown_output:
+        print(f"Saved blind review report: {markdown_path}")
     print(f"Cases: {summary['case_count']}")
     print(
         "Naming hard-constraint pass rate: "

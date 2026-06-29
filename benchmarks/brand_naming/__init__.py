@@ -1,5 +1,6 @@
 """Brand naming benchmark definitions."""
 
+from benchmarks.brand_naming.blind_review import BlindReviewMarkdownReport
 from benchmarks.brand_naming.intent_metrics import (
     IntentQualityMetrics,
     evaluate_intent_quality,
@@ -30,6 +31,7 @@ from benchmarks.brand_naming.suite import (
 )
 
 __all__ = [
+    "BlindReviewMarkdownReport",
     "BrandBenchmarkCaseReport",
     "BrandBenchmarkSuite",
     "BrandBenchmarkSuiteReport",

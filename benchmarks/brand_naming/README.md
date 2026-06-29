@@ -58,6 +58,15 @@ Recalculate metrics for an existing report without calling the provider again:
 python research/run_brand_benchmark.py --reevaluate-report output/brand_benchmark_report_openai.json --output output/brand_benchmark_report_openai.json
 ```
 
+Generate a blinded Markdown review packet for human scoring:
+
+```bash
+python research/run_brand_benchmark.py --reevaluate-report output/brand_benchmark_report_openai.json --output output/brand_benchmark_report_openai.json --markdown-output output/brand_blind_review.md
+```
+
+The Markdown report labels outputs as `Candidate Set A` and `Candidate Set B`
+and places the approach mapping in an answer key at the end.
+
 Planned metrics:
 
 - hard constraint violations;
