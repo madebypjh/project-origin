@@ -7,19 +7,12 @@ They intentionally contain no prompting, provider, or Brand-specific behavior.
 from dataclasses import dataclass, field
 from typing import Any
 
+from project_origin.core.intent.models import IntentProfile
+
 
 def _validate_confidence(value: float | None) -> None:
     if value is not None and not 0.0 <= value <= 1.0:
         raise ValueError("confidence must be between 0.0 and 1.0")
-
-
-@dataclass(frozen=True)
-class IntentProfile:
-    domain: str
-    objective: str
-    constraints: tuple[str, ...] = ()
-    preferences: dict[str, Any] = field(default_factory=dict)
-    context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)

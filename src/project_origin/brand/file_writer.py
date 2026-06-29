@@ -7,6 +7,7 @@ Handles saving generated outputs to the local filesystem.
 from pathlib import Path
 
 from project_origin.brand.decision.models import BrandNamingDecisionRecord
+from project_origin.brand.intent.models import BrandIntentShadowRecord
 
 
 class FileWriter:
@@ -57,4 +58,17 @@ class FileWriter:
 
         file_path = output_dir / filename
         file_path.write_text(decision.to_json(), encoding="utf-8")
+        return file_path
+
+    @staticmethod
+    def save_intent_shadow(
+        record: BrandIntentShadowRecord,
+        filename: str = "intent_shadow.json",
+    ) -> Path:
+        project_root = Path(__file__).resolve().parents[3]
+        output_dir = project_root / "output"
+        output_dir.mkdir(exist_ok=True)
+
+        file_path = output_dir / filename
+        file_path.write_text(record.to_json(), encoding="utf-8")
         return file_path

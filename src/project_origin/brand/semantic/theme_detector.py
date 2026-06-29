@@ -4,6 +4,8 @@ Project Origin - Theme Detector
 Detects semantic themes from founder profile text.
 """
 
+import re
+
 from project_origin.brand.models import FounderProfile
 
 
@@ -41,6 +43,21 @@ class ThemeDetector:
         raw_scores = cls._score_themes(text)
         return cls._normalize_scores(raw_scores)
 
+    @classmethod
+    def matched_keywords(
+        cls,
+        profile: FounderProfile,
+    ) -> dict[str, tuple[str, ...]]:
+        text = cls._combine_profile_text(profile)
+        return {
+            theme: tuple(
+                keyword
+                for keyword in keywords
+                if cls._contains_keyword(text, keyword)
+            )
+            for theme, keywords in cls.THEME_KEYWORDS.items()
+        }
+
     @staticmethod
     def _combine_profile_text(profile: FounderProfile) -> str:
         return " ".join(
@@ -61,12 +78,23 @@ class ThemeDetector:
             score = 0
 
             for keyword in keywords:
-                if keyword.lower() in text:
+                if cls._contains_keyword(text, keyword):
                     score += 1
 
             scores[theme] = score
 
         return scores
+
+    @staticmethod
+    def _contains_keyword(text: str, keyword: str) -> bool:
+        normalized_text = text.casefold()
+        normalized_keyword = keyword.casefold()
+
+        if normalized_keyword.isascii():
+            pattern = rf"(?<!\w){re.escape(normalized_keyword)}(?!\w)"
+            return re.search(pattern, normalized_text) is not None
+
+        return normalized_keyword in normalized_text
 
     @staticmethod
     def _normalize_scores(raw_scores: dict[str, int]) -> dict[str, float]:

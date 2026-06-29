@@ -1,5 +1,10 @@
 # Brand Language
 
+> Transition note: the fixed theme taxonomy in this document describes the
+> deterministic baseline. Project Origin now also runs an evidence-backed,
+> open-ended LLM Intent Interpreter in non-authoritative Shadow Mode. The
+> baseline remains active until benchmark evidence supports promotion.
+
 ## Purpose
 
 Brand names should not begin with words.

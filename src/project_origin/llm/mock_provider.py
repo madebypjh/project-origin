@@ -28,6 +28,9 @@ class MockProvider(LLMProvider):
             JSON string representing a brand strategy report.
         """
 
+        if "TASK: INTENT_INTERPRETATION_V1" in prompt:
+            return self._generate_intent_response(prompt)
+
         selected_name, candidate_names = self._extract_decision(prompt)
 
         report = {
@@ -89,6 +92,52 @@ class MockProvider(LLMProvider):
         }
 
         return json.dumps(report, ensure_ascii=False, indent=2)
+
+    @staticmethod
+    def _generate_intent_response(prompt: str) -> str:
+        marker = "FOUNDER_DATA:\n"
+        if marker not in prompt:
+            raise ValueError("Mock intent prompt is missing FOUNDER_DATA")
+
+        founder_data = json.loads(prompt.split(marker, 1)[1])
+        signals = [
+            {
+                "kind": "objective",
+                "concept": "problem_resolution",
+                "weight": 0.3,
+                "evidence": [founder_data["problem"]],
+                "confidence": 0.9,
+            },
+            {
+                "kind": "preference",
+                "concept": "audience_focus",
+                "weight": 0.2,
+                "evidence": [founder_data["audience"]],
+                "confidence": 0.9,
+            },
+            {
+                "kind": "value",
+                "concept": "founder_principles",
+                "weight": 0.25,
+                "evidence": [founder_data["principles"]],
+                "confidence": 0.9,
+            },
+            {
+                "kind": "preference",
+                "concept": "distinct_approach",
+                "weight": 0.25,
+                "evidence": [founder_data["differentiation"]],
+                "confidence": 0.85,
+            },
+        ]
+        return json.dumps(
+            {
+                "signals": signals,
+                "unresolved_signals": [],
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
 
     @staticmethod
     def _extract_decision(prompt: str) -> tuple[str, list[str]]:

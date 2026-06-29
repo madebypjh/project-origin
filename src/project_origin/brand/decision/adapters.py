@@ -1,5 +1,8 @@
 """Adapters between Brand models and domain-neutral Core contracts."""
 
+from dataclasses import replace
+
+from project_origin.brand.intent.adapter import BrandIntentAdapter
 from project_origin.brand.models import BrandKnowledge, FounderProfile
 from project_origin.brand.naming.candidate import NameCandidate
 from project_origin.core import (
@@ -13,21 +16,13 @@ from project_origin.core import (
 class BrandDecisionAdapters:
     @staticmethod
     def to_intent_profile(profile: FounderProfile) -> IntentProfile:
-        return IntentProfile(
-            domain="brand",
+        intent = BrandIntentAdapter.to_intent_profile(profile)
+        return replace(
+            intent,
             objective=(
                 f"Select a strategically aligned brand name for "
                 f"{profile.audience}."
             ),
-            constraints=(profile.principles,),
-            preferences={
-                "vision": profile.vision,
-                "differentiation": profile.differentiation,
-            },
-            context={
-                "problem": profile.problem,
-                "audience": profile.audience,
-            },
         )
 
     @staticmethod

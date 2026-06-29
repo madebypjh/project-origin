@@ -1,6 +1,6 @@
 # Core Architecture
 
-Version: Alpha 0.3
+Version: Alpha 0.4
 
 Status: Active
 
@@ -31,6 +31,19 @@ Captures a domain-neutral objective, constraints, preferences, and context.
 `FounderProfile` remains a Brand model and may later be adapted into this
 contract.
 
+### `IntentSignal`
+
+Captures an open-ended intent concept with a general kind, normalized weight,
+source evidence, confidence, and optional metadata. Core does not define a
+Brand-specific semantic taxonomy.
+
+### Intent interpretation contracts
+
+`IntentInterpreter` is provider-independent. `IntentNormalizer` merges and
+normalizes concepts, while `IntentValidator` rejects evidence not grounded in
+the source input. LLM provider usage belongs to infrastructure or a domain
+implementation, never Core.
+
 ### `KnowledgeItem` and `KnowledgePacket`
 
 Represent sourced knowledge selected for a decision. Brand Genome and naming
@@ -55,6 +68,7 @@ confidence, and warnings.
 
 - a universal prompt builder;
 - an LLM-specific provider abstraction;
+- a Brand-specific intent taxonomy;
 - Brand naming or report models;
 - a completed Reasoning Engine;
 - a completed Decision Engine;

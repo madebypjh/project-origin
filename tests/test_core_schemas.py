@@ -4,6 +4,7 @@ from project_origin.core import (
     DecisionOption,
     DecisionResult,
     IntentProfile,
+    IntentSignal,
     KnowledgeItem,
     KnowledgePacket,
     ReasoningStep,
@@ -12,7 +13,19 @@ from project_origin.core import (
 
 
 def test_core_contracts_capture_an_explainable_decision():
-    intent = IntentProfile(domain="brand", objective="Select a brand direction")
+    intent = IntentProfile(
+        domain="brand",
+        objective="Select a brand direction",
+        signals=(
+            IntentSignal(
+                kind="value",
+                concept="trust",
+                weight=1.0,
+                evidence=("trust",),
+                confidence=0.8,
+            ),
+        ),
+    )
     knowledge = KnowledgePacket(
         domain="brand",
         items=(KnowledgeItem(content="Trust is a priority", source="interview"),),

@@ -9,6 +9,10 @@ import os
 from project_origin.brand.decision import NamingDecisionService
 from project_origin.brand.file_writer import FileWriter
 from project_origin.brand.interview import InterviewSession
+from project_origin.brand.intent import (
+    BrandIntentShadowService,
+    LlmBrandIntentInterpreter,
+)
 from project_origin.brand.knowledge_builder import KnowledgeBuilder
 from project_origin.brand.language_engine import BrandLanguageEngine
 from project_origin.brand.markdown_report import MarkdownReportGenerator
@@ -37,6 +41,7 @@ class BrandApplication:
         if DEBUG:
             self._print_structured_profile(profile)
 
+        self._run_intent_shadow(profile)
         knowledge = self._build_knowledge(profile)
 
         if DEBUG:
@@ -64,6 +69,21 @@ class BrandApplication:
 
     def _build_knowledge(self, profile):
         return KnowledgeBuilder.build(profile)
+
+    def _run_intent_shadow(self, profile) -> None:
+        if not self._intent_shadow_enabled():
+            return
+
+        service = BrandIntentShadowService(
+            llm=LlmBrandIntentInterpreter(self.provider),
+        )
+        record = service.interpret(profile)
+        FileWriter.save_intent_shadow(record)
+
+    @staticmethod
+    def _intent_shadow_enabled() -> bool:
+        value = os.getenv("PROJECT_ORIGIN_INTENT_SHADOW", "false")
+        return value.strip().casefold() in {"1", "true", "yes", "on"}
 
     def _build_naming_decision(self, profile, knowledge):
         semantic_profile = SemanticEngine.build(profile)

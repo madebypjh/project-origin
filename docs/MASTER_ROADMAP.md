@@ -33,6 +33,7 @@ Status: In progress
 - Separate `project_origin.core` and `project_origin.brand`
 - Define `IntentProfile`, `KnowledgePacket`, `ReasoningTrace`,
   `DecisionOption`, and `DecisionResult`
+- Validate an evidence-backed Intent Interpreter contract in Brand Shadow Mode
 - Keep Core independent from every domain
 - Record architectural decisions through ADRs
 
@@ -43,6 +44,7 @@ Exit criterion: dependency direction is enforced by code structure and tests.
 Status: In progress
 
 - Complete Generator V2 knowledge integration
+- Benchmark LLM intent interpretation before making it authoritative
 - Keep `NameCandidate` structured through the whole pipeline
 - Improve interview, reasoning, and report quality
 - Validate research data before compilation

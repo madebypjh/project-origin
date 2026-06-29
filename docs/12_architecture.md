@@ -17,6 +17,9 @@ The Brand package may depend on Core. Core must never depend on Brand.
 ```text
 InterviewSession
     -> FounderProfile
+    -> Intent Shadow Analysis
+       |-> RuleBasedBrandIntentInterpreter (active baseline)
+       `-> LlmBrandIntentInterpreter (non-authoritative candidate)
     -> KnowledgeBuilder / BrandKnowledge
     -> SemanticEngine / SemanticProfile
     -> BrandLanguageEngine / BrandLanguage
@@ -40,6 +43,7 @@ project_origin/
 |-- brand/
 |   |-- application.py     # Brand workflow orchestration
 |   |-- models.py          # Brand-only models
+|   |-- intent/            # Brand interpretation policy and implementations
 |   |-- semantic/          # Meaning and theme extraction
 |   |-- naming/            # Candidate generation and evaluation
 |   |-- decision/          # Brand-to-Core adapters and decisions
@@ -93,6 +97,7 @@ All LLM report output must:
 - Generator V2 does not yet consume all compiled naming knowledge.
 - The naming path is mapped to Core contracts, but other Brand decisions are
   not.
+- LLM intent interpretation is still non-authoritative Shadow output.
 - Report prose is LLM-assisted, while its candidates and final recommendation
   are constrained by `DecisionResult`.
 - The benchmark harness exists, but direct LLM, multi-agent, and blinded human

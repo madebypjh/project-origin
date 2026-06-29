@@ -34,8 +34,10 @@ Current source layout:
 
 ```text
 src/project_origin/
-|-- core/          # Domain-neutral decision contracts
+|-- core/          # Domain-neutral decision and intent contracts
+|   `-- intent/    # Signals, interpreter protocol, validation, normalization
 |-- brand/         # Brand domain implementation
+|   |-- intent/    # Brand policy, LLM/rule interpreters, Shadow Mode
 |   |-- naming/
 |   `-- semantic/
 |-- llm/           # Replaceable provider adapters
@@ -63,6 +65,7 @@ Implemented:
 - Initial domain-neutral Core contracts
 - Initial Brand naming benchmark cases and objective constraint metrics
 - Deterministic Project Origin runner for the Brand naming benchmark
+- Evidence-backed LLM Intent Interpreter running behind a Shadow Mode flag
 
 Not yet implemented as complete engines:
 
@@ -88,6 +91,15 @@ $env:PYTHONPATH = "src"
 
 Generated reports are written to `output/` and are intentionally not versioned.
 
+Enable LLM intent interpretation in non-authoritative Shadow Mode:
+
+```powershell
+$env:PROJECT_ORIGIN_INTENT_SHADOW = "true"
+```
+
+Shadow output is written to `output/intent_shadow.json`. The current naming
+pipeline continues to use the rule-based semantic path.
+
 Run the deterministic naming benchmark with the same source path:
 
 ```powershell
@@ -100,8 +112,9 @@ $env:PYTHONPATH = "src"
 1. `docs/00_PROJECT_ORIGIN_MASTER_CONTEXT.md`
 2. `docs/adr/ADR-001-core-domain-separation.md`
 3. `docs/adr/ADR-002-product-driven-core-evolution.md`
-4. `docs/16_core_architecture.md`
-5. `docs/12_architecture.md`
+4. `docs/adr/ADR-003-llm-assisted-intent-interpretation.md`
+5. `docs/16_core_architecture.md`
+6. `docs/12_architecture.md`
 6. Domain and product specifications
 
 When documents disagree, the Master Context and accepted ADRs take precedence.

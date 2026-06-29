@@ -1,6 +1,6 @@
 # Project Origin Master Context
 
-Version: Alpha 0.6  
+Version: Alpha 0.7
 Status: Active  
 Authority: Single source of truth
 
@@ -98,6 +98,8 @@ record.
 The minimum Core vocabulary is:
 
 - `IntentProfile`: domain-neutral representation of a desired outcome.
+- `IntentSignal`: an open-ended concept with kind, weight, source evidence, and
+  confidence.
 - `KnowledgeItem`: one sourced unit of relevant knowledge.
 - `KnowledgePacket`: knowledge selected for one decision context.
 - `ReasoningStep`: one claim with rationale, evidence, and confidence.
@@ -183,10 +185,13 @@ Implemented:
 - JSON validation and Markdown report rendering
 - Initial Core decision contracts
 - Initial versioned Brand naming benchmark harness and Project Origin runner
+- Core Intent Interpreter contract, evidence validator, and normalizer
+- Brand LLM Intent Interpreter with rule-based fallback and Shadow Mode
 
 In progress or not yet complete:
 
 - Generator V2 knowledge integration
+- evaluation and eventual promotion of LLM intent interpretation
 - broader structured Reasoning Engine beyond naming selection
 - Decision Engine
 - completed comparison against direct LLM and multi-agent baselines
@@ -197,11 +202,12 @@ whether a feature is actually implemented.
 
 ## 10. Current priorities
 
-1. Expand and review the Brand benchmark cases.
-2. Implement direct-LLM and multi-agent benchmark runners.
-3. Integrate validated Brand knowledge into Generator V2.
-4. Add blinded human evaluation for subjective decision quality.
-5. Generalize reasoning or decision implementations only after measured reuse.
+1. Evaluate Shadow Mode intent quality, grounding, stability, cost, and latency.
+2. Expand and review the Brand benchmark cases.
+3. Implement direct-LLM and multi-agent benchmark runners.
+4. Integrate validated intent and Brand knowledge into Generator V2 only after
+   benchmark evidence.
+5. Add blinded human evaluation for subjective decision quality.
 
 ## 11. Proof of value
 
