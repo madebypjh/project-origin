@@ -1,5 +1,6 @@
 """Run benchmark cases through the deterministic Project Origin pipeline."""
 
+import hashlib
 from time import perf_counter
 
 from benchmarks.brand_naming.models import BrandNamingBenchmarkCase
@@ -67,7 +68,7 @@ class ProjectOriginNamingRunner:
         generated = NamingGenerator.generate(
             brand_language,
             count=self.candidate_count,
-            seed=self.seed,
+            seed=self._seed_for_case(case, approach),
         )
         filtered = NameFilterPipeline.apply(generated)
         evaluated = NameEvaluator.evaluate(
@@ -104,6 +105,15 @@ class ProjectOriginNamingRunner:
             latency_ms=latency_ms,
             estimated_cost_usd=0.0,
         )
+
+    def _seed_for_case(
+        self,
+        case: BrandNamingBenchmarkCase,
+        approach: str,
+    ) -> int:
+        seed_input = f"{self.seed}:{case.identifier}:{approach}"
+        digest = hashlib.sha256(seed_input.encode("utf-8")).hexdigest()
+        return int(digest[:8], 16)
 
 
 def _candidate_evaluation(candidate) -> dict:

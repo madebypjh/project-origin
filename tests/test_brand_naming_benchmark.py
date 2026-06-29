@@ -219,3 +219,24 @@ def test_project_origin_runner_is_reproducible():
     assert first.candidate_evaluations[0]["evaluation_breakdown"]
     assert first.estimated_cost_usd == 0.0
     assert '"approach": "project_origin"' in first.to_json()
+
+
+def test_project_origin_runner_uses_case_scoped_generation_seed():
+    cases = load_cases()
+    runner = ProjectOriginNamingRunner(seed=11)
+
+    assert (
+        runner._seed_for_case(cases[0], "project_origin")
+        == runner._seed_for_case(cases[0], "project_origin")
+    )
+    assert (
+        runner._seed_for_case(cases[0], "project_origin")
+        != runner._seed_for_case(cases[1], "project_origin")
+    )
+    assert (
+        runner._seed_for_case(cases[0], "project_origin")
+        != runner._seed_for_case(
+            cases[0],
+            "project_origin_intent_shadow_naming",
+        )
+    )

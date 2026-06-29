@@ -41,9 +41,11 @@ drawing product conclusions.
 candidate names, the selected option, rationale, latency, and estimated model
 cost. It also records candidate-level evaluation traces: component scores,
 score weights, total score, and whether compiled naming knowledge influenced
-the ranking. `ProjectOriginIntentRunner` records active baseline signals and
-optional shadow LLM signals without changing the product path. Direct-LLM and
-multi-agent runners remain to be implemented.
+the ranking. Candidate generation uses deterministic case-scoped seeds, so the
+same case remains reproducible while different cases explore different
+candidate pools. `ProjectOriginIntentRunner` records active baseline signals
+and optional shadow LLM signals without changing the product path. Direct-LLM
+and multi-agent runners remain to be implemented.
 
 Run the current suite with deterministic mock LLM shadow comparison:
 
