@@ -12,8 +12,10 @@ from benchmarks.brand_naming.intent_runner import ProjectOriginIntentRunner
 from benchmarks.brand_naming.loader import load_cases
 from benchmarks.brand_naming.metrics import (
     CaseAwareNamingMetrics,
+    DecisionEvidenceMetrics,
     HardConstraintMetrics,
     evaluate_case_aware_naming,
+    evaluate_decision_evidence,
     evaluate_hard_constraints,
 )
 from benchmarks.brand_naming.models import BrandNamingBenchmarkCase
@@ -39,9 +41,11 @@ class BrandBenchmarkCaseReport:
     naming_output: BrandNamingBenchmarkOutput
     naming_metrics: HardConstraintMetrics
     naming_case_metrics: CaseAwareNamingMetrics
+    naming_evidence_metrics: DecisionEvidenceMetrics
     intent_shadow_naming_output: BrandNamingBenchmarkOutput | None
     intent_shadow_naming_metrics: HardConstraintMetrics | None
     intent_shadow_naming_case_metrics: CaseAwareNamingMetrics | None
+    intent_shadow_naming_evidence_metrics: DecisionEvidenceMetrics | None
     intent_shadow_name_overlap: tuple[str, ...]
     intent_output: BrandIntentBenchmarkOutput
     active_intent_metrics: IntentQualityMetrics
@@ -54,6 +58,9 @@ class BrandBenchmarkCaseReport:
             "naming_metrics": _hard_metrics_to_dict(self.naming_metrics),
             "naming_case_metrics": _case_metrics_to_dict(
                 self.naming_case_metrics
+            ),
+            "naming_evidence_metrics": _evidence_metrics_to_dict(
+                self.naming_evidence_metrics
             ),
             "intent_shadow_naming_output": (
                 self.intent_shadow_naming_output.to_dict()
@@ -68,6 +75,13 @@ class BrandBenchmarkCaseReport:
             "intent_shadow_naming_case_metrics": (
                 _case_metrics_to_dict(self.intent_shadow_naming_case_metrics)
                 if self.intent_shadow_naming_case_metrics is not None
+                else None
+            ),
+            "intent_shadow_naming_evidence_metrics": (
+                _evidence_metrics_to_dict(
+                    self.intent_shadow_naming_evidence_metrics
+                )
+                if self.intent_shadow_naming_evidence_metrics is not None
                 else None
             ),
             "intent_shadow_name_overlap": self.intent_shadow_name_overlap,
@@ -98,6 +112,9 @@ class BrandBenchmarkSuiteReport:
     def summary(self) -> dict:
         naming_metrics = [case.naming_metrics for case in self.cases]
         naming_case_metrics = [case.naming_case_metrics for case in self.cases]
+        naming_evidence_metrics = [
+            case.naming_evidence_metrics for case in self.cases
+        ]
         naming_outputs = [case.naming_output for case in self.cases]
         shadow_naming_metrics = [
             case.intent_shadow_naming_metrics
@@ -113,6 +130,11 @@ class BrandBenchmarkSuiteReport:
             case.intent_shadow_naming_case_metrics
             for case in self.cases
             if case.intent_shadow_naming_case_metrics is not None
+        ]
+        shadow_naming_evidence_metrics = [
+            case.intent_shadow_naming_evidence_metrics
+            for case in self.cases
+            if case.intent_shadow_naming_evidence_metrics is not None
         ]
         shadow_overlaps = [
             len(case.intent_shadow_name_overlap)
@@ -135,6 +157,9 @@ class BrandBenchmarkSuiteReport:
             "active_naming_evaluation": _evaluation_summary(naming_outputs),
             "active_naming_case_fit": _case_metric_summary(
                 naming_case_metrics
+            ),
+            "active_decision_evidence": _evidence_metric_summary(
+                naming_evidence_metrics
             ),
             "intent_shadow_naming": (
                 {
@@ -162,6 +187,13 @@ class BrandBenchmarkSuiteReport:
                         tuple(
                             metric
                             for metric in shadow_naming_case_metrics
+                            if metric is not None
+                        )
+                    ),
+                    "decision_evidence": _evidence_metric_summary(
+                        tuple(
+                            metric
+                            for metric in shadow_naming_evidence_metrics
                             if metric is not None
                         )
                     ),
@@ -213,11 +245,13 @@ class BrandBenchmarkSuite:
         naming_output = self.naming_runner.run(case)
         naming_metrics = evaluate_hard_constraints(case, naming_output)
         naming_case_metrics = evaluate_case_aware_naming(case, naming_output)
+        naming_evidence_metrics = evaluate_decision_evidence(naming_output)
 
         intent_output = self.intent_runner.run(case)
         intent_shadow_naming_output = None
         intent_shadow_naming_metrics = None
         intent_shadow_naming_case_metrics = None
+        intent_shadow_naming_evidence_metrics = None
         intent_shadow_name_overlap: tuple[str, ...] = ()
         active_metrics = evaluate_intent_quality(
             case,
@@ -241,6 +275,9 @@ class BrandBenchmarkSuite:
                 case,
                 intent_shadow_naming_output,
             )
+            intent_shadow_naming_evidence_metrics = (
+                evaluate_decision_evidence(intent_shadow_naming_output)
+            )
             intent_shadow_name_overlap = _name_overlap(
                 naming_output,
                 intent_shadow_naming_output,
@@ -251,10 +288,14 @@ class BrandBenchmarkSuite:
             naming_output=naming_output,
             naming_metrics=naming_metrics,
             naming_case_metrics=naming_case_metrics,
+            naming_evidence_metrics=naming_evidence_metrics,
             intent_shadow_naming_output=intent_shadow_naming_output,
             intent_shadow_naming_metrics=intent_shadow_naming_metrics,
             intent_shadow_naming_case_metrics=(
                 intent_shadow_naming_case_metrics
+            ),
+            intent_shadow_naming_evidence_metrics=(
+                intent_shadow_naming_evidence_metrics
             ),
             intent_shadow_name_overlap=intent_shadow_name_overlap,
             intent_output=intent_output,
@@ -324,6 +365,17 @@ def _case_metrics_to_dict(metrics: CaseAwareNamingMetrics) -> dict:
         "selected_risk_score": metrics.selected_risk_score,
         "score_margin": metrics.score_margin,
         "low_confidence_decision": metrics.low_confidence_decision,
+    }
+
+
+def _evidence_metrics_to_dict(metrics: DecisionEvidenceMetrics) -> dict:
+    return {
+        "has_score_delta": metrics.has_score_delta,
+        "has_strategy_delta": metrics.has_strategy_delta,
+        "has_tradeoff": metrics.has_tradeoff,
+        "has_risk_assessment": metrics.has_risk_assessment,
+        "has_report_foundation": metrics.has_report_foundation,
+        "completeness": metrics.completeness,
     }
 
 
@@ -530,4 +582,39 @@ def _case_metric_summary(
             metric.low_confidence_decision for metric in metrics
         ),
         "average_score_margin": round(mean(margins), 2) if margins else 0.0,
+    }
+
+
+def _evidence_metric_summary(
+    metrics: Iterable[DecisionEvidenceMetrics],
+) -> dict:
+    metrics = tuple(metrics)
+    if not metrics:
+        return {
+            "average_completeness": 0.0,
+            "score_delta_rate": 0.0,
+            "strategy_delta_rate": 0.0,
+            "tradeoff_rate": 0.0,
+            "risk_assessment_rate": 0.0,
+            "report_foundation_rate": 0.0,
+        }
+
+    return {
+        "average_completeness": round(
+            mean(metric.completeness for metric in metrics),
+            4,
+        ),
+        "score_delta_rate": _pass_rate(
+            metric.has_score_delta for metric in metrics
+        ),
+        "strategy_delta_rate": _pass_rate(
+            metric.has_strategy_delta for metric in metrics
+        ),
+        "tradeoff_rate": _pass_rate(metric.has_tradeoff for metric in metrics),
+        "risk_assessment_rate": _pass_rate(
+            metric.has_risk_assessment for metric in metrics
+        ),
+        "report_foundation_rate": _pass_rate(
+            metric.has_report_foundation for metric in metrics
+        ),
     }

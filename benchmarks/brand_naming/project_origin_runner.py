@@ -80,11 +80,12 @@ class ProjectOriginNamingRunner:
             evaluated,
             limit=self.recommendation_count,
         )
-        decision = NamingDecisionService.decide(
+        decision_record = NamingDecisionService.decide(
             profile,
             knowledge,
             ranked,
-        ).result
+        )
+        decision = decision_record.result
         selected = next(
             option.label
             for option in decision.options
@@ -101,6 +102,11 @@ class ProjectOriginNamingRunner:
             candidate_evaluations=tuple(
                 _candidate_evaluation(candidate)
                 for candidate in ranked
+            ),
+            decision_evidence=(
+                decision_record.evidence.to_dict()
+                if decision_record.evidence is not None
+                else {}
             ),
             latency_ms=latency_ms,
             estimated_cost_usd=0.0,

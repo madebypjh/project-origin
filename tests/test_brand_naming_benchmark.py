@@ -6,6 +6,7 @@ from benchmarks.brand_naming import (
     BrandNamingBenchmarkOutput,
     ProjectOriginNamingRunner,
     evaluate_case_aware_naming,
+    evaluate_decision_evidence,
     evaluate_hard_constraints,
     load_cases,
 )
@@ -187,6 +188,30 @@ def test_benchmark_output_accepts_candidate_evaluation_trace():
     assert output.to_dict()["candidate_evaluations"][0]["name"] == "One"
 
 
+def test_decision_evidence_metrics_track_report_foundation():
+    output = BrandNamingBenchmarkOutput(
+        case_id="case",
+        approach="test",
+        candidates=("One", "Two"),
+        selected_name="One",
+        reasoning="One has stronger evidence than Two.",
+        decision_evidence={
+            "score_delta": 0.2,
+            "strategy_delta": 0.3,
+            "runner_up_tradeoffs": ("weaker strategic fit",),
+            "risk_assessment": ("Trademark has not been checked.",),
+            "brand_history_seed": "Started from a founder problem.",
+            "brand_dna": ("clarity", "trust"),
+            "value_alignment": ("operator control",),
+        },
+    )
+
+    metrics = evaluate_decision_evidence(output)
+
+    assert metrics.completeness == 1.0
+    assert metrics.has_report_foundation
+
+
 def test_benchmark_output_rejects_unknown_candidate_evaluation():
     with pytest.raises(ValueError, match="candidate_evaluations"):
         BrandNamingBenchmarkOutput(
@@ -217,6 +242,9 @@ def test_project_origin_runner_is_reproducible():
     assert len(first.candidates) == 5
     assert len(first.candidate_evaluations) == 5
     assert first.candidate_evaluations[0]["evaluation_breakdown"]
+    assert first.decision_evidence["brand_history_seed"]
+    assert first.decision_evidence["brand_dna"]
+    assert "strategic-fit" in first.reasoning
     assert first.estimated_cost_usd == 0.0
     assert '"approach": "project_origin"' in first.to_json()
 

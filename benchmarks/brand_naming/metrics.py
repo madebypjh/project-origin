@@ -34,6 +34,16 @@ class CaseAwareNamingMetrics:
     low_confidence_decision: bool
 
 
+@dataclass(frozen=True)
+class DecisionEvidenceMetrics:
+    has_score_delta: bool
+    has_strategy_delta: bool
+    has_tradeoff: bool
+    has_risk_assessment: bool
+    has_report_foundation: bool
+    completeness: float
+
+
 def evaluate_hard_constraints(
     case: BrandNamingBenchmarkCase,
     output: BrandNamingBenchmarkOutput,
@@ -126,6 +136,31 @@ def evaluate_case_aware_naming(
         selected_risk_score=selected_risk_score,
         score_margin=score_margin,
         low_confidence_decision=low_confidence_decision,
+    )
+
+
+def evaluate_decision_evidence(
+    output: BrandNamingBenchmarkOutput,
+) -> DecisionEvidenceMetrics:
+    evidence = output.decision_evidence
+    checks = {
+        "has_score_delta": evidence.get("score_delta") is not None,
+        "has_strategy_delta": evidence.get("strategy_delta") is not None,
+        "has_tradeoff": bool(evidence.get("runner_up_tradeoffs")),
+        "has_risk_assessment": bool(evidence.get("risk_assessment")),
+        "has_report_foundation": bool(
+            evidence.get("brand_history_seed")
+            and evidence.get("brand_dna")
+            and evidence.get("value_alignment")
+        ),
+    }
+
+    return DecisionEvidenceMetrics(
+        **checks,
+        completeness=_coverage(
+            sum(1 for passed in checks.values() if passed),
+            len(checks),
+        ),
     )
 
 
@@ -238,7 +273,34 @@ def _pattern_matched(pattern: str, text: str) -> bool:
     for token in pattern_tokens:
         risk_terms.update(risk_terms_by_pattern.get(token, set()))
 
-    return any(term in text for term in risk_terms)
+    tokens = set(text.split())
+    return any(_risk_term_matched(term, tokens) for term in risk_terms)
+
+
+def _risk_term_matched(term: str, tokens: set[str]) -> bool:
+    if term in tokens:
+        return True
+
+    prefix_terms = {
+        "auto",
+        "bank",
+        "breach",
+        "clinic",
+        "crypto",
+        "cure",
+        "diagnose",
+        "doctor",
+        "fear",
+        "generator",
+        "green",
+        "hack",
+        "planet",
+        "threat",
+    }
+    if term not in prefix_terms:
+        return False
+
+    return any(token.startswith(term) for token in tokens)
 
 
 def _score_margin(output: BrandNamingBenchmarkOutput) -> float | None:

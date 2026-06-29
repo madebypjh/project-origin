@@ -1,6 +1,6 @@
 """System-neutral output format shared by all benchmark approaches."""
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 import json
 from typing import Any
 
@@ -13,6 +13,7 @@ class BrandNamingBenchmarkOutput:
     selected_name: str
     reasoning: str
     candidate_evaluations: tuple[dict[str, Any], ...] = ()
+    decision_evidence: dict[str, Any] = field(default_factory=dict)
     latency_ms: float | None = None
     estimated_cost_usd: float | None = None
 

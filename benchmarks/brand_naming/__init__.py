@@ -9,8 +9,10 @@ from benchmarks.brand_naming.intent_runner import ProjectOriginIntentRunner
 from benchmarks.brand_naming.loader import load_cases
 from benchmarks.brand_naming.metrics import (
     CaseAwareNamingMetrics,
+    DecisionEvidenceMetrics,
     HardConstraintMetrics,
     evaluate_case_aware_naming,
+    evaluate_decision_evidence,
     evaluate_hard_constraints,
 )
 from benchmarks.brand_naming.models import (
@@ -42,6 +44,7 @@ __all__ = [
     "BrandNamingBenchmarkOutput",
     "EvaluationRubric",
     "CaseAwareNamingMetrics",
+    "DecisionEvidenceMetrics",
     "HardConstraintMetrics",
     "IntentBenchmarkSignal",
     "IntentQualityMetrics",
@@ -50,6 +53,7 @@ __all__ = [
     "ProjectOriginNamingRunner",
     "evaluate_intent_quality",
     "evaluate_case_aware_naming",
+    "evaluate_decision_evidence",
     "evaluate_hard_constraints",
     "load_cases",
 ]
