@@ -62,6 +62,7 @@ class ProjectOriginApplication:
         names = NamingGenerator.generate(brand_language, count=100)
         evaluated_names = NameEvaluator.evaluate(names, brand_language)
         ranked_names = NameRanker.rank(evaluated_names, limit=20)
+        FileWriter.save_name_candidates(ranked_names)
 
         candidate_names = [candidate.name for candidate in ranked_names]
 
