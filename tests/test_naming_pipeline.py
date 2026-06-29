@@ -97,3 +97,32 @@ def test_evaluator_can_apply_naming_knowledge_as_soft_guidance():
         ]
         is True
     )
+
+
+def test_evaluator_prioritizes_strategic_fit_in_final_score():
+    brand_language = BrandLanguage(
+        vocabulary=["trust", "logic", "clarity"],
+        tone="credible",
+        emotion="confidence",
+        style="modern",
+        semantic_direction="Trustworthy logic and clarity",
+    )
+    evaluated = NameEvaluator.evaluate(
+        [
+            NameCandidate(name="Trustlogic"),
+            NameCandidate(name="Voxaluma"),
+        ],
+        brand_language,
+    )
+    by_name = {candidate.name: candidate for candidate in evaluated}
+    strong_fit = by_name["Trustlogic"]
+    weak_fit = by_name["Voxaluma"]
+
+    assert strong_fit.strategy_score > weak_fit.strategy_score
+    assert strong_fit.total_score > weak_fit.total_score
+    assert (
+        strong_fit.metadata["evaluation_breakdown"]["components"][
+            "strategic_fit"
+        ]["weight"]
+        == 0.65
+    )

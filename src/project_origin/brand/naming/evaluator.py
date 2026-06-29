@@ -43,10 +43,10 @@ class NameEvaluator:
         memorability_score = cls._score_memorability(name)
 
         base_score = (
-            pronunciation_score * 0.25
-            + originality_score * 0.25
-            + strategy_score * 0.30
-            + memorability_score * 0.20
+            pronunciation_score * 0.12
+            + originality_score * 0.14
+            + strategy_score * 0.65
+            + memorability_score * 0.09
         )
         knowledge_score = None
         guidance_strength = 0.0
@@ -104,15 +104,27 @@ class NameEvaluator:
         if not PhoneticRules.is_pronounceable(name):
             return 3.0
 
-        length = len(name)
+        letters = [character for character in name.lower() if character.isalpha()]
+        length = len(letters)
+        vowel_ratio = NameEvaluator._ratio(letters, "aeiou")
+        score = 8.8
 
         if 5 <= length <= 8:
-            return 9.0
+            score += 0.4
+        elif 4 <= length <= 10:
+            score += 0.1
+        else:
+            score -= 1.0
 
-        if 4 <= length <= 10:
-            return 7.5
+        if 0.32 <= vowel_ratio <= 0.55:
+            score += 0.3
+        elif vowel_ratio < 0.25 or vowel_ratio > 0.68:
+            score -= 0.9
 
-        return 6.0
+        if NameEvaluator._has_awkward_cluster(name):
+            score -= 0.6
+
+        return round(NameEvaluator._clamp(score, minimum=3.0), 2)
 
     @staticmethod
     def _score_originality(name: str) -> float:
@@ -129,13 +141,52 @@ class NameEvaluator:
             "consulting",
         ]
 
-        if any(fragment in lower_name for fragment in generic_fragments):
-            return 5.0
+        score = 7.6
+        for fragment in generic_fragments:
+            if fragment in lower_name:
+                score -= 1.4
 
-        if len(lower_name) <= 5:
-            return 8.5
+        letters = [character for character in lower_name if character.isalpha()]
+        unique_letter_ratio = NameEvaluator._unique_ratio(letters)
 
-        return 7.5
+        if 5 <= len(lower_name) <= 8:
+            score += 0.5
+        elif len(lower_name) <= 4:
+            score += 0.2
+        elif len(lower_name) > 10:
+            score -= 0.4
+
+        ending_adjustments = {
+            "io": -0.22,
+            "ia": -0.16,
+            "on": -0.10,
+            "a": -0.08,
+            "is": -0.05,
+            "axis": 0.12,
+            "scope": 0.10,
+            "core": 0.04,
+        }
+        for ending, adjustment in ending_adjustments.items():
+            if lower_name.endswith(ending):
+                score += adjustment
+                break
+
+        if NameEvaluator._has_repeated_chunk(lower_name):
+            score -= 0.8
+
+        if unique_letter_ratio >= 0.78:
+            score += 0.25
+        elif unique_letter_ratio >= 0.65:
+            score += 0.12
+        elif unique_letter_ratio < 0.45:
+            score -= 0.25
+
+        uncommon_letters = sum(
+            1 for letter in lower_name if letter in {"v", "x", "z", "q"}
+        )
+        score += min(uncommon_letters * 0.15, 0.45)
+
+        return round(NameEvaluator._clamp(score, minimum=4.0), 2)
 
     @staticmethod
     def _score_strategy_fit(
@@ -144,30 +195,76 @@ class NameEvaluator:
     ) -> float:
         lower_name = name.lower()
 
-        matched_words = [
-            word for word in brand_language.vocabulary
-            if word.lower()[:3] in lower_name
+        score = 6.4
+        seen_roots = set()
+
+        for word in brand_language.vocabulary:
+            normalized_word = word.lower().strip()
+            if len(normalized_word) < 3:
+                continue
+
+            root = normalized_word[:4]
+            if root in seen_roots:
+                continue
+            seen_roots.add(root)
+
+            if normalized_word in lower_name:
+                score += 1.35
+            elif len(normalized_word) >= 5 and normalized_word[:5] in lower_name:
+                score += 1.10
+            elif normalized_word[:4] in lower_name:
+                score += 0.80
+            elif normalized_word[:3] in lower_name:
+                score += 0.50
+
+        semantic_tokens = [
+            token
+            for token in brand_language.semantic_direction.lower().replace(
+                ",",
+                " ",
+            ).replace(
+                ".",
+                " ",
+            ).split()
+            if len(token) >= 4
         ]
+        for token in dict.fromkeys(semantic_tokens[:12]):
+            if token[:4] in lower_name:
+                score += 0.30
 
-        if len(matched_words) >= 2:
-            return 9.0
+        if brand_language.style and brand_language.style.lower() in lower_name:
+            score += 0.2
 
-        if len(matched_words) == 1:
-            return 7.5
-
-        return 6.0
+        return round(NameEvaluator._clamp(score, minimum=5.0, maximum=9.6), 2)
 
     @staticmethod
     def _score_memorability(name: str) -> float:
-        length = len(name)
+        letters = [character for character in name.lower() if character.isalpha()]
+        length = len(letters)
+        vowel_ratio = NameEvaluator._ratio(letters, "aeiou")
+        score = 7.0
 
         if 5 <= length <= 7:
-            return 9.0
+            score += 1.4
+        elif 8 <= length <= 10:
+            score += 0.8
+        elif length == 4:
+            score += 0.5
+        else:
+            score -= 0.2
 
-        if 8 <= length <= 10:
-            return 7.5
+        if 0.34 <= vowel_ratio <= 0.55:
+            score += 0.5
+        elif vowel_ratio < 0.25 or vowel_ratio > 0.65:
+            score -= 0.5
 
-        return 6.5
+        if NameEvaluator._has_repeated_chunk(name.lower()):
+            score -= 0.6
+
+        if NameEvaluator._has_balanced_rhythm(letters):
+            score += 0.4
+
+        return round(NameEvaluator._clamp(score, minimum=5.0), 2)
 
     @classmethod
     def _score_generation_rules_fit(
@@ -222,19 +319,19 @@ class NameEvaluator:
             "components": {
                 "pronunciation": {
                     "score": pronunciation_score,
-                    "weight": 0.25,
+                    "weight": 0.12,
                 },
                 "originality": {
                     "score": originality_score,
-                    "weight": 0.25,
+                    "weight": 0.14,
                 },
                 "strategic_fit": {
                     "score": strategy_score,
-                    "weight": 0.30,
+                    "weight": 0.65,
                 },
                 "memorability": {
                     "score": memorability_score,
-                    "weight": 0.20,
+                    "weight": 0.09,
                 },
             },
             "base_score": round(base_score, 2),
@@ -267,6 +364,50 @@ class NameEvaluator:
             return 0.0
 
         return sum(1 for letter in letters if letter in matches) / len(letters)
+
+    @staticmethod
+    def _unique_ratio(letters: list[str]) -> float:
+        if not letters:
+            return 0.0
+
+        return len(set(letters)) / len(letters)
+
+    @staticmethod
+    def _has_awkward_cluster(name: str) -> bool:
+        lower_name = name.lower()
+        consonant_cluster = 0
+        for character in lower_name:
+            if character.isalpha() and character not in "aeiou":
+                consonant_cluster += 1
+                if consonant_cluster >= 4:
+                    return True
+            else:
+                consonant_cluster = 0
+        return False
+
+    @staticmethod
+    def _has_repeated_chunk(name: str) -> bool:
+        for size in (2, 3):
+            for index in range(len(name) - size * 2 + 1):
+                chunk = name[index:index + size]
+                if chunk and chunk == name[index + size:index + size * 2]:
+                    return True
+        return False
+
+    @staticmethod
+    def _has_balanced_rhythm(letters: list[str]) -> bool:
+        if len(letters) < 5:
+            return False
+
+        transitions = 0
+        previous_is_vowel = letters[0] in "aeiou"
+        for letter in letters[1:]:
+            is_vowel = letter in "aeiou"
+            if is_vowel != previous_is_vowel:
+                transitions += 1
+            previous_is_vowel = is_vowel
+
+        return transitions >= max(3, len(letters) // 2)
 
     @staticmethod
     def _clamp(
