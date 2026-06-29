@@ -26,6 +26,7 @@ from project_origin.brand.naming.knowledge_loader import NamingKnowledgeLoader
 from project_origin.brand.naming.ranker import NameRanker
 from project_origin.brand.prompt_builder import PromptBuilder
 from project_origin.brand.report_parser import ReportParser
+from project_origin.brand.report_builder import BrandStrategyReportBuilder
 from project_origin.brand.semantic.semantic_engine import SemanticEngine
 from project_origin.llm.base import LLMProvider
 from project_origin.llm.factory import LLMFactory
@@ -57,13 +58,11 @@ class BrandApplication:
             intent_record=intent_record,
         )
         FileWriter.save_naming_decision(decision)
-        prompt = PromptBuilder.build(profile, knowledge, decision.result)
-
-        if DEBUG:
-            self._print_prompt(prompt)
-
-        raw_response = self._generate_llm_response(prompt)
-        report = self._parse_report(raw_response, decision.result)
+        report = BrandStrategyReportBuilder.build(
+            profile=profile,
+            knowledge=knowledge,
+            decision=decision,
+        )
         markdown = self._generate_markdown(report)
 
         self._print_markdown_report(markdown)

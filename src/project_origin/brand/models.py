@@ -77,6 +77,20 @@ class BrandStrategyReport:
 
     final_recommendation: str
 
+    brand_origin_story: str = ""
+
+    brand_dna: str = ""
+
+    strategic_values: str = ""
+
+    selected_name_rationale: str = ""
+
+    candidate_comparison: str = ""
+
+    strategic_risks: str = ""
+
+    next_action_plan: str = ""
+
     def to_dict(self) -> dict:
         return asdict(self)
 

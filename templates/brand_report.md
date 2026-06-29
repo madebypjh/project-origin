@@ -8,9 +8,17 @@
 
 {{ report.founder_insights }}
 
+## Brand Origin Story
+
+{{ report.brand_origin_story }}
+
 ## Brand Identity
 
 {{ report.brand_identity }}
+
+## Brand DNA
+
+{{ report.brand_dna }}
 
 ## Mission Statement
 
@@ -23,6 +31,10 @@
 ## Core Values
 
 {{ report.core_values }}
+
+## Strategic Values
+
+{{ report.strategic_values }}
 
 ## Positioning
 
@@ -39,6 +51,14 @@
 ## Naming Strategy
 
 {{ report.naming_strategy }}
+
+## Selected Name Rationale
+
+{{ report.selected_name_rationale }}
+
+## Candidate Comparison
+
+{{ report.candidate_comparison }}
 
 ## Name Recommendations
 
@@ -57,3 +77,11 @@
 ## Final Recommendation
 
 {{ report.final_recommendation }}
+
+## Strategic Risks
+
+{{ report.strategic_risks }}
+
+## Next Action Plan
+
+{{ report.next_action_plan }}
