@@ -1,0 +1,206 @@
+{
+  "global": {
+    "sample_size": 5,
+    "average_name_length": 5.8,
+    "average_syllable_count": 2.6,
+    "average_vowel_ratio": 0.45,
+    "average_hard_consonant_ratio": 0.4,
+    "average_soft_consonant_ratio": 0.2,
+    "style_distribution": {
+      "invented": 0.6,
+      "blended": 0.4
+    },
+    "semantic_density_distribution": {
+      "medium": 0.4,
+      "none": 0.4,
+      "low": 0.2
+    },
+    "archetype_distribution": {
+      "Creator": 0.4,
+      "Explorer": 0.2,
+      "Ruler": 0.2,
+      "Magician": 0.2
+    },
+    "emotional_tone_distribution": {
+      "playful": 0.2,
+      "energetic": 0.2,
+      "trustworthy": 0.2,
+      "premium": 0.2,
+      "technical": 0.2
+    },
+    "dominant_style": "invented",
+    "dominant_archetype": "Creator",
+    "dominant_emotional_tone": "playful",
+    "average_scores": {
+      "memorability": 8.4,
+      "distinctiveness": 8.6,
+      "innovation": 8,
+      "trust": 7.4,
+      "premium": 6.2,
+      "playfulness": 4.4,
+      "global_scalability": 8.6
+    }
+  },
+  "by_industry": {
+    "luxury watches": {
+      "sample_size": 1,
+      "average_name_length": 5,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.4,
+      "average_hard_consonant_ratio": 0.6,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "invented": 1.0
+      },
+      "semantic_density_distribution": {
+        "none": 1.0
+      },
+      "archetype_distribution": {
+        "Ruler": 1.0
+      },
+      "emotional_tone_distribution": {
+        "premium": 1.0
+      },
+      "dominant_style": "invented",
+      "dominant_archetype": "Ruler",
+      "dominant_emotional_tone": "premium",
+      "average_scores": {
+        "memorability": 9,
+        "distinctiveness": 9,
+        "innovation": 7,
+        "trust": 9,
+        "premium": 10,
+        "playfulness": 1,
+        "global_scalability": 9
+      }
+    },
+    "photography / imaging": {
+      "sample_size": 1,
+      "average_name_length": 5,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.4,
+      "average_hard_consonant_ratio": 0.6,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "invented": 1.0
+      },
+      "semantic_density_distribution": {
+        "none": 1.0
+      },
+      "archetype_distribution": {
+        "Creator": 1.0
+      },
+      "emotional_tone_distribution": {
+        "trustworthy": 1.0
+      },
+      "dominant_style": "invented",
+      "dominant_archetype": "Creator",
+      "dominant_emotional_tone": "trustworthy",
+      "average_scores": {
+        "memorability": 9,
+        "distinctiveness": 9,
+        "innovation": 8,
+        "trust": 8,
+        "premium": 5,
+        "playfulness": 3,
+        "global_scalability": 9
+      }
+    },
+    "technology / internet": {
+      "sample_size": 1,
+      "average_name_length": 6,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.5,
+      "average_hard_consonant_ratio": 0.2,
+      "average_soft_consonant_ratio": 0.4,
+      "style_distribution": {
+        "invented": 1.0
+      },
+      "semantic_density_distribution": {
+        "low": 1.0
+      },
+      "archetype_distribution": {
+        "Explorer": 1.0
+      },
+      "emotional_tone_distribution": {
+        "playful": 1.0
+      },
+      "dominant_style": "invented",
+      "dominant_archetype": "Explorer",
+      "dominant_emotional_tone": "playful",
+      "average_scores": {
+        "memorability": 9,
+        "distinctiveness": 9,
+        "innovation": 9,
+        "trust": 7,
+        "premium": 5,
+        "playfulness": 8,
+        "global_scalability": 9
+      }
+    },
+    "technology / music streaming": {
+      "sample_size": 1,
+      "average_name_length": 7,
+      "average_syllable_count": 3,
+      "average_vowel_ratio": 0.44,
+      "average_hard_consonant_ratio": 0.33,
+      "average_soft_consonant_ratio": 0.22,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Creator": 1.0
+      },
+      "emotional_tone_distribution": {
+        "energetic": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Creator",
+      "dominant_emotional_tone": "energetic",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 8,
+        "innovation": 8,
+        "trust": 6,
+        "premium": 4,
+        "playfulness": 7,
+        "global_scalability": 8
+      }
+    },
+    "technology / semiconductors": {
+      "sample_size": 1,
+      "average_name_length": 6,
+      "average_syllable_count": 4,
+      "average_vowel_ratio": 0.5,
+      "average_hard_consonant_ratio": 0.25,
+      "average_soft_consonant_ratio": 0.38,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Magician": 1.0
+      },
+      "emotional_tone_distribution": {
+        "technical": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Magician",
+      "dominant_emotional_tone": "technical",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 8,
+        "innovation": 8,
+        "trust": 7,
+        "premium": 7,
+        "playfulness": 3,
+        "global_scalability": 8
+      }
+    }
+  }
+}
