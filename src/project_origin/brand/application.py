@@ -20,7 +20,9 @@ from project_origin.brand.language_engine import BrandLanguageEngine
 from project_origin.brand.markdown_report import MarkdownReportGenerator
 from project_origin.brand.naming.evaluator import NameEvaluator
 from project_origin.brand.naming.filters import NameFilterPipeline
+from project_origin.brand.naming.generation_rules import GenerationRulesBuilder
 from project_origin.brand.naming.generator import NamingGenerator
+from project_origin.brand.naming.knowledge_loader import NamingKnowledgeLoader
 from project_origin.brand.naming.ranker import NameRanker
 from project_origin.brand.prompt_builder import PromptBuilder
 from project_origin.brand.report_parser import ReportParser
@@ -99,7 +101,11 @@ class BrandApplication:
 
         names = NamingGenerator.generate(brand_language, count=100)
         filtered_names = NameFilterPipeline.apply(names)
-        evaluated_names = NameEvaluator.evaluate(filtered_names, brand_language)
+        evaluated_names = NameEvaluator.evaluate(
+            filtered_names,
+            brand_language,
+            rules=self._build_generation_rules(),
+        )
         ranked_names = NameRanker.rank(evaluated_names, limit=20)
         FileWriter.save_name_candidates(ranked_names)
 
@@ -138,6 +144,13 @@ class BrandApplication:
             "intent-shadow",
             "b",
         }
+
+    def _build_generation_rules(self):
+        if not self._intent_shadow_naming_enabled():
+            return None
+
+        knowledge = NamingKnowledgeLoader.load()
+        return GenerationRulesBuilder.build(knowledge)
 
     def _generate_llm_response(self, prompt: str) -> str:
         return self.provider.generate(prompt)

@@ -1,0 +1,99 @@
+{
+  "source_path": "C:\\Users\\wndgu\\project-origin\\dataset\\analysis\\brand_list_reviewed.json",
+  "batch_size": 10,
+  "analyzed_brand_count": 50,
+  "batches": [
+    {
+      "category": "technology",
+      "batch_index": 1,
+      "brands": [
+        "Samsung",
+        "Intel",
+        "Sony",
+        "Dell",
+        "HP",
+        "Lenovo",
+        "ASUS",
+        "Acer",
+        "Canon",
+        "LG"
+      ],
+      "output_path": "C:\\Users\\wndgu\\project-origin\\dataset\\analysis\\brand_genome_candidates_technology_batch_001.json"
+    },
+    {
+      "category": "technology",
+      "batch_index": 2,
+      "brands": [
+        "Bose",
+        "Fitbit",
+        "GoPro",
+        "Nokia",
+        "Panasonic",
+        "Huawei",
+        "Motorola",
+        "Ericsson",
+        "Xiaomi",
+        "OnePlus"
+      ],
+      "output_path": "C:\\Users\\wndgu\\project-origin\\dataset\\analysis\\brand_genome_candidates_technology_batch_002.json"
+    },
+    {
+      "category": "technology",
+      "batch_index": 3,
+      "brands": [
+        "Sharp",
+        "Toshiba",
+        "Alcatel",
+        "HTC",
+        "ZTE",
+        "Vizio",
+        "Ring",
+        "Sonos",
+        "Western Digital"
+      ],
+      "output_path": "C:\\Users\\wndgu\\project-origin\\dataset\\analysis\\brand_genome_candidates_technology_batch_003.json"
+    },
+    {
+      "category": "ai",
+      "batch_index": 1,
+      "brands": [
+        "Stability AI",
+        "C3.ai",
+        "DataRobot",
+        "UiPath",
+        "Databricks",
+        "SAS",
+        "H2O.ai",
+        "Clarifai",
+        "CognitiveScale",
+        "Pony.ai"
+      ],
+      "output_path": "C:\\Users\\wndgu\\project-origin\\dataset\\analysis\\brand_genome_candidates_ai_batch_001.json"
+    },
+    {
+      "category": "ai",
+      "batch_index": 2,
+      "brands": [
+        "Appen",
+        "CrowdAI",
+        "Lilt",
+        "Algolia",
+        "Synthesis AI",
+        "Graphcore",
+        "Landing AI",
+        "Vicarious",
+        "Diffblue",
+        "Peltarion"
+      ],
+      "output_path": "C:\\Users\\wndgu\\project-origin\\dataset\\analysis\\brand_genome_candidates_ai_batch_002.json"
+    },
+    {
+      "category": "ai",
+      "batch_index": 3,
+      "brands": [
+        "DeepL"
+      ],
+      "output_path": "C:\\Users\\wndgu\\project-origin\\dataset\\analysis\\brand_genome_candidates_ai_batch_003.json"
+    }
+  ]
+}

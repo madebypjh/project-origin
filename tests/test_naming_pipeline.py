@@ -2,6 +2,7 @@ from project_origin.brand.models import BrandLanguage
 from project_origin.brand.naming.candidate import NameCandidate
 from project_origin.brand.naming.evaluator import NameEvaluator
 from project_origin.brand.naming.filters import NameFilterPipeline
+from project_origin.brand.naming.generation_rules import GenerationRulesBuilder
 from project_origin.brand.naming.generator import NamingGenerator
 
 
@@ -39,3 +40,47 @@ def test_filter_and_evaluator_keep_candidate_objects():
     assert [candidate.name for candidate in filtered] == ["Validora"]
     assert evaluated[0].name == "Validora"
     assert evaluated[0].total_score > 0
+
+
+def test_generation_rules_builder_marks_small_sample_as_weak_guidance():
+    rules = GenerationRulesBuilder.build(
+        {
+            "sample_size": 15,
+            "recommended_name_length": 7,
+            "recommended_syllable_count": 2,
+            "recommended_vowel_ratio": 0.42,
+            "recommended_hard_consonant_ratio": 0.38,
+            "recommended_soft_consonant_ratio": 0.20,
+        }
+    )
+
+    assert rules.knowledge_confidence == "low"
+    assert rules.recommended_usage == "weak_guidance"
+    assert rules.guidance_strength == 0.05
+
+
+def test_evaluator_can_apply_naming_knowledge_as_soft_guidance():
+    candidate = NameCandidate(name="Strategia")
+    rules = GenerationRulesBuilder.build(
+        {
+            "sample_size": 15,
+            "recommended_name_length": 9,
+            "recommended_vowel_ratio": 0.4,
+            "recommended_hard_consonant_ratio": 0.25,
+            "recommended_soft_consonant_ratio": 0.35,
+        }
+    )
+
+    without_rules = NameEvaluator.evaluate([candidate], _brand_language())[0]
+    with_rules = NameEvaluator.evaluate(
+        [candidate],
+        _brand_language(),
+        rules=rules,
+    )[0]
+
+    assert "Naming knowledge contributed weakly" not in (
+        without_rules.evaluation_reason or ""
+    )
+    assert "Naming knowledge contributed weakly" in (
+        with_rules.evaluation_reason or ""
+    )

@@ -52,3 +52,33 @@ def test_semantic_engine_uses_fallback_when_no_theme_detected():
         "creativity": 0.3,
     }
     assert semantic_profile.dominant_theme == "strategy"
+
+
+def test_semantic_engine_detects_care_domain_from_health_profile():
+    profile = FounderProfile(
+        problem="People struggle to turn daily health signals into sustainable habits.",
+        audience="health-conscious adults managing long-term wellbeing",
+        vision="Make preventive health guidance understandable and humane.",
+        principles="Privacy, empathy, and medical humility",
+        differentiation="Explains patterns without replacing clinicians.",
+    )
+
+    semantic_profile = SemanticEngine.build(profile)
+
+    assert "care" in semantic_profile.themes
+    assert "care" in semantic_profile.vocabulary
+
+
+def test_semantic_engine_detects_industrial_domain_from_materials_profile():
+    profile = FounderProfile(
+        problem="Manufacturers cannot reliably source verified recycled materials.",
+        audience="procurement teams at mid-sized manufacturers",
+        vision="Make circular manufacturing commercially dependable.",
+        principles="Traceability, practical impact, and honest claims",
+        differentiation="Supplier verification with material-level provenance.",
+    )
+
+    semantic_profile = SemanticEngine.build(profile)
+
+    assert "industrial" in semantic_profile.themes
+    assert "material" in semantic_profile.vocabulary

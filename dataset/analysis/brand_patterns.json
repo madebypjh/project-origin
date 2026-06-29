@@ -1,47 +1,548 @@
 {
   "global": {
-    "sample_size": 5,
-    "average_name_length": 5.8,
-    "average_syllable_count": 2.6,
-    "average_vowel_ratio": 0.45,
-    "average_hard_consonant_ratio": 0.4,
-    "average_soft_consonant_ratio": 0.2,
+    "sample_size": 55,
+    "average_name_length": 6.45,
+    "average_syllable_count": 2.36,
+    "average_vowel_ratio": 0.39,
+    "average_hard_consonant_ratio": 0.46,
+    "average_soft_consonant_ratio": 0.18,
     "style_distribution": {
-      "invented": 0.6,
-      "blended": 0.4
+      "blended": 0.33,
+      "invented": 0.27,
+      "descriptive": 0.13,
+      "acronym": 0.11,
+      "founder_name": 0.05,
+      "metaphorical": 0.04,
+      "latin": 0.04,
+      "symbolic": 0.02,
+      "geographic": 0.02
     },
     "semantic_density_distribution": {
-      "medium": 0.4,
-      "none": 0.4,
-      "low": 0.2
+      "medium": 0.49,
+      "high": 0.27,
+      "low": 0.2,
+      "none": 0.04
     },
     "archetype_distribution": {
-      "Creator": 0.4,
-      "Explorer": 0.2,
-      "Ruler": 0.2,
-      "Magician": 0.2
+      "Sage": 0.31,
+      "Creator": 0.2,
+      "Explorer": 0.16,
+      "Magician": 0.13,
+      "Hero": 0.11,
+      "Everyman": 0.04,
+      "Ruler": 0.04,
+      "Caregiver": 0.02
     },
     "emotional_tone_distribution": {
-      "playful": 0.2,
-      "energetic": 0.2,
-      "trustworthy": 0.2,
-      "premium": 0.2,
-      "technical": 0.2
+      "trustworthy": 0.18,
+      "technical": 0.16,
+      "intelligent": 0.13,
+      "innovative": 0.09,
+      "futuristic": 0.07,
+      "energetic": 0.07,
+      "powerful": 0.05,
+      "premium": 0.05,
+      "playful": 0.04,
+      "intelligent, clear": 0.02,
+      "intelligent, trustworthy": 0.02,
+      "playful, innovative": 0.02,
+      "creative": 0.02,
+      "fresh, playful": 0.02,
+      "trustworthy, minimal": 0.02,
+      "premium, elegant": 0.02,
+      "trustworthy, technical": 0.02
     },
-    "dominant_style": "invented",
-    "dominant_archetype": "Creator",
-    "dominant_emotional_tone": "playful",
+    "dominant_style": "blended",
+    "dominant_archetype": "Sage",
+    "dominant_emotional_tone": "trustworthy",
     "average_scores": {
-      "memorability": 8.4,
-      "distinctiveness": 8.6,
-      "innovation": 8,
-      "trust": 7.4,
-      "premium": 6.2,
-      "playfulness": 4.4,
-      "global_scalability": 8.6
+      "memorability": 7.31,
+      "distinctiveness": 7.11,
+      "innovation": 6.87,
+      "trust": 7.15,
+      "premium": 6.07,
+      "playfulness": 3.35,
+      "global_scalability": 7.69
     }
   },
   "by_industry": {
+    "ai / language technology": {
+      "sample_size": 1,
+      "average_name_length": 4,
+      "average_syllable_count": 1,
+      "average_vowel_ratio": 0.2,
+      "average_hard_consonant_ratio": 0.8,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "invented": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Creator": 1.0
+      },
+      "emotional_tone_distribution": {
+        "playful": 1.0
+      },
+      "dominant_style": "invented",
+      "dominant_archetype": "Creator",
+      "dominant_emotional_tone": "playful",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 7,
+        "innovation": 7,
+        "trust": 6,
+        "premium": 6,
+        "playfulness": 7,
+        "global_scalability": 7
+      }
+    },
+    "analytics/software": {
+      "sample_size": 1,
+      "average_name_length": 3,
+      "average_syllable_count": 3,
+      "average_vowel_ratio": 0.33,
+      "average_hard_consonant_ratio": 0.67,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "acronym": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "trustworthy": 1.0
+      },
+      "dominant_style": "acronym",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "trustworthy",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 6,
+        "innovation": 5,
+        "trust": 9,
+        "premium": 6,
+        "playfulness": 1,
+        "global_scalability": 9
+      }
+    },
+    "artificial intelligence": {
+      "sample_size": 10,
+      "average_name_length": 8.9,
+      "average_syllable_count": 2.7,
+      "average_vowel_ratio": 0.43,
+      "average_hard_consonant_ratio": 0.4,
+      "average_soft_consonant_ratio": 0.15,
+      "style_distribution": {
+        "descriptive": 0.3,
+        "blended": 0.2,
+        "invented": 0.2,
+        "acronym": 0.1,
+        "symbolic": 0.1,
+        "metaphorical": 0.1
+      },
+      "semantic_density_distribution": {
+        "high": 0.5,
+        "medium": 0.4,
+        "low": 0.1
+      },
+      "archetype_distribution": {
+        "Sage": 0.5,
+        "Magician": 0.4,
+        "Explorer": 0.1
+      },
+      "emotional_tone_distribution": {
+        "intelligent": 0.4,
+        "trustworthy": 0.1,
+        "technical": 0.1,
+        "innovative": 0.1,
+        "intelligent, clear": 0.1,
+        "intelligent, trustworthy": 0.1,
+        "futuristic": 0.1
+      },
+      "dominant_style": "descriptive",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "intelligent",
+      "average_scores": {
+        "memorability": 7.1,
+        "distinctiveness": 7.2,
+        "innovation": 7.5,
+        "trust": 7.3,
+        "premium": 6.5,
+        "playfulness": 3.1,
+        "global_scalability": 7.7
+      }
+    },
+    "artificial intelligence / software": {
+      "sample_size": 1,
+      "average_name_length": 8,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.29,
+      "average_hard_consonant_ratio": 0.43,
+      "average_soft_consonant_ratio": 0.14,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Creator": 1.0
+      },
+      "emotional_tone_distribution": {
+        "technical": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Creator",
+      "dominant_emotional_tone": "technical",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 7,
+        "innovation": 7,
+        "trust": 6,
+        "premium": 6,
+        "playfulness": 4,
+        "global_scalability": 7
+      }
+    },
+    "artificial intelligence / synthetic data": {
+      "sample_size": 1,
+      "average_name_length": 12,
+      "average_syllable_count": 4,
+      "average_vowel_ratio": 0.5,
+      "average_hard_consonant_ratio": 0.4,
+      "average_soft_consonant_ratio": 0.1,
+      "style_distribution": {
+        "descriptive": 1.0
+      },
+      "semantic_density_distribution": {
+        "high": 1.0
+      },
+      "archetype_distribution": {
+        "Magician": 1.0
+      },
+      "emotional_tone_distribution": {
+        "futuristic": 1.0
+      },
+      "dominant_style": "descriptive",
+      "dominant_archetype": "Magician",
+      "dominant_emotional_tone": "futuristic",
+      "average_scores": {
+        "memorability": 6,
+        "distinctiveness": 6,
+        "innovation": 7,
+        "trust": 7,
+        "premium": 6,
+        "playfulness": 2,
+        "global_scalability": 8
+      }
+    },
+    "artificial intelligence/autonomous vehicles": {
+      "sample_size": 1,
+      "average_name_length": 7,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.6,
+      "average_hard_consonant_ratio": 0.2,
+      "average_soft_consonant_ratio": 0.4,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Explorer": 1.0
+      },
+      "emotional_tone_distribution": {
+        "playful, innovative": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Explorer",
+      "dominant_emotional_tone": "playful, innovative",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 7,
+        "innovation": 8,
+        "trust": 7,
+        "premium": 6,
+        "playfulness": 8,
+        "global_scalability": 8
+      }
+    },
+    "artificial intelligence/data analytics": {
+      "sample_size": 1,
+      "average_name_length": 10,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.33,
+      "average_hard_consonant_ratio": 0.5,
+      "average_soft_consonant_ratio": 0.17,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "high": 1.0
+      },
+      "archetype_distribution": {
+        "Creator": 1.0
+      },
+      "emotional_tone_distribution": {
+        "powerful": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Creator",
+      "dominant_emotional_tone": "powerful",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 8,
+        "innovation": 8,
+        "trust": 7,
+        "premium": 7,
+        "playfulness": 3,
+        "global_scalability": 8
+      }
+    },
+    "artificial intelligence/robotic process automation": {
+      "sample_size": 1,
+      "average_name_length": 6,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.38,
+      "average_hard_consonant_ratio": 0.45,
+      "average_soft_consonant_ratio": 0.17,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "technical": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "technical",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 7,
+        "innovation": 7,
+        "trust": 8,
+        "premium": 7,
+        "playfulness": 3,
+        "global_scalability": 8
+      }
+    },
+    "audio equipment": {
+      "sample_size": 1,
+      "average_name_length": 4,
+      "average_syllable_count": 1,
+      "average_vowel_ratio": 0.33,
+      "average_hard_consonant_ratio": 0.67,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "founder_name": 1.0
+      },
+      "semantic_density_distribution": {
+        "low": 1.0
+      },
+      "archetype_distribution": {
+        "Creator": 1.0
+      },
+      "emotional_tone_distribution": {
+        "premium": 1.0
+      },
+      "dominant_style": "founder_name",
+      "dominant_archetype": "Creator",
+      "dominant_emotional_tone": "premium",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 6,
+        "innovation": 7,
+        "trust": 8,
+        "premium": 8,
+        "playfulness": 2,
+        "global_scalability": 7
+      }
+    },
+    "consumer electronics": {
+      "sample_size": 10,
+      "average_name_length": 6,
+      "average_syllable_count": 2.6,
+      "average_vowel_ratio": 0.43,
+      "average_hard_consonant_ratio": 0.45,
+      "average_soft_consonant_ratio": 0.24,
+      "style_distribution": {
+        "blended": 0.5,
+        "invented": 0.3,
+        "descriptive": 0.1,
+        "acronym": 0.1
+      },
+      "semantic_density_distribution": {
+        "medium": 0.7,
+        "high": 0.2,
+        "low": 0.1
+      },
+      "archetype_distribution": {
+        "Creator": 0.4,
+        "Hero": 0.3,
+        "Explorer": 0.2,
+        "Sage": 0.1
+      },
+      "emotional_tone_distribution": {
+        "technical": 0.2,
+        "innovative": 0.2,
+        "trustworthy": 0.2,
+        "energetic": 0.1,
+        "futuristic": 0.1,
+        "fresh, playful": 0.1,
+        "premium, elegant": 0.1
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Creator",
+      "dominant_emotional_tone": "technical",
+      "average_scores": {
+        "memorability": 7.4,
+        "distinctiveness": 7.3,
+        "innovation": 6.5,
+        "trust": 6.9,
+        "premium": 6,
+        "playfulness": 4.1,
+        "global_scalability": 7.7
+      }
+    },
+    "data storage": {
+      "sample_size": 1,
+      "average_name_length": 15,
+      "average_syllable_count": 5,
+      "average_vowel_ratio": 0.36,
+      "average_hard_consonant_ratio": 0.55,
+      "average_soft_consonant_ratio": 0.09,
+      "style_distribution": {
+        "descriptive": 1.0
+      },
+      "semantic_density_distribution": {
+        "high": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "trustworthy, technical": 1.0
+      },
+      "dominant_style": "descriptive",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "trustworthy, technical",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 6,
+        "innovation": 5,
+        "trust": 9,
+        "premium": 6,
+        "playfulness": 1,
+        "global_scalability": 6
+      }
+    },
+    "electronics": {
+      "sample_size": 1,
+      "average_name_length": 2,
+      "average_syllable_count": 0,
+      "average_vowel_ratio": 0,
+      "average_hard_consonant_ratio": 1,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "acronym": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Ruler": 1.0
+      },
+      "emotional_tone_distribution": {
+        "premium": 1.0
+      },
+      "dominant_style": "acronym",
+      "dominant_archetype": "Ruler",
+      "dominant_emotional_tone": "premium",
+      "average_scores": {
+        "memorability": 6,
+        "distinctiveness": 6,
+        "innovation": 5,
+        "trust": 7,
+        "premium": 7,
+        "playfulness": 1,
+        "global_scalability": 8
+      }
+    },
+    "electronics/entertainment": {
+      "sample_size": 1,
+      "average_name_length": 4,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.4,
+      "average_hard_consonant_ratio": 0.4,
+      "average_soft_consonant_ratio": 0.2,
+      "style_distribution": {
+        "invented": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Creator": 1.0
+      },
+      "emotional_tone_distribution": {
+        "innovative": 1.0
+      },
+      "dominant_style": "invented",
+      "dominant_archetype": "Creator",
+      "dominant_emotional_tone": "innovative",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 7,
+        "innovation": 8,
+        "trust": 6,
+        "premium": 6,
+        "playfulness": 5,
+        "global_scalability": 8
+      }
+    },
+    "imaging and optical products": {
+      "sample_size": 1,
+      "average_name_length": 5,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.4,
+      "average_hard_consonant_ratio": 0.3,
+      "average_soft_consonant_ratio": 0.1,
+      "style_distribution": {
+        "latin": 1.0
+      },
+      "semantic_density_distribution": {
+        "high": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "trustworthy": 1.0
+      },
+      "dominant_style": "latin",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "trustworthy",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 7,
+        "innovation": 6,
+        "trust": 8,
+        "premium": 7,
+        "playfulness": 2,
+        "global_scalability": 8
+      }
+    },
     "luxury watches": {
       "sample_size": 1,
       "average_name_length": 5,
@@ -104,6 +605,166 @@
         "premium": 5,
         "playfulness": 3,
         "global_scalability": 9
+      }
+    },
+    "search technology": {
+      "sample_size": 1,
+      "average_name_length": 7,
+      "average_syllable_count": 3,
+      "average_vowel_ratio": 0.5,
+      "average_hard_consonant_ratio": 0.31,
+      "average_soft_consonant_ratio": 0.19,
+      "style_distribution": {
+        "invented": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "intelligent": 1.0
+      },
+      "dominant_style": "invented",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "intelligent",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 8,
+        "innovation": 7,
+        "trust": 7,
+        "premium": 7,
+        "playfulness": 4,
+        "global_scalability": 8
+      }
+    },
+    "semiconductor / ai hardware": {
+      "sample_size": 1,
+      "average_name_length": 9,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.29,
+      "average_hard_consonant_ratio": 0.57,
+      "average_soft_consonant_ratio": 0.14,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "high": 1.0
+      },
+      "archetype_distribution": {
+        "Hero": 1.0
+      },
+      "emotional_tone_distribution": {
+        "powerful": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Hero",
+      "dominant_emotional_tone": "powerful",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 8,
+        "innovation": 8,
+        "trust": 7,
+        "premium": 7,
+        "playfulness": 3,
+        "global_scalability": 7
+      }
+    },
+    "semiconductors/technology": {
+      "sample_size": 1,
+      "average_name_length": 5,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.33,
+      "average_hard_consonant_ratio": 0.67,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "intelligent": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "intelligent",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 7,
+        "innovation": 7,
+        "trust": 8,
+        "premium": 6,
+        "playfulness": 2,
+        "global_scalability": 7
+      }
+    },
+    "smart home security": {
+      "sample_size": 1,
+      "average_name_length": 4,
+      "average_syllable_count": 1,
+      "average_vowel_ratio": 0.25,
+      "average_hard_consonant_ratio": 0.75,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "descriptive": 1.0
+      },
+      "semantic_density_distribution": {
+        "high": 1.0
+      },
+      "archetype_distribution": {
+        "Caregiver": 1.0
+      },
+      "emotional_tone_distribution": {
+        "trustworthy, minimal": 1.0
+      },
+      "dominant_style": "descriptive",
+      "dominant_archetype": "Caregiver",
+      "dominant_emotional_tone": "trustworthy, minimal",
+      "average_scores": {
+        "memorability": 9,
+        "distinctiveness": 7,
+        "innovation": 6,
+        "trust": 8,
+        "premium": 5,
+        "playfulness": 3,
+        "global_scalability": 8
+      }
+    },
+    "technology / ai data": {
+      "sample_size": 1,
+      "average_name_length": 5,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.4,
+      "average_hard_consonant_ratio": 0.4,
+      "average_soft_consonant_ratio": 0.2,
+      "style_distribution": {
+        "invented": 1.0
+      },
+      "semantic_density_distribution": {
+        "low": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "trustworthy": 1.0
+      },
+      "dominant_style": "invented",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "trustworthy",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 7,
+        "innovation": 6,
+        "trust": 7,
+        "premium": 5,
+        "playfulness": 3,
+        "global_scalability": 8
       }
     },
     "technology / internet": {
@@ -199,6 +860,216 @@
         "trust": 7,
         "premium": 7,
         "playfulness": 3,
+        "global_scalability": 8
+      }
+    },
+    "technology/computers": {
+      "sample_size": 4,
+      "average_name_length": 4.5,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.41,
+      "average_hard_consonant_ratio": 0.38,
+      "average_soft_consonant_ratio": 0.21,
+      "style_distribution": {
+        "founder_name": 0.25,
+        "blended": 0.25,
+        "invented": 0.25,
+        "latin": 0.25
+      },
+      "semantic_density_distribution": {
+        "medium": 0.5,
+        "low": 0.25,
+        "high": 0.25
+      },
+      "archetype_distribution": {
+        "Explorer": 0.5,
+        "Everyman": 0.25,
+        "Magician": 0.25
+      },
+      "emotional_tone_distribution": {
+        "trustworthy": 0.25,
+        "futuristic": 0.25,
+        "creative": 0.25,
+        "energetic": 0.25
+      },
+      "dominant_style": "founder_name",
+      "dominant_archetype": "Explorer",
+      "dominant_emotional_tone": "trustworthy",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 6.75,
+        "innovation": 6.75,
+        "trust": 6.75,
+        "premium": 5.5,
+        "playfulness": 3,
+        "global_scalability": 7.25
+      }
+    },
+    "technology/computers & printers": {
+      "sample_size": 1,
+      "average_name_length": 2,
+      "average_syllable_count": 0,
+      "average_vowel_ratio": 0,
+      "average_hard_consonant_ratio": 1,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "acronym": 1.0
+      },
+      "semantic_density_distribution": {
+        "low": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "technical": 1.0
+      },
+      "dominant_style": "acronym",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "technical",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 6,
+        "innovation": 6,
+        "trust": 8,
+        "premium": 5,
+        "playfulness": 1,
+        "global_scalability": 8
+      }
+    },
+    "technology/electronics": {
+      "sample_size": 1,
+      "average_name_length": 7,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.33,
+      "average_hard_consonant_ratio": 0.5,
+      "average_soft_consonant_ratio": 0.17,
+      "style_distribution": {
+        "metaphorical": 1.0
+      },
+      "semantic_density_distribution": {
+        "high": 1.0
+      },
+      "archetype_distribution": {
+        "Hero": 1.0
+      },
+      "emotional_tone_distribution": {
+        "powerful": 1.0
+      },
+      "dominant_style": "metaphorical",
+      "dominant_archetype": "Hero",
+      "dominant_emotional_tone": "powerful",
+      "average_scores": {
+        "memorability": 7,
+        "distinctiveness": 7,
+        "innovation": 6,
+        "trust": 7,
+        "premium": 6,
+        "playfulness": 3,
+        "global_scalability": 8
+      }
+    },
+    "telecommunications": {
+      "sample_size": 5,
+      "average_name_length": 5.8,
+      "average_syllable_count": 2.8,
+      "average_vowel_ratio": 0.39,
+      "average_hard_consonant_ratio": 0.37,
+      "average_soft_consonant_ratio": 0.33,
+      "style_distribution": {
+        "invented": 0.4,
+        "geographic": 0.2,
+        "founder_name": 0.2,
+        "acronym": 0.2
+      },
+      "semantic_density_distribution": {
+        "low": 0.8,
+        "medium": 0.2
+      },
+      "archetype_distribution": {
+        "Explorer": 0.4,
+        "Sage": 0.4,
+        "Everyman": 0.2
+      },
+      "emotional_tone_distribution": {
+        "trustworthy": 0.4,
+        "technical": 0.4,
+        "innovative": 0.2
+      },
+      "dominant_style": "invented",
+      "dominant_archetype": "Explorer",
+      "dominant_emotional_tone": "trustworthy",
+      "average_scores": {
+        "memorability": 6,
+        "distinctiveness": 6.4,
+        "innovation": 6,
+        "trust": 6.8,
+        "premium": 5.2,
+        "playfulness": 2.6,
+        "global_scalability": 6.8
+      }
+    },
+    "translation / language technology": {
+      "sample_size": 1,
+      "average_name_length": 5,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.33,
+      "average_hard_consonant_ratio": 0.33,
+      "average_soft_consonant_ratio": 0.33,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Sage": 1.0
+      },
+      "emotional_tone_distribution": {
+        "intelligent": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Sage",
+      "dominant_emotional_tone": "intelligent",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 7,
+        "innovation": 8,
+        "trust": 7,
+        "premium": 6,
+        "playfulness": 2,
+        "global_scalability": 9
+      }
+    },
+    "wearable technology": {
+      "sample_size": 1,
+      "average_name_length": 6,
+      "average_syllable_count": 2,
+      "average_vowel_ratio": 0.33,
+      "average_hard_consonant_ratio": 0.67,
+      "average_soft_consonant_ratio": 0,
+      "style_distribution": {
+        "blended": 1.0
+      },
+      "semantic_density_distribution": {
+        "medium": 1.0
+      },
+      "archetype_distribution": {
+        "Hero": 1.0
+      },
+      "emotional_tone_distribution": {
+        "energetic": 1.0
+      },
+      "dominant_style": "blended",
+      "dominant_archetype": "Hero",
+      "dominant_emotional_tone": "energetic",
+      "average_scores": {
+        "memorability": 8,
+        "distinctiveness": 7,
+        "innovation": 7,
+        "trust": 6,
+        "premium": 5,
+        "playfulness": 5,
         "global_scalability": 8
       }
     }

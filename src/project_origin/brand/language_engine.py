@@ -15,6 +15,8 @@ class BrandLanguageEngine:
         "premium": "refined",
         "discovery": "exploratory",
         "creativity": "imaginative",
+        "care": "humane",
+        "industrial": "grounded",
     }
 
     EMOTION_BY_THEME = {
@@ -24,6 +26,8 @@ class BrandLanguageEngine:
         "premium": "aspiration",
         "discovery": "curiosity",
         "creativity": "inspiration",
+        "care": "calm",
+        "industrial": "confidence",
     }
 
     STYLE_BY_THEME = {
@@ -33,6 +37,8 @@ class BrandLanguageEngine:
         "premium": "minimal",
         "discovery": "open",
         "creativity": "expressive",
+        "care": "clear",
+        "industrial": "structured",
     }
 
     @classmethod
@@ -106,6 +112,21 @@ class BrandLanguageEngine:
                 "story",
                 "imagination",
                 "originality",
+            ],
+            "care": [
+                "care",
+                "balance",
+                "rhythm",
+                "clarity",
+                "trust",
+            ],
+            "industrial": [
+                "material",
+                "source",
+                "origin",
+                "proof",
+                "system",
+                "precision",
             ],
         }
 

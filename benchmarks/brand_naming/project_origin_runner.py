@@ -10,6 +10,7 @@ from project_origin.brand.language_engine import BrandLanguageEngine
 from project_origin.brand.models import BrandLanguage, BrandKnowledge, FounderProfile
 from project_origin.brand.naming.evaluator import NameEvaluator
 from project_origin.brand.naming.filters import NameFilterPipeline
+from project_origin.brand.naming.generation_rules import GenerationRules
 from project_origin.brand.naming.generator import NamingGenerator
 from project_origin.brand.naming.ranker import NameRanker
 from project_origin.brand.semantic.semantic_engine import SemanticEngine
@@ -60,6 +61,7 @@ class ProjectOriginNamingRunner:
         brand_language: BrandLanguage,
         approach: str,
         started_at: float | None = None,
+        rules: GenerationRules | None = None,
     ) -> BrandNamingBenchmarkOutput:
         started_at = perf_counter() if started_at is None else started_at
         generated = NamingGenerator.generate(
@@ -68,7 +70,11 @@ class ProjectOriginNamingRunner:
             seed=self.seed,
         )
         filtered = NameFilterPipeline.apply(generated)
-        evaluated = NameEvaluator.evaluate(filtered, brand_language)
+        evaluated = NameEvaluator.evaluate(
+            filtered,
+            brand_language,
+            rules=rules,
+        )
         ranked = NameRanker.rank(
             evaluated,
             limit=self.recommendation_count,

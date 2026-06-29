@@ -33,9 +33,18 @@ class NamingGenerator:
         "elegance": ["premium"],
         "insight": ["discovery", "strategy"],
         "origin": ["latin", "discovery"],
+        "proof": ["trust", "discovery"],
+        "trace": ["discovery", "industrial"],
         "identity": ["creativity", "premium"],
         "story": ["creativity"],
         "voice": ["creativity"],
+        "originality": ["creativity"],
+        "care": ["care", "trust"],
+        "rhythm": ["care"],
+        "balance": ["care", "premium"],
+        "cycle": ["discovery", "industrial"],
+        "material": ["industrial", "discovery"],
+        "source": ["industrial", "discovery"],
     }
 
     STYLE_SUFFIXES = {

@@ -14,12 +14,16 @@ from research.validator import BrandGenomeValidator
 
 
 class BrandAnalyzer:
-    def __init__(self, provider: LLMProvider | None = None) -> None:
+    def __init__(
+        self,
+        provider: LLMProvider | None = None,
+        output_dir: Path | None = None,
+    ) -> None:
         project_root = Path(__file__).resolve().parents[1]
 
         self.project_root = project_root
         self.prompt_path = project_root / "research" / "prompts" / "brand_analysis_prompt.md"
-        self.output_dir = project_root / "dataset" / "analysis"
+        self.output_dir = output_dir or project_root / "dataset" / "analysis"
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.provider = provider or OpenAIProvider()
 

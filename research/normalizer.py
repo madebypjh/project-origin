@@ -11,6 +11,7 @@ class BrandGenomeNormalizer:
         "coined": "invented",
         "coined word": "invented",
         "blend": "blended",
+        "compound": "descriptive",
         "compound word": "descriptive",
         "symbol": "symbolic",
     }
@@ -124,3 +125,37 @@ class BrandGenomeNormalizer:
                 for part in syllables.split(",")
                 if part.strip()
             ]
+            return
+
+        if isinstance(syllables, list):
+            normalized = []
+            for syllable in syllables:
+                if isinstance(syllable, str):
+                    value = syllable.strip()
+                elif isinstance(syllable, (int, float)):
+                    value = str(syllable)
+                elif isinstance(syllable, dict):
+                    value = BrandGenomeNormalizer._extract_syllable_text(
+                        syllable
+                    )
+                else:
+                    value = ""
+
+                if value:
+                    normalized.append(value)
+
+            item["syllables"] = normalized
+
+    @staticmethod
+    def _extract_syllable_text(value: dict) -> str:
+        for key in ("text", "syllable", "value", "sound"):
+            candidate = value.get(key)
+            if isinstance(candidate, str) and candidate.strip():
+                return candidate.strip()
+
+        if len(value) == 1:
+            only_value = next(iter(value.values()))
+            if isinstance(only_value, str) and only_value.strip():
+                return only_value.strip()
+
+        return ""

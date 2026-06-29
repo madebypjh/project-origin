@@ -37,6 +37,66 @@ class ThemeDetector:
         ],
     }
 
+    DOMAIN_KEYWORDS = {
+        "trust": [
+            "evidence",
+            "verified",
+            "privacy",
+            "responsible",
+            "security",
+        ],
+        "strategy": [
+            "priority",
+            "prioritize",
+            "runway",
+            "cfo",
+            "financial",
+            "trade-offs",
+        ],
+        "discovery": [
+            "origin",
+            "provenance",
+            "traceability",
+            "source",
+        ],
+        "creativity": [
+            "creator",
+            "creators",
+            "writer",
+            "writers",
+            "video",
+            "voice",
+            "story",
+            "narrative",
+            "originality",
+        ],
+        "care": [
+            "health",
+            "habit",
+            "habits",
+            "wellbeing",
+            "preventive",
+            "humane",
+            "empathy",
+            "medical",
+            "clinician",
+            "clinicians",
+        ],
+        "industrial": [
+            "industrial",
+            "manufacturer",
+            "manufacturers",
+            "manufacturing",
+            "materials",
+            "material",
+            "procurement",
+            "circular",
+            "recycled",
+            "supplier",
+            "suppliers",
+        ],
+    }
+
     @classmethod
     def detect(cls, profile: FounderProfile) -> dict[str, float]:
         text = cls._combine_profile_text(profile)
@@ -52,10 +112,10 @@ class ThemeDetector:
         return {
             theme: tuple(
                 keyword
-                for keyword in keywords
+                for keyword in cls._keywords_for_theme(theme)
                 if cls._contains_keyword(text, keyword)
             )
-            for theme, keywords in cls.THEME_KEYWORDS.items()
+            for theme in set(cls.THEME_KEYWORDS) | set(cls.DOMAIN_KEYWORDS)
         }
 
     @staticmethod
@@ -74,7 +134,10 @@ class ThemeDetector:
     def _score_themes(cls, text: str) -> dict[str, int]:
         scores = {}
 
-        for theme, keywords in cls.THEME_KEYWORDS.items():
+        theme_names = set(cls.THEME_KEYWORDS) | set(cls.DOMAIN_KEYWORDS)
+
+        for theme in theme_names:
+            keywords = cls._keywords_for_theme(theme)
             score = 0
 
             for keyword in keywords:
@@ -84,6 +147,13 @@ class ThemeDetector:
             scores[theme] = score
 
         return scores
+
+    @classmethod
+    def _keywords_for_theme(cls, theme: str) -> list[str]:
+        return [
+            *cls.THEME_KEYWORDS.get(theme, []),
+            *cls.DOMAIN_KEYWORDS.get(theme, []),
+        ]
 
     @staticmethod
     def _contains_keyword(text: str, keyword: str) -> bool:

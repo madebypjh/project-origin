@@ -28,8 +28,14 @@ class MockProvider(LLMProvider):
             JSON string representing a brand strategy report.
         """
 
+        if "TASK: BRAND_LIST_EXPANSION_V1" in prompt:
+            return self._generate_brand_list_expansion_response(prompt)
+
         if "TASK: INTENT_INTERPRETATION_V1" in prompt:
             return self._generate_intent_response(prompt)
+
+        if "# Brand Analysis Prompt" in prompt:
+            return self._generate_brand_analysis_response(prompt)
 
         selected_name, candidate_names = self._extract_decision(prompt)
 
@@ -100,6 +106,17 @@ class MockProvider(LLMProvider):
             raise ValueError("Mock intent prompt is missing FOUNDER_DATA")
 
         founder_data = json.loads(prompt.split(marker, 1)[1])
+        case_signals = MockProvider._case_specific_intent_signals(founder_data)
+        if case_signals is not None:
+            return json.dumps(
+                {
+                    "signals": case_signals,
+                    "unresolved_signals": [],
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+
         signals = [
             {
                 "kind": "objective",
@@ -138,6 +155,230 @@ class MockProvider(LLMProvider):
             ensure_ascii=False,
             indent=2,
         )
+
+    @staticmethod
+    def _case_specific_intent_signals(
+        founder_data: dict,
+    ) -> list[dict] | None:
+        text = " ".join(str(value) for value in founder_data.values()).casefold()
+
+        if "trusted decision layer" in text:
+            return [
+                {
+                    "kind": "positioning",
+                    "concept": "trusted_decision_layer",
+                    "weight": 0.34,
+                    "evidence": [founder_data["vision"]],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "operator_control",
+                    "weight": 0.33,
+                    "evidence": ["operator control"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "capability",
+                    "concept": "explainable_prioritization",
+                    "weight": 0.33,
+                    "evidence": ["explainable priorities"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "medical humility" in text:
+            return [
+                {
+                    "kind": "value",
+                    "concept": "medical_humility",
+                    "weight": 0.34,
+                    "evidence": [
+                        "medical humility",
+                        founder_data["problem"],
+                    ],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "desired_emotion",
+                    "concept": "humane_guidance",
+                    "weight": 0.33,
+                    "evidence": [
+                        "understandable and humane",
+                        founder_data["vision"],
+                    ],
+                    "confidence": 0.85,
+                },
+                {
+                    "kind": "constraint",
+                    "concept": "non_clinician_replacement",
+                    "weight": 0.33,
+                    "evidence": [
+                        "without pretending to replace clinicians",
+                        founder_data["differentiation"],
+                    ],
+                    "confidence": 0.9,
+                },
+            ]
+
+        if "financial clarity" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "first_time_founders",
+                    "weight": 0.34,
+                    "evidence": ["First-time founders"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "outcome",
+                    "concept": "financial_clarity",
+                    "weight": 0.33,
+                    "evidence": ["financial clarity"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "responsible_guidance",
+                    "weight": 0.33,
+                    "evidence": ["responsible guidance"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "creator ownership" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "independent_creators",
+                    "weight": 0.34,
+                    "evidence": ["independent writers and video creators"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "creator_ownership",
+                    "weight": 0.33,
+                    "evidence": ["creator ownership"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "differentiation",
+                    "concept": "preserving_individual_voice",
+                    "weight": 0.33,
+                    "evidence": ["preserving individual voice"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        if "material-level provenance" in text:
+            return [
+                {
+                    "kind": "audience",
+                    "concept": "industrial_procurement",
+                    "weight": 0.34,
+                    "evidence": ["procurement teams"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "value",
+                    "concept": "traceability",
+                    "weight": 0.33,
+                    "evidence": ["Traceability"],
+                    "confidence": 0.9,
+                },
+                {
+                    "kind": "differentiation",
+                    "concept": "material_level_provenance",
+                    "weight": 0.33,
+                    "evidence": ["material-level provenance"],
+                    "confidence": 0.85,
+                },
+            ]
+
+        return None
+
+    @staticmethod
+    def _generate_brand_list_expansion_response(prompt: str) -> str:
+        marker = "CATEGORIES:\n"
+        end_marker = "\n\nEXISTING_BRANDS:"
+        if marker not in prompt or end_marker not in prompt:
+            raise ValueError("Mock brand expansion prompt is malformed")
+
+        raw_categories = prompt.split(marker, 1)[1].split(end_marker, 1)[0]
+        categories = json.loads(raw_categories)
+        proposals = []
+        for category in categories:
+            normalized = str(category).replace("_", " ").title().replace(" ", "")
+            proposals.append(
+                {
+                    "category": category,
+                    "brands": [
+                        f"{normalized}Nova",
+                        f"{normalized}Forge",
+                        f"{normalized}Pilot",
+                    ],
+                }
+            )
+
+        return json.dumps({"categories": proposals}, ensure_ascii=False, indent=2)
+
+    @staticmethod
+    def _generate_brand_analysis_response(prompt: str) -> str:
+        marker = "Input:\n\n"
+        end_marker = "\n\n---"
+        if marker not in prompt or end_marker not in prompt:
+            raise ValueError("Mock brand analysis prompt is malformed")
+
+        raw_brands = prompt.split(marker, 1)[1].split(end_marker, 1)[0]
+        brands = [
+            line.removeprefix("-").strip()
+            for line in raw_brands.splitlines()
+            if line.strip().startswith("-")
+        ]
+        return json.dumps(
+            [
+                {
+                    "name": brand,
+                    "industry": "mock research",
+                    "country": "unknown",
+                    "founded_year": 2000,
+                    "style": "invented",
+                    "name_origin": "inferred mock analysis",
+                    "semantic_density": "medium",
+                    "semantic_category": "abstract",
+                    "brand_archetype": "Creator",
+                    "emotional_tone": "trustworthy",
+                    "phonetic_pattern": "CVCVC",
+                    "syllables": MockProvider._mock_syllables(brand),
+                    "vowel_ratio": 0.45,
+                    "hard_consonant_ratio": 0.3,
+                    "soft_consonant_ratio": 0.3,
+                    "pronunciation_difficulty": 3,
+                    "memorability_score": 8,
+                    "distinctiveness_score": 8,
+                    "innovation_score": 7,
+                    "trust_score": 7,
+                    "premium_score": 5,
+                    "playfulness_score": 4,
+                    "global_scalability_score": 8,
+                    "morphology_type": "abstract coined word",
+                    "linguistic_style": "short global brand",
+                    "notes": "Mock analysis for deterministic tests.",
+                }
+                for brand in brands
+            ],
+            ensure_ascii=False,
+            indent=2,
+        )
+
+    @staticmethod
+    def _mock_syllables(brand: str) -> list[str]:
+        compact = re.sub(r"[^A-Za-z0-9]+", "", brand).lower()
+        if not compact:
+            return [brand]
+        midpoint = max(1, len(compact) // 2)
+        return [compact[:midpoint], compact[midpoint:]]
 
     @staticmethod
     def _extract_decision(prompt: str) -> tuple[str, list[str]]:

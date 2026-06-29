@@ -117,8 +117,9 @@ def test_project_origin_intent_runner_can_include_mock_llm_shadow():
     metrics = evaluate_intent_quality(case, output.llm_candidate_signals)
 
     assert output.llm_error is None
-    assert len(output.llm_candidate_signals) == 4
-    assert metrics.evidence_hint_coverage >= 2 / 3
+    assert len(output.llm_candidate_signals) == 3
+    assert metrics.expected_concept_coverage == 1.0
+    assert metrics.evidence_hint_coverage == 1.0
     assert metrics.passed_grounding
 
 

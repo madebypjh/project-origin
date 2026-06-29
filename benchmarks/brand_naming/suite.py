@@ -25,6 +25,8 @@ from benchmarks.brand_naming.results import (
 from project_origin.brand.intent import LlmBrandIntentInterpreter
 from project_origin.brand.intent.language_adapter import BrandLanguageFromIntent
 from project_origin.brand.knowledge_builder import KnowledgeBuilder
+from project_origin.brand.naming.generation_rules import GenerationRulesBuilder
+from project_origin.brand.naming.knowledge_loader import NamingKnowledgeLoader
 from project_origin.llm.base import LLMProvider
 from project_origin.llm.mock_provider import MockProvider
 
@@ -239,12 +241,16 @@ class BrandBenchmarkSuite:
         )
         brand_language = BrandLanguageFromIntent.build(intent_profile)
         knowledge = KnowledgeBuilder.build(case.profile)
+        generation_rules = GenerationRulesBuilder.build(
+            NamingKnowledgeLoader.load()
+        )
         return self.naming_runner.run_with_language(
             case=case,
             profile=case.profile,
             knowledge=knowledge,
             brand_language=brand_language,
             approach="project_origin_intent_shadow_naming",
+            rules=generation_rules,
         )
 
 

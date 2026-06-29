@@ -8,6 +8,7 @@ from dataclasses import replace
 
 from project_origin.brand.models import BrandLanguage
 from project_origin.brand.naming.candidate import NameCandidate
+from project_origin.brand.naming.generation_rules import GenerationRules
 from project_origin.brand.naming.phonetics import PhoneticRules
 
 
@@ -17,12 +18,13 @@ class NameEvaluator:
         cls,
         candidates: list[NameCandidate],
         brand_language: BrandLanguage,
+        rules: GenerationRules | None = None,
     ) -> list[NameCandidate]:
         evaluated_names = []
 
         for candidate in candidates:
             evaluated_names.append(
-                cls._evaluate_single_name(candidate, brand_language)
+                cls._evaluate_single_name(candidate, brand_language, rules)
             )
 
         return evaluated_names
@@ -32,6 +34,7 @@ class NameEvaluator:
         cls,
         candidate: NameCandidate,
         brand_language: BrandLanguage,
+        rules: GenerationRules | None = None,
     ) -> NameCandidate:
         name = candidate.name
         pronunciation_score = cls._score_pronunciation(name)
@@ -39,20 +42,37 @@ class NameEvaluator:
         strategy_score = cls._score_strategy_fit(name, brand_language)
         memorability_score = cls._score_memorability(name)
 
-        total_score = round(
-            (
-                pronunciation_score * 0.25
-                + originality_score * 0.25
-                + strategy_score * 0.30
-                + memorability_score * 0.20
-            ),
-            2,
+        base_score = (
+            pronunciation_score * 0.25
+            + originality_score * 0.25
+            + strategy_score * 0.30
+            + memorability_score * 0.20
         )
+        knowledge_score = None
+        guidance_strength = 0.0
+
+        if rules is not None and rules.guidance_strength > 0:
+            knowledge_score = cls._score_generation_rules_fit(name, rules)
+            guidance_strength = rules.guidance_strength
+
+        if knowledge_score is None:
+            total_score = round(base_score, 2)
+        else:
+            total_score = round(
+                base_score * (1 - guidance_strength)
+                + knowledge_score * guidance_strength,
+                2,
+            )
 
         reason = (
             f"{name} scored {total_score}/10 based on pronunciation, "
             f"originality, strategic fit, and memorability."
         )
+        if knowledge_score is not None and rules is not None:
+            reason += (
+                f" Naming knowledge contributed weakly "
+                f"({rules.recommended_usage}, {knowledge_score}/10)."
+            )
 
         return replace(
             candidate,
@@ -133,3 +153,54 @@ class NameEvaluator:
             return 7.5
 
         return 6.5
+
+    @classmethod
+    def _score_generation_rules_fit(
+        cls,
+        name: str,
+        rules: GenerationRules,
+    ) -> float:
+        letters = [character for character in name.lower() if character.isalpha()]
+        if not letters:
+            return 5.0
+
+        length_score = cls._clamp(
+            10 - abs(len(letters) - rules.target_length) * 1.5,
+            minimum=4.0,
+        )
+        vowel_ratio = cls._ratio(letters, "aeiou")
+        hard_ratio = cls._ratio(letters, "bcdfgkpqtxz")
+        soft_ratio = cls._ratio(letters, "hjklmnrsfvwyl")
+
+        vowel_score = cls._clamp(
+            10 - abs(vowel_ratio - rules.target_vowel_ratio) * 10,
+            minimum=4.0,
+        )
+        hard_score = cls._clamp(
+            10 - abs(hard_ratio - rules.target_hard_consonant_ratio) * 10,
+            minimum=4.0,
+        )
+        soft_score = cls._clamp(
+            10 - abs(soft_ratio - rules.target_soft_consonant_ratio) * 10,
+            minimum=4.0,
+        )
+
+        return round(
+            (length_score + vowel_score + hard_score + soft_score) / 4,
+            2,
+        )
+
+    @staticmethod
+    def _ratio(letters: list[str], matches: str) -> float:
+        if not letters:
+            return 0.0
+
+        return sum(1 for letter in letters if letter in matches) / len(letters)
+
+    @staticmethod
+    def _clamp(
+        value: float,
+        minimum: float = 0.0,
+        maximum: float = 10.0,
+    ) -> float:
+        return max(minimum, min(maximum, value))

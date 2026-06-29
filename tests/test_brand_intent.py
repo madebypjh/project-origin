@@ -110,7 +110,14 @@ def test_mock_provider_supports_shadow_intent_interpretation():
 
     assert record.llm_error is None
     assert record.llm_candidate is not None
-    assert len(record.llm_candidate.signals) == 4
+    assert len(record.llm_candidate.signals) == 3
+    assert {
+        signal.concept for signal in record.llm_candidate.signals
+    } == {
+        "medical_humility",
+        "humane_guidance",
+        "non_clinician_replacement",
+    }
 
 
 def test_intent_policy_guides_llm_toward_stable_short_concepts():
@@ -132,6 +139,18 @@ def test_intent_language_adapter_builds_brand_language_from_signals():
     language = BrandLanguageFromIntent.build(record.llm_candidate)
 
     assert language.vocabulary
-    assert "problem" in language.vocabulary
+    assert "medical" in language.vocabulary
     assert language.style in {"clear", "structured", "expressive"}
     assert "interpreted intent signals" in language.semantic_direction
+
+
+def test_intent_language_adapter_uses_grounded_evidence_tokens():
+    record = BrandIntentShadowService(
+        llm=LlmBrandIntentInterpreter(MockProvider()),
+    ).interpret(_health_profile())
+
+    language = BrandLanguageFromIntent.build(record.llm_candidate)
+
+    assert "health" in language.vocabulary
+    assert "care" in language.vocabulary
+    assert "habit" in language.vocabulary

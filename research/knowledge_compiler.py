@@ -55,6 +55,7 @@ class KnowledgeCompiler:
         if not patterns:
             return {}
 
+        sample_size = int(patterns.get("sample_size", 0) or 0)
         dominant_style = patterns.get("dominant_style", "unknown")
         dominant_tone = patterns.get("dominant_emotional_tone", "unknown")
         dominant_archetype = patterns.get("dominant_archetype", "unknown")
@@ -63,7 +64,10 @@ class KnowledgeCompiler:
         tone_distribution = patterns.get("emotional_tone_distribution", {})
 
         return {
-            "sample_size": patterns.get("sample_size", 0),
+            "sample_size": sample_size,
+            "knowledge_confidence": self._sample_confidence(sample_size),
+            "recommended_usage": self._recommended_usage(sample_size),
+            "usage_rationale": self._usage_rationale(sample_size),
             "preferred_style": dominant_style,
             "preferred_style_confidence": self._confidence(
                 style_distribution.get(dominant_style, 0)
@@ -104,6 +108,57 @@ class KnowledgeCompiler:
             return "low"
 
         return "unknown"
+
+    @staticmethod
+    def _sample_confidence(sample_size: int) -> str:
+        if sample_size >= 80:
+            return "high"
+
+        if sample_size >= 30:
+            return "medium"
+
+        if sample_size >= 10:
+            return "low"
+
+        return "insufficient"
+
+    @staticmethod
+    def _recommended_usage(sample_size: int) -> str:
+        if sample_size >= 80:
+            return "strong_guidance"
+
+        if sample_size >= 30:
+            return "soft_guidance"
+
+        if sample_size >= 10:
+            return "weak_guidance"
+
+        return "do_not_enforce"
+
+    @staticmethod
+    def _usage_rationale(sample_size: int) -> str:
+        if sample_size >= 80:
+            return (
+                "The pattern sample is large enough to influence ranking, "
+                "while still remaining subordinate to strategy fit."
+            )
+
+        if sample_size >= 30:
+            return (
+                "The pattern sample is useful as soft ranking guidance, "
+                "but should not override case-specific brand strategy."
+            )
+
+        if sample_size >= 10:
+            return (
+                "The pattern sample is early-stage evidence. Use only as weak "
+                "guidance during comparison, not as a hard rule."
+            )
+
+        return (
+            "The pattern sample is too small to influence generated names. "
+            "Keep it for reference only."
+        )
 
     def _build_guidance(self, patterns: dict) -> list[str]:
         guidance = []

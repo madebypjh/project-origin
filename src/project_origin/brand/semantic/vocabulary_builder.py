@@ -31,6 +31,14 @@ class VocabularyBuilder:
             "identity", "imagination", "creation", "expression",
             "story", "voice", "brand", "originality",
         ],
+        "care": [
+            "care", "balance", "rhythm", "calm", "wellbeing",
+            "guidance", "privacy", "trust", "clarity",
+        ],
+        "industrial": [
+            "material", "source", "origin", "proof", "system",
+            "precision", "trace", "durability", "verification",
+        ],
     }
 
     @classmethod

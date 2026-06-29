@@ -26,29 +26,45 @@ class BrandLanguageFromIntent:
         "clarity": ("clarity", "focus", "direction"),
         "clinician": ("trust", "care"),
         "control": ("alignment", "focus", "confidence"),
+        "creative": ("voice", "story", "identity"),
         "creator": ("identity", "voice", "originality"),
         "decision": ("decision", "logic", "framework"),
         "evidence": ("proof", "truth", "integrity"),
+        "explainable": ("clarity", "proof", "logic"),
         "finance": ("clarity", "direction", "framework"),
+        "founder": ("clarity", "direction", "framework"),
         "guidance": ("direction", "clarity"),
+        "habit": ("care", "rhythm", "balance"),
         "health": ("care", "clarity", "trust"),
         "humility": ("integrity", "trust", "care"),
         "industrial": ("precision", "system", "integrity"),
+        "manufacturing": ("system", "origin", "precision"),
         "material": ("origin", "proof", "system"),
         "operator": ("control", "focus", "alignment"),
         "ownership": ("identity", "integrity"),
         "priority": ("focus", "decision", "signal"),
         "provenance": ("origin", "proof", "trace"),
+        "recycled": ("origin", "cycle", "proof"),
         "responsible": ("integrity", "trust"),
+        "runway": ("clarity", "path", "direction"),
+        "security": ("proof", "signal", "control"),
+        "story": ("story", "voice", "identity"),
         "traceability": ("proof", "origin", "integrity"),
         "trusted": ("truth", "integrity", "confidence"),
+        "verified": ("proof", "integrity", "origin"),
+        "vulnerability": ("signal", "priority", "control"),
         "voice": ("voice", "story", "identity"),
     }
 
     @classmethod
     def build(cls, intent: IntentProfile) -> BrandLanguage:
         concepts = [signal.concept for signal in intent.signals]
-        tokens = cls._tokens(concepts)
+        evidence = [
+            evidence_item
+            for signal in intent.signals
+            for evidence_item in signal.evidence
+        ]
+        tokens = cls._tokens([*concepts, *evidence])
         vocabulary = cls._vocabulary(tokens)
         tone, emotion, style = cls._language_attributes(tokens)
         direction = cls._semantic_direction(concepts, tone, emotion, style)
@@ -134,8 +150,16 @@ class BrandLanguageFromIntent:
     @staticmethod
     def _normalize_token(token: str) -> str:
         variants = {
+            "creators": "creator",
+            "founders": "founder",
+            "habits": "habit",
+            "manufacturers": "manufacturing",
+            "materials": "material",
             "priorities": "priority",
             "prioritization": "priority",
             "prioritisation": "priority",
+            "signals": "signal",
+            "stories": "story",
+            "vulnerabilities": "vulnerability",
         }
         return variants.get(token, token)
