@@ -3,7 +3,6 @@ Project Origin - Application Layer
 
 Coordinates the full application workflow.
 """
-DEBUG = False
 
 from .interview import InterviewSession
 from .knowledge_builder import KnowledgeBuilder
@@ -13,13 +12,27 @@ from .report_parser import ReportParser
 from .markdown_report import MarkdownReportGenerator
 from .file_writer import FileWriter
 
+from .semantic.semantic_engine import SemanticEngine
+from .language_engine import BrandLanguageEngine
+from .naming.generator import NamingGenerator
+from .naming.evaluator import NameEvaluator
+from .naming.ranker import NameRanker
+
+
+DEBUG = False
+
+
 class ProjectOriginApplication:
     def run(self) -> None:
         profile = self._run_interview()
+
         if DEBUG:
             self._print_structured_profile(profile)
 
-        knowledge = self._build_knowledge(profile)        
+        knowledge = self._build_knowledge(profile)
+
+        if DEBUG:
+            self._print_brand_knowledge(knowledge)
 
         prompt = self._build_prompt(profile)
 
@@ -29,10 +42,11 @@ class ProjectOriginApplication:
         raw_response = self._generate_llm_response(prompt)
         report = self._parse_report(raw_response)
         markdown = self._generate_markdown(report)
-        file_path = FileWriter.save_markdown(markdown)
-        self._print_saved_file(file_path)
 
         self._print_markdown_report(markdown)
+
+        file_path = FileWriter.save_markdown(markdown)
+        self._print_saved_file(file_path)
 
     def _run_interview(self):
         session = InterviewSession()
@@ -42,7 +56,16 @@ class ProjectOriginApplication:
         return KnowledgeBuilder.build(profile)
 
     def _build_prompt(self, profile):
-        return PromptBuilder.build(profile)
+        semantic_profile = SemanticEngine.build(profile)
+        brand_language = BrandLanguageEngine.build(semantic_profile)
+
+        names = NamingGenerator.generate(brand_language, count=100)
+        evaluated_names = NameEvaluator.evaluate(names, brand_language)
+        ranked_names = NameRanker.rank(evaluated_names, limit=20)
+
+        candidate_names = [candidate.name for candidate in ranked_names]
+
+        return PromptBuilder.build(profile, candidate_names)
 
     def _generate_llm_response(self, prompt: str) -> str:
         provider = LLMFactory.create("openai")
@@ -58,9 +81,12 @@ class ProjectOriginApplication:
         print("===================================")
         print(" Interview Complete ")
         print("===================================\n")
-
         print("===== STRUCTURED PROFILE =====\n")
         print(profile.to_json())
+
+    def _print_brand_knowledge(self, knowledge) -> None:
+        print("\n===== BRAND KNOWLEDGE =====\n")
+        print(knowledge.to_json())
 
     def _print_prompt(self, prompt: str) -> None:
         print("\n==============================")
@@ -73,7 +99,7 @@ class ProjectOriginApplication:
         print(" MARKDOWN REPORT ")
         print("==============================\n")
         print(markdown)
-    
+
     def _print_saved_file(self, file_path) -> None:
         print("\n==============================")
         print(" REPORT SAVED ")
