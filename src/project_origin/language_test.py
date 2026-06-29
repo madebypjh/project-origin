@@ -1,7 +1,6 @@
 from src.project_origin.models import FounderProfile
 from src.project_origin.semantic.semantic_engine import SemanticEngine
 from src.project_origin.language_engine import BrandLanguageEngine
-from src.project_origin.naming.generator import NamingGenerator
 
 
 def main():
@@ -15,15 +14,10 @@ def main():
 
     semantic_profile = SemanticEngine.build(profile)
     brand_language = BrandLanguageEngine.build(semantic_profile)
-    names = NamingGenerator.generate(brand_language, count=30)
 
     print(semantic_profile.to_json())
     print()
     print(brand_language.to_json())
-    print("\nGenerated Names:\n")
-
-    for name in names:
-        print(name)
 
 
 if __name__ == "__main__":
