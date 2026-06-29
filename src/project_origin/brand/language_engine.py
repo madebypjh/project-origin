@@ -17,6 +17,13 @@ class BrandLanguageEngine:
         "creativity": "imaginative",
         "care": "humane",
         "industrial": "grounded",
+        "education": "encouraging",
+        "legal": "cautious",
+        "climate": "evidence-led",
+        "privacy": "respectful",
+        "logistics": "operational",
+        "robotics": "precise",
+        "wellness": "gentle",
     }
 
     EMOTION_BY_THEME = {
@@ -28,6 +35,13 @@ class BrandLanguageEngine:
         "creativity": "inspiration",
         "care": "calm",
         "industrial": "confidence",
+        "education": "confidence",
+        "legal": "trust",
+        "climate": "clarity",
+        "privacy": "safety",
+        "logistics": "control",
+        "robotics": "safety",
+        "wellness": "calm",
     }
 
     STYLE_BY_THEME = {
@@ -39,6 +53,13 @@ class BrandLanguageEngine:
         "creativity": "expressive",
         "care": "clear",
         "industrial": "structured",
+        "education": "clear",
+        "legal": "structured",
+        "climate": "structured",
+        "privacy": "clear",
+        "logistics": "structured",
+        "robotics": "structured",
+        "wellness": "clear",
     }
 
     @classmethod
@@ -127,6 +148,55 @@ class BrandLanguageEngine:
                 "proof",
                 "system",
                 "precision",
+            ],
+            "education": [
+                "learn",
+                "guide",
+                "step",
+                "growth",
+                "progress",
+            ],
+            "legal": [
+                "clause",
+                "review",
+                "caution",
+                "boundary",
+                "risk",
+            ],
+            "climate": [
+                "resilience",
+                "scenario",
+                "asset",
+                "adapt",
+                "planning",
+            ],
+            "privacy": [
+                "privacy",
+                "consent",
+                "control",
+                "local",
+                "agency",
+            ],
+            "logistics": [
+                "route",
+                "flow",
+                "shipment",
+                "visibility",
+                "escalation",
+            ],
+            "robotics": [
+                "robot",
+                "fleet",
+                "operator",
+                "safety",
+                "warehouse",
+            ],
+            "wellness": [
+                "calm",
+                "reflect",
+                "gentle",
+                "support",
+                "boundary",
             ],
         }
 

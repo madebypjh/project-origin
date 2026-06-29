@@ -15,7 +15,7 @@ from benchmarks.brand_naming.models import BrandNamingBenchmarkCase
 def test_checked_in_benchmark_cases_are_valid_and_unique():
     cases = load_cases()
 
-    assert len(cases) == 5
+    assert len(cases) == 15
     assert len({case.identifier for case in cases}) == len(cases)
     assert all(case.expected_themes for case in cases)
     assert all(case.required_qualities for case in cases)

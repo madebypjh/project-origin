@@ -56,6 +56,41 @@ class MorphologyLibrary:
         "source", "vector", "cert",
     ]
 
+    EDUCATION_SOUNDS = [
+        "learn", "luma", "step", "path", "mira", "nurt", "grow",
+        "vela", "kind", "clar",
+    ]
+
+    LEGAL_SOUNDS = [
+        "lex", "claus", "fide", "cert", "veri", "plain", "caut",
+        "bound", "true", "valid",
+    ]
+
+    CLIMATE_SOUNDS = [
+        "terra", "resil", "clima", "asset", "aqua", "adapt", "ori",
+        "trace", "nexa", "field",
+    ]
+
+    PRIVACY_SOUNDS = [
+        "priv", "consent", "local", "safe", "veil", "aura", "trust",
+        "clear", "guard", "kind",
+    ]
+
+    LOGISTICS_SOUNDS = [
+        "route", "flow", "relay", "grid", "signal", "path", "vector",
+        "scope", "axis",
+    ]
+
+    ROBOTICS_SOUNDS = [
+        "robo", "fleet", "forge", "axis", "oper", "safe", "signal",
+        "grid", "mech", "core",
+    ]
+
+    WELLNESS_SOUNDS = [
+        "calm", "mira", "aura", "vela", "kind", "reflect", "luma",
+        "bal", "gent", "cura",
+    ]
+
     @classmethod
     def all(cls) -> list[str]:
         return (
@@ -69,6 +104,13 @@ class MorphologyLibrary:
             + cls.DISCOVERY_SOUNDS
             + cls.CARE_SOUNDS
             + cls.INDUSTRIAL_SOUNDS
+            + cls.EDUCATION_SOUNDS
+            + cls.LEGAL_SOUNDS
+            + cls.CLIMATE_SOUNDS
+            + cls.PRIVACY_SOUNDS
+            + cls.LOGISTICS_SOUNDS
+            + cls.ROBOTICS_SOUNDS
+            + cls.WELLNESS_SOUNDS
         )
 
     @classmethod
@@ -86,6 +128,13 @@ class MorphologyLibrary:
             "discovery": cls.DISCOVERY_SOUNDS,
             "care": cls.CARE_SOUNDS,
             "industrial": cls.INDUSTRIAL_SOUNDS,
+            "education": cls.EDUCATION_SOUNDS,
+            "legal": cls.LEGAL_SOUNDS,
+            "climate": cls.CLIMATE_SOUNDS,
+            "privacy": cls.PRIVACY_SOUNDS,
+            "logistics": cls.LOGISTICS_SOUNDS,
+            "robotics": cls.ROBOTICS_SOUNDS,
+            "wellness": cls.WELLNESS_SOUNDS,
         }
 
         return theme_map.get(normalized_theme, [])

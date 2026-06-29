@@ -32,8 +32,10 @@ optionally, an LLM candidate in Shadow Mode. `evaluate_intent_quality` checks
 strict concept coverage, relaxed concept coverage, evidence-hint coverage,
 grounding against the original founder input, and known bad pattern violations.
 
-The initial five cases validate the harness. Expand to at least 20 reviewed
-cases before drawing product conclusions.
+The initial fifteen cases validate the harness across security, health,
+finance, creator, industrial, education, legal, climate, privacy, logistics,
+robotics, and wellness contexts. Expand to at least 20 reviewed cases before
+drawing product conclusions.
 
 `ProjectOriginNamingRunner` executes these cases without an LLM and records
 candidate names, the selected option, rationale, latency, and estimated model

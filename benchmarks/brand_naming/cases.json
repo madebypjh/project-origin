@@ -208,5 +208,425 @@
       "explainability": "The system should connect the recommendation to traceability, verification, and provenance."
     },
     "evaluation_notes": "Avoid generic sustainability language and greenwashing signals."
+  },
+  {
+    "id": "education-learning-coach",
+    "profile": {
+      "problem": "Students lose motivation when adaptive learning tools feel punitive or generic.",
+      "audience": "middle school learners and their parents",
+      "vision": "Make personalized learning feel encouraging, clear, and confidence-building.",
+      "principles": "Patience, student agency, and evidence-based progress",
+      "differentiation": "Turns learning gaps into small guided steps without shaming students."
+    },
+    "expected_themes": ["care", "strategy", "trust"],
+    "required_qualities": ["encouraging", "clear", "safe"],
+    "forbidden_terms": ["grade", "score", "test"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "middle_school_learners",
+        "evidence_hint": "middle school learners"
+      },
+      {
+        "kind": "desired_emotion",
+        "concept": "confidence_building_learning",
+        "evidence_hint": "confidence-building"
+      },
+      {
+        "kind": "constraint",
+        "concept": "non_shaming_guidance",
+        "evidence_hint": "without shaming students"
+      }
+    ],
+    "known_bad_patterns": [
+      "punitive education language",
+      "test-prep pressure",
+      "surveillance learning tone"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should feel like supportive learning guidance, not academic punishment.",
+      "distinctiveness": "The name should avoid generic edtech and test-prep naming.",
+      "trustworthiness": "The name should feel safe for parents and encouraging for students.",
+      "explainability": "The system should connect the recommendation to patience, agency, and guided progress."
+    },
+    "evaluation_notes": "Avoid names that imply ranking, scoring, or pressure."
+  },
+  {
+    "id": "legal-document-assistant",
+    "profile": {
+      "problem": "Small business owners struggle to understand contract risks before signing.",
+      "audience": "small business owners without in-house legal teams",
+      "vision": "Make legal review more understandable while respecting attorney boundaries.",
+      "principles": "Clarity, caution, and professional humility",
+      "differentiation": "Highlights risky clauses in plain language without pretending to be a lawyer."
+    },
+    "expected_themes": ["trust", "strategy", "technology"],
+    "required_qualities": ["credible", "cautious", "professional"],
+    "forbidden_terms": ["lawyer", "attorney", "guarantee"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "small_business_owners",
+        "evidence_hint": "small business owners"
+      },
+      {
+        "kind": "constraint",
+        "concept": "attorney_boundary_respect",
+        "evidence_hint": "respecting attorney boundaries"
+      },
+      {
+        "kind": "capability",
+        "concept": "plain_language_clause_risk",
+        "evidence_hint": "risky clauses in plain language"
+      }
+    ],
+    "known_bad_patterns": [
+      "unauthorized legal authority",
+      "guaranteed legal outcomes",
+      "aggressive lawsuit imagery"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should communicate contract clarity without implying legal representation.",
+      "distinctiveness": "The name should avoid generic legal-tech authority names.",
+      "trustworthiness": "The name should feel careful, professional, and humble.",
+      "explainability": "The system should connect the recommendation to caution, clause risk, and attorney boundaries."
+    },
+    "evaluation_notes": "Avoid names that sound like a law firm or legal guarantee."
+  },
+  {
+    "id": "climate-risk-analytics",
+    "profile": {
+      "problem": "Infrastructure teams cannot translate climate projections into practical risk priorities.",
+      "audience": "municipal infrastructure and resilience teams",
+      "vision": "Make climate adaptation planning evidence-led and operationally useful.",
+      "principles": "Scientific humility, transparency, and public accountability",
+      "differentiation": "Connects climate scenarios to asset-level planning decisions."
+    },
+    "expected_themes": ["trust", "strategy", "discovery"],
+    "required_qualities": ["credible", "grounded", "precise"],
+    "forbidden_terms": ["green", "planet", "save"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "municipal_resilience_teams",
+        "evidence_hint": "municipal infrastructure"
+      },
+      {
+        "kind": "value",
+        "concept": "scientific_humility",
+        "evidence_hint": "Scientific humility"
+      },
+      {
+        "kind": "capability",
+        "concept": "asset_level_planning",
+        "evidence_hint": "asset-level planning decisions"
+      }
+    ],
+    "known_bad_patterns": [
+      "greenwashing language",
+      "apocalyptic climate fear",
+      "vague sustainability claims"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should fit evidence-led climate risk planning for public infrastructure.",
+      "distinctiveness": "The name should avoid generic sustainability slogans.",
+      "trustworthiness": "The name should feel scientifically careful and accountable.",
+      "explainability": "The system should connect the recommendation to climate scenarios and asset-level decisions."
+    },
+    "evaluation_notes": "Avoid activist or consumer eco branding; this is operational planning software."
+  },
+  {
+    "id": "child-safety-app",
+    "profile": {
+      "problem": "Parents cannot tell which digital interactions are risky without invading children's privacy.",
+      "audience": "parents of preteens using connected devices",
+      "vision": "Help families build safer digital habits with trust and autonomy.",
+      "principles": "Privacy, calm guidance, and age-appropriate independence",
+      "differentiation": "Flags concerning patterns without turning parenting into surveillance."
+    },
+    "expected_themes": ["care", "trust", "technology"],
+    "required_qualities": ["safe", "calm", "human"],
+    "forbidden_terms": ["spy", "track", "monitor"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "parents_of_preteens",
+        "evidence_hint": "parents of preteens"
+      },
+      {
+        "kind": "value",
+        "concept": "privacy_preserving_safety",
+        "evidence_hint": "without invading children's privacy"
+      },
+      {
+        "kind": "constraint",
+        "concept": "non_surveillance_parenting",
+        "evidence_hint": "without turning parenting into surveillance"
+      }
+    ],
+    "known_bad_patterns": [
+      "surveillance parenting",
+      "fear-based child safety language",
+      "spyware implication"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should communicate family safety without surveillance.",
+      "distinctiveness": "The name should avoid generic parental control naming.",
+      "trustworthiness": "The name should feel calm, privacy-preserving, and human.",
+      "explainability": "The system should connect the recommendation to privacy, safety, and autonomy."
+    },
+    "evaluation_notes": "Avoid fear, spying, tracking, or control-first language."
+  },
+  {
+    "id": "enterprise-workflow-automation",
+    "profile": {
+      "problem": "Operations teams lose time coordinating repetitive approvals across fragmented tools.",
+      "audience": "enterprise operations leaders",
+      "vision": "Make workflow automation feel controlled, auditable, and adaptable.",
+      "principles": "Reliability, operator oversight, and clear accountability",
+      "differentiation": "Automates routine handoffs while keeping humans in control of exceptions."
+    },
+    "expected_themes": ["technology", "strategy", "trust"],
+    "required_qualities": ["reliable", "structured", "professional"],
+    "forbidden_terms": ["bot", "robot", "auto"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "enterprise_operations_leaders",
+        "evidence_hint": "enterprise operations leaders"
+      },
+      {
+        "kind": "value",
+        "concept": "operator_oversight",
+        "evidence_hint": "operator oversight"
+      },
+      {
+        "kind": "constraint",
+        "concept": "human_control_of_exceptions",
+        "evidence_hint": "humans in control of exceptions"
+      }
+    ],
+    "known_bad_patterns": [
+      "automation-first language",
+      "black-box workflow control",
+      "generic enterprise software naming"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should fit controlled enterprise workflow coordination.",
+      "distinctiveness": "The name should avoid generic automation and bot language.",
+      "trustworthiness": "The name should feel auditable, reliable, and accountable.",
+      "explainability": "The system should connect the recommendation to oversight and exception control."
+    },
+    "evaluation_notes": "Avoid names that suggest humans are removed from the loop."
+  },
+  {
+    "id": "privacy-first-consumer-app",
+    "profile": {
+      "problem": "People want useful personalization without feeling watched or profiled.",
+      "audience": "privacy-conscious mobile consumers",
+      "vision": "Make everyday personalization respectful, transparent, and user-controlled.",
+      "principles": "Consent, minimal data, and user agency",
+      "differentiation": "Personalizes experiences locally without selling behavioral profiles."
+    },
+    "expected_themes": ["trust", "technology", "care"],
+    "required_qualities": ["simple", "safe", "human"],
+    "forbidden_terms": ["track", "profile", "data"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "privacy_conscious_consumers",
+        "evidence_hint": "privacy-conscious mobile consumers"
+      },
+      {
+        "kind": "value",
+        "concept": "user_controlled_personalization",
+        "evidence_hint": "user-controlled"
+      },
+      {
+        "kind": "constraint",
+        "concept": "no_behavioral_profile_sales",
+        "evidence_hint": "without selling behavioral profiles"
+      }
+    ],
+    "known_bad_patterns": [
+      "surveillance implication",
+      "data broker language",
+      "creepy personalization tone"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should communicate respectful personalization without surveillance.",
+      "distinctiveness": "The name should avoid generic privacy app naming.",
+      "trustworthiness": "The name should feel simple, safe, and user-controlled.",
+      "explainability": "The system should connect the recommendation to consent, minimal data, and agency."
+    },
+    "evaluation_notes": "Avoid names that foreground tracking, profiling, or data extraction."
+  },
+  {
+    "id": "creator-monetization-platform",
+    "profile": {
+      "problem": "Independent creators struggle to turn loyal audiences into sustainable income.",
+      "audience": "writers, educators, and niche media creators",
+      "vision": "Help creators earn without compromising ownership or audience trust.",
+      "principles": "Independence, transparency, and fair value exchange",
+      "differentiation": "Combines payments, memberships, and audience insight without platform lock-in."
+    },
+    "expected_themes": ["creativity", "trust", "strategy"],
+    "required_qualities": ["expressive", "trustworthy", "memorable"],
+    "forbidden_terms": ["cash", "coin", "funnel"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "independent_creators",
+        "evidence_hint": "Independent creators"
+      },
+      {
+        "kind": "value",
+        "concept": "creator_ownership",
+        "evidence_hint": "ownership"
+      },
+      {
+        "kind": "constraint",
+        "concept": "no_platform_lock_in",
+        "evidence_hint": "without platform lock-in"
+      }
+    ],
+    "known_bad_patterns": [
+      "get-rich-quick creator language",
+      "growth hack tone",
+      "platform lock-in implication"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should fit creator income and audience trust.",
+      "distinctiveness": "The name should avoid generic monetization and funnel language.",
+      "trustworthiness": "The name should feel fair, independent, and transparent.",
+      "explainability": "The system should connect the recommendation to ownership and fair value exchange."
+    },
+    "evaluation_notes": "Avoid extractive growth or quick-money naming."
+  },
+  {
+    "id": "robotics-operations-tool",
+    "profile": {
+      "problem": "Warehouse teams cannot coordinate mixed human and robot operations safely.",
+      "audience": "warehouse operations managers",
+      "vision": "Make robotic operations predictable, visible, and operator-led.",
+      "principles": "Safety, reliability, and human authority",
+      "differentiation": "Turns robot fleet signals into clear operational decisions."
+    },
+    "expected_themes": ["industrial", "technology", "strategy"],
+    "required_qualities": ["precise", "durable", "professional"],
+    "forbidden_terms": ["bot", "drone", "killer"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "warehouse_operations_managers",
+        "evidence_hint": "warehouse operations managers"
+      },
+      {
+        "kind": "value",
+        "concept": "human_authority",
+        "evidence_hint": "human authority"
+      },
+      {
+        "kind": "capability",
+        "concept": "fleet_signal_decisions",
+        "evidence_hint": "robot fleet signals"
+      }
+    ],
+    "known_bad_patterns": [
+      "killer robot imagery",
+      "automation replacing humans",
+      "gimmicky robotics naming"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should fit safe, operator-led robotics operations.",
+      "distinctiveness": "The name should avoid gimmicky robot naming.",
+      "trustworthiness": "The name should feel precise, reliable, and industrial.",
+      "explainability": "The system should connect the recommendation to safety, visibility, and human authority."
+    },
+    "evaluation_notes": "Avoid sci-fi, drone, or robot replacement language."
+  },
+  {
+    "id": "mental-wellness-companion",
+    "profile": {
+      "problem": "People need daily emotional support but do not want an app pretending to be therapy.",
+      "audience": "adults managing everyday stress",
+      "vision": "Make reflective wellbeing support gentle, private, and non-clinical.",
+      "principles": "Emotional safety, privacy, and professional boundaries",
+      "differentiation": "Offers guided reflection while encouraging professional help when needed."
+    },
+    "expected_themes": ["care", "trust", "creativity"],
+    "required_qualities": ["warm", "calm", "non-clinical"],
+    "forbidden_terms": ["therapy", "cure", "doctor"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "adults_managing_stress",
+        "evidence_hint": "adults managing everyday stress"
+      },
+      {
+        "kind": "constraint",
+        "concept": "not_therapy",
+        "evidence_hint": "not want an app pretending to be therapy"
+      },
+      {
+        "kind": "value",
+        "concept": "professional_boundaries",
+        "evidence_hint": "professional boundaries"
+      }
+    ],
+    "known_bad_patterns": [
+      "therapy replacement claim",
+      "clinical authority",
+      "guaranteed mental health outcome"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should fit gentle daily wellbeing support, not therapy.",
+      "distinctiveness": "The name should avoid generic wellness and clinical language.",
+      "trustworthiness": "The name should feel private, safe, and bounded.",
+      "explainability": "The system should connect the recommendation to privacy, safety, and professional boundaries."
+    },
+    "evaluation_notes": "Avoid clinical authority or cure-like promises."
+  },
+  {
+    "id": "logistics-visibility-platform",
+    "profile": {
+      "problem": "Shippers cannot see which delays matter across fragmented logistics partners.",
+      "audience": "supply chain and logistics teams",
+      "vision": "Make logistics visibility actionable, calm, and commercially dependable.",
+      "principles": "Reliability, clear escalation, and shared accountability",
+      "differentiation": "Turns noisy shipment updates into prioritized operational decisions."
+    },
+    "expected_themes": ["industrial", "strategy", "trust"],
+    "required_qualities": ["reliable", "grounded", "professional"],
+    "forbidden_terms": ["ship", "cargo", "fast"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "supply_chain_teams",
+        "evidence_hint": "supply chain and logistics teams"
+      },
+      {
+        "kind": "value",
+        "concept": "clear_escalation",
+        "evidence_hint": "clear escalation"
+      },
+      {
+        "kind": "capability",
+        "concept": "prioritized_operational_decisions",
+        "evidence_hint": "prioritized operational decisions"
+      }
+    ],
+    "known_bad_patterns": [
+      "speed-only logistics promise",
+      "generic shipping language",
+      "overconfident delivery guarantee"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should fit dependable logistics visibility and prioritization.",
+      "distinctiveness": "The name should avoid generic shipping and speed-only naming.",
+      "trustworthiness": "The name should feel operationally grounded and accountable.",
+      "explainability": "The system should connect the recommendation to visibility, escalation, and prioritization."
+    },
+    "evaluation_notes": "Avoid names that imply guaranteed speed or simple shipping brokerage."
   }
 ]

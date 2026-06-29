@@ -22,15 +22,23 @@ class BrandLanguageFromIntent:
 
     BRIDGE_VOCABULARY = {
         "accuracy": ("precision", "proof", "clarity"),
+        "adaptation": ("resilience", "planning", "asset"),
+        "asset": ("resilience", "planning", "trace"),
         "audience": ("focus", "identity"),
         "clarity": ("clarity", "focus", "direction"),
+        "clause": ("clause", "review", "caution"),
+        "climate": ("resilience", "scenario", "asset"),
         "clinician": ("trust", "care"),
+        "consent": ("privacy", "control", "agency"),
         "control": ("alignment", "focus", "confidence"),
+        "contract": ("clause", "review", "caution"),
         "creative": ("voice", "story", "identity"),
         "creator": ("identity", "voice", "originality"),
         "decision": ("decision", "logic", "framework"),
         "evidence": ("proof", "truth", "integrity"),
         "explainable": ("clarity", "proof", "logic"),
+        "family": ("care", "privacy", "safety"),
+        "fleet": ("fleet", "operator", "signal"),
         "finance": ("clarity", "direction", "framework"),
         "founder": ("clarity", "direction", "framework"),
         "guidance": ("direction", "clarity"),
@@ -38,17 +46,28 @@ class BrandLanguageFromIntent:
         "health": ("care", "clarity", "trust"),
         "humility": ("integrity", "trust", "care"),
         "industrial": ("precision", "system", "integrity"),
+        "learner": ("learn", "guide", "progress"),
+        "learning": ("learn", "guide", "progress"),
+        "legal": ("clause", "review", "caution"),
+        "logistics": ("route", "flow", "visibility"),
         "manufacturing": ("system", "origin", "precision"),
         "material": ("origin", "proof", "system"),
+        "municipal": ("resilience", "asset", "planning"),
         "operator": ("control", "focus", "alignment"),
         "ownership": ("identity", "integrity"),
         "priority": ("focus", "decision", "signal"),
         "provenance": ("origin", "proof", "trace"),
         "recycled": ("origin", "cycle", "proof"),
         "responsible": ("integrity", "trust"),
+        "robot": ("fleet", "operator", "safety"),
+        "robotic": ("fleet", "operator", "safety"),
+        "route": ("route", "flow", "visibility"),
         "runway": ("clarity", "path", "direction"),
         "security": ("proof", "signal", "control"),
+        "shipment": ("route", "flow", "visibility"),
+        "student": ("learn", "guide", "progress"),
         "story": ("story", "voice", "identity"),
+        "stress": ("calm", "reflect", "support"),
         "traceability": ("proof", "origin", "integrity"),
         "trusted": ("truth", "integrity", "confidence"),
         "verified": ("proof", "integrity", "origin"),
@@ -106,8 +125,16 @@ class BrandLanguageFromIntent:
 
         if token_set & {"creator", "voice", "originality", "story"}:
             return "imaginative", "inspiration", "expressive"
+        if token_set & {"student", "learner", "learning", "education"}:
+            return "encouraging", "confidence", "clear"
         if token_set & {"health", "medical", "empathy", "humility", "care"}:
             return "humane", "trust", "clear"
+        if token_set & {"stress", "therapy", "wellbeing", "reflective"}:
+            return "gentle", "calm", "clear"
+        if token_set & {"legal", "contract", "clause", "attorney"}:
+            return "cautious", "trust", "structured"
+        if token_set & {"privacy", "consent", "profiled", "watched"}:
+            return "respectful", "safety", "clear"
         if token_set & {
             "finance",
             "runway",
@@ -122,8 +149,16 @@ class BrandLanguageFromIntent:
             "provenance",
             "traceability",
             "procurement",
+            "logistics",
+            "shipment",
+            "warehouse",
+            "robot",
+            "robotic",
+            "fleet",
         }:
             return "credible", "confidence", "structured"
+        if token_set & {"climate", "resilience", "municipal", "asset"}:
+            return "evidence-led", "clarity", "structured"
         if token_set & {"trusted", "evidence", "operator", "control"}:
             return "credible", "trust", "structured"
 
@@ -150,15 +185,22 @@ class BrandLanguageFromIntent:
     @staticmethod
     def _normalize_token(token: str) -> str:
         variants = {
+            "contracts": "contract",
             "creators": "creator",
+            "families": "family",
             "founders": "founder",
             "habits": "habit",
+            "learners": "learner",
             "manufacturers": "manufacturing",
             "materials": "material",
+            "parents": "parent",
             "priorities": "priority",
             "prioritization": "priority",
             "prioritisation": "priority",
+            "robots": "robot",
             "signals": "signal",
+            "shipments": "shipment",
+            "students": "student",
             "stories": "story",
             "vulnerabilities": "vulnerability",
         }

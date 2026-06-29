@@ -39,6 +39,34 @@ class VocabularyBuilder:
             "material", "source", "origin", "proof", "system",
             "precision", "trace", "durability", "verification",
         ],
+        "education": [
+            "learn", "guide", "step", "growth", "agency",
+            "progress", "confidence", "path",
+        ],
+        "legal": [
+            "clause", "review", "caution", "clarity", "boundary",
+            "risk", "plain", "trust",
+        ],
+        "climate": [
+            "climate", "resilience", "scenario", "asset", "adapt",
+            "risk", "evidence", "planning",
+        ],
+        "privacy": [
+            "privacy", "consent", "control", "local", "agency",
+            "personal", "safe", "trust",
+        ],
+        "logistics": [
+            "route", "flow", "signal", "shipment", "escalation",
+            "visibility", "priority", "dependability",
+        ],
+        "robotics": [
+            "robot", "fleet", "operator", "safety", "signal",
+            "control", "warehouse", "coordination",
+        ],
+        "wellness": [
+            "calm", "reflect", "gentle", "support", "privacy",
+            "boundary", "care", "balance",
+        ],
     }
 
     @classmethod
