@@ -27,6 +27,7 @@ from project_origin.brand.naming.ranker import NameRanker
 from project_origin.brand.prompt_builder import PromptBuilder
 from project_origin.brand.report_parser import ReportParser
 from project_origin.brand.report_builder import BrandStrategyReportBuilder
+from project_origin.brand.report_quality import ReportQualityEvaluator
 from project_origin.brand.semantic.semantic_engine import SemanticEngine
 from project_origin.llm.base import LLMProvider
 from project_origin.llm.factory import LLMFactory
@@ -63,6 +64,7 @@ class BrandApplication:
             knowledge=knowledge,
             decision=decision,
         )
+        self._evaluate_report_quality(report, profile, decision)
         markdown = self._generate_markdown(report)
 
         self._print_markdown_report(markdown)
@@ -159,6 +161,25 @@ class BrandApplication:
 
     def _generate_markdown(self, report):
         return MarkdownReportGenerator.generate(report)
+
+    def _evaluate_report_quality(self, report, profile, decision) -> None:
+        result = ReportQualityEvaluator.evaluate(report, profile, decision)
+        if result.passed:
+            return
+
+        details = ", ".join(
+            [
+                *result.automatic_failures,
+                *(
+                    f"missing section: {section}"
+                    for section in result.missing_sections
+                ),
+            ]
+        )
+        raise ValueError(
+            "Brand strategy report failed quality gate "
+            f"({result.total_score}/{result.max_score}): {details}"
+        )
 
     def _print_structured_profile(self, profile) -> None:
         print("===================================")
