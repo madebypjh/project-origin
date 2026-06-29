@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Google",
+    "category": "technology",
+    "style": "invented",
+    "origin": "Inspired by the mathematical term googol.",
+    "syllables": ["goo", "gle"],
+    "phonetic_pattern": "CVV-CCV",
+    "semantic_density": "low",
+    "emotional_tone": "playful",
+    "memorability_score": 10,
+    "pronunciation_score": 9,
+    "distinctiveness_score": 10,
+    "notes": "Short, playful, distinctive, and globally scalable."
+  },
+  {
+    "name": "Nvidia",
+    "category": "technology",
+    "style": "derived",
+    "origin": "Derived from invidia and associated with vision.",
+    "syllables": ["nvi", "di", "a"],
+    "phonetic_pattern": "CCV-CV-V",
+    "semantic_density": "medium",
+    "emotional_tone": "advanced",
+    "memorability_score": 9,
+    "pronunciation_score": 7,
+    "distinctiveness_score": 9,
+    "notes": "Distinctive tech sound with strong visual and advanced technology association."
+  },
+  {
+    "name": "Spotify",
+    "category": "technology",
+    "style": "blended",
+    "origin": "Often associated with spot and identify.",
+    "syllables": ["spo", "ti", "fy"],
+    "phonetic_pattern": "CCV-CV-CV",
+    "semantic_density": "medium",
+    "emotional_tone": "energetic",
+    "memorability_score": 9,
+    "pronunciation_score": 8,
+    "distinctiveness_score": 9,
+    "notes": "Modern, active, discovery-oriented, and highly memorable."
+  }
+]
