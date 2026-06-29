@@ -4,6 +4,7 @@ from project_origin.brand.naming.evaluator import NameEvaluator
 from project_origin.brand.naming.filters import NameFilterPipeline
 from project_origin.brand.naming.generation_rules import GenerationRulesBuilder
 from project_origin.brand.naming.generator import NamingGenerator
+from project_origin.brand.naming.ranker import NameRanker
 
 
 def _brand_language() -> BrandLanguage:
@@ -24,6 +25,67 @@ def test_generator_is_reproducible_and_returns_structured_candidates():
         candidate.name for candidate in second
     ]
     assert all(isinstance(candidate, NameCandidate) for candidate in first)
+    assert all(
+        "generation_pattern" in candidate.metadata for candidate in first
+    )
+    assert all(
+        "generation_signature" in candidate.metadata for candidate in first
+    )
+
+
+def test_generator_uses_multiple_generation_patterns():
+    generated = NamingGenerator.generate(_brand_language(), count=40, seed=11)
+    patterns = {
+        candidate.metadata["generation_pattern"]
+        for candidate in generated
+    }
+
+    assert len(patterns) >= 3
+
+
+def test_generator_can_use_intuitive_and_literal_terms_when_intent_supports_it():
+    brand_language = BrandLanguage(
+        vocabulary=["ai", "data", "system"],
+        tone="technical",
+        emotion="confidence",
+        style="modern",
+        semantic_direction="AI data platform for developer workflow",
+    )
+    generated = NamingGenerator.generate(brand_language, count=80, seed=19)
+    generated_roots = {
+        root
+        for candidate in generated
+        for root in candidate.metadata["generation_roots"]
+    }
+
+    assert generated_roots & {"ai", "data", "clou", "stac", "labs"}
+
+
+def test_ranker_prefers_distinct_generation_signatures():
+    candidates = [
+        NameCandidate(
+            name="Oripath",
+            total_score=9.0,
+            metadata={"generation_signature": "ori:path"},
+        ),
+        NameCandidate(
+            name="Pathori",
+            total_score=8.9,
+            metadata={"generation_signature": "ori:path"},
+        ),
+        NameCandidate(
+            name="Tracecore",
+            total_score=8.5,
+            metadata={"generation_signature": "core:trace"},
+        ),
+    ]
+
+    ranked = NameRanker.rank(candidates, limit=2)
+
+    assert [candidate.name for candidate in ranked] == [
+        "Oripath",
+        "Tracecore",
+    ]
 
 
 def test_filter_and_evaluator_keep_candidate_objects():

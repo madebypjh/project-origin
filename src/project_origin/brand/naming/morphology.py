@@ -17,8 +17,19 @@ class MorphologyLibrary:
     ]
 
     MODERN_TECH = [
-        "io", "ix", "exa", "ora", "nex", "zen", "vox", "ly", "ai",
-        "byte", "logic", "mind", "core", "grid", "labs", "stack",
+        "exa", "ora", "nex", "zen", "vox", "logic", "mind", "core",
+        "grid", "signal", "scope",
+    ]
+
+    LITERAL_TECH_SOUNDS = [
+        "ai", "data", "cloud", "stack", "byte", "code", "labs",
+        "engine", "model", "agent",
+    ]
+
+    INTUITIVE_SOUNDS = [
+        "flow", "bridge", "pilot", "signal", "sense", "clear", "guide",
+        "guard", "source", "spark", "field", "craft", "loop", "base",
+        "layer", "path", "compass", "atlas", "pulse", "anchor",
     ]
 
     PREMIUM_SOUNDS = [
@@ -97,6 +108,8 @@ class MorphologyLibrary:
             cls.LATIN_ROOTS
             + cls.GREEK_ROOTS
             + cls.MODERN_TECH
+            + cls.LITERAL_TECH_SOUNDS
+            + cls.INTUITIVE_SOUNDS
             + cls.PREMIUM_SOUNDS
             + cls.TRUST_SOUNDS
             + cls.STRATEGY_SOUNDS
@@ -121,6 +134,8 @@ class MorphologyLibrary:
             "latin": cls.LATIN_ROOTS,
             "greek": cls.GREEK_ROOTS,
             "tech": cls.MODERN_TECH,
+            "literal_tech": cls.LITERAL_TECH_SOUNDS,
+            "intuitive": cls.INTUITIVE_SOUNDS,
             "premium": cls.PREMIUM_SOUNDS,
             "trust": cls.TRUST_SOUNDS,
             "strategy": cls.STRATEGY_SOUNDS,

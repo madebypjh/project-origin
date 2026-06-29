@@ -48,6 +48,10 @@ class NameEvaluator:
             + strategy_score * 0.65
             + memorability_score * 0.09
         )
+        decision_adjustment = cls._score_decision_separation_adjustment(
+            strategy_score,
+        )
+        adjusted_base_score = cls._clamp(base_score + decision_adjustment)
         knowledge_score = None
         guidance_strength = 0.0
 
@@ -56,10 +60,10 @@ class NameEvaluator:
             guidance_strength = rules.guidance_strength
 
         if knowledge_score is None:
-            total_score = round(base_score, 2)
+            total_score = round(adjusted_base_score, 2)
         else:
             total_score = round(
-                base_score * (1 - guidance_strength)
+                adjusted_base_score * (1 - guidance_strength)
                 + knowledge_score * guidance_strength,
                 2,
             )
@@ -69,6 +73,7 @@ class NameEvaluator:
             strategy_score=strategy_score,
             memorability_score=memorability_score,
             base_score=base_score,
+            decision_adjustment=decision_adjustment,
             total_score=total_score,
             rules=rules,
             knowledge_score=knowledge_score,
@@ -309,6 +314,7 @@ class NameEvaluator:
         strategy_score: float,
         memorability_score: float,
         base_score: float,
+        decision_adjustment: float,
         total_score: float,
         rules: GenerationRules | None,
         knowledge_score: float | None,
@@ -335,6 +341,7 @@ class NameEvaluator:
                 },
             },
             "base_score": round(base_score, 2),
+            "decision_separation_adjustment": decision_adjustment,
             "total_score": total_score,
             "knowledge_guidance": {
                 "applied": False,
@@ -364,6 +371,18 @@ class NameEvaluator:
             return 0.0
 
         return sum(1 for letter in letters if letter in matches) / len(letters)
+
+    @staticmethod
+    def _score_decision_separation_adjustment(strategy_score: float) -> float:
+        if strategy_score >= 8.5:
+            return 0.14
+        if strategy_score >= 8.25:
+            return 0.10
+        if strategy_score >= 8.0:
+            return 0.06
+        if strategy_score < 7.5:
+            return -0.06
+        return 0.0
 
     @staticmethod
     def _unique_ratio(letters: list[str]) -> float:
