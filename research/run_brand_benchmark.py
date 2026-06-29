@@ -78,6 +78,21 @@ def main() -> None:
         f"{summary['naming_hard_constraint_pass_rate']:.0%}"
     )
     print(
+        "Active naming duplicate rate: "
+        f"{summary['active_naming_diversity']['duplicate_rate']:.0%}"
+    )
+    if summary.get("intent_shadow_naming") is not None:
+        print(
+            "Intent-shadow naming pass rate / average overlap: "
+            f"{summary['intent_shadow_naming']['hard_constraint_pass_rate']:.0%}"
+            " / "
+            f"{summary['intent_shadow_naming']['average_name_overlap_with_active']:.1f}"
+        )
+        print(
+            "Intent-shadow naming duplicate rate: "
+            f"{summary['intent_shadow_naming']['diversity']['duplicate_rate']:.0%}"
+        )
+    print(
         "Active strict/relaxed intent concept coverage: "
         f"{summary['active_intent']['average_strict_concept_coverage']:.0%}"
         " / "
@@ -174,10 +189,38 @@ def _summary_from_case_reports(case_reports: list[dict]) -> dict:
     naming_passes = [
         case_report["naming_metrics"]["passed"] for case_report in case_reports
     ]
+    shadow_naming_metrics = [
+        case_report.get("intent_shadow_naming_metrics")
+        for case_report in case_reports
+        if case_report.get("intent_shadow_naming_metrics") is not None
+    ]
+    shadow_overlaps = [
+        len(case_report.get("intent_shadow_name_overlap", ()))
+        for case_report in case_reports
+        if case_report.get("intent_shadow_naming_output") is not None
+    ]
 
     return {
         "case_count": len(case_reports),
         "naming_hard_constraint_pass_rate": _pass_rate(naming_passes),
+        "active_naming_diversity": _candidate_diversity_from_case_reports(
+            case_reports,
+            "naming_output",
+        ),
+        "intent_shadow_naming": (
+            {
+                "hard_constraint_pass_rate": _pass_rate(
+                    metric["passed"] for metric in shadow_naming_metrics
+                ),
+                "average_name_overlap_with_active": _average(shadow_overlaps),
+                "diversity": _candidate_diversity_from_case_reports(
+                    case_reports,
+                    "intent_shadow_naming_output",
+                ),
+            }
+            if shadow_naming_metrics
+            else None
+        ),
         "active_intent": _intent_summary(active_metrics),
         "llm_shadow_intent": (
             _intent_summary(llm_metrics) if llm_metrics else None
@@ -227,6 +270,32 @@ def _pass_rate(values) -> float:
     if not values:
         return 0.0
     return sum(1 for value in values if value) / len(values)
+
+
+def _candidate_diversity_from_case_reports(
+    case_reports: list[dict],
+    output_key: str,
+) -> dict:
+    candidates = []
+    for case_report in case_reports:
+        output = case_report.get(output_key)
+        if output is None:
+            continue
+        candidates.extend(candidate.casefold() for candidate in output["candidates"])
+
+    if not candidates:
+        return {
+            "candidate_count": 0,
+            "unique_candidate_count": 0,
+            "duplicate_rate": 0.0,
+        }
+
+    unique_count = len(set(candidates))
+    return {
+        "candidate_count": len(candidates),
+        "unique_candidate_count": unique_count,
+        "duplicate_rate": round(1 - (unique_count / len(candidates)), 4),
+    }
 
 
 if __name__ == "__main__":

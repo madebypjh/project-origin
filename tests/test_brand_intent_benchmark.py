@@ -132,8 +132,16 @@ def test_brand_benchmark_suite_summarizes_naming_and_intent_results():
     assert len(report.cases) == 2
     assert summary["case_count"] == 2
     assert summary["naming_hard_constraint_pass_rate"] == 1.0
+    assert summary["active_naming_diversity"]["candidate_count"] == 10
     assert summary["active_intent"]["grounding_pass_rate"] == 1.0
     assert "average_strict_concept_coverage" in summary["active_intent"]
     assert "average_relaxed_concept_coverage" in summary["active_intent"]
     assert summary["llm_shadow_intent"] is not None
+    assert summary["intent_shadow_naming"] is not None
+    assert summary["intent_shadow_naming"]["diversity"]["candidate_count"] == 10
     assert report_dict["cases"][0]["llm_intent_metrics"] is not None
+    assert report_dict["cases"][0]["intent_shadow_naming_output"] is not None
+    assert (
+        report_dict["cases"][0]["intent_shadow_naming_output"]["approach"]
+        == "project_origin_intent_shadow_naming"
+    )

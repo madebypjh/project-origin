@@ -1,6 +1,7 @@
 import json
 
 from project_origin.brand.intent import (
+    BrandLanguageFromIntent,
     BrandIntentShadowService,
     LlmBrandIntentInterpreter,
     RuleBasedBrandIntentInterpreter,
@@ -121,3 +122,16 @@ def test_intent_policy_guides_llm_toward_stable_short_concepts():
     assert "trusted_decision_layer" in prompt
     assert "medical_humility" in prompt
     assert "non_clinician_replacement" in prompt
+
+
+def test_intent_language_adapter_builds_brand_language_from_signals():
+    record = BrandIntentShadowService(
+        llm=LlmBrandIntentInterpreter(MockProvider()),
+    ).interpret(_health_profile())
+
+    language = BrandLanguageFromIntent.build(record.llm_candidate)
+
+    assert language.vocabulary
+    assert "problem" in language.vocabulary
+    assert language.style in {"clear", "structured", "expressive"}
+    assert "interpreted intent signals" in language.semantic_direction

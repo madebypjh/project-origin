@@ -23,6 +23,8 @@ from benchmarks.brand_naming.results import (
     BrandNamingBenchmarkOutput,
 )
 from project_origin.brand.intent import LlmBrandIntentInterpreter
+from project_origin.brand.intent.language_adapter import BrandLanguageFromIntent
+from project_origin.brand.knowledge_builder import KnowledgeBuilder
 from project_origin.llm.base import LLMProvider
 from project_origin.llm.mock_provider import MockProvider
 
@@ -32,6 +34,9 @@ class BrandBenchmarkCaseReport:
     case_id: str
     naming_output: BrandNamingBenchmarkOutput
     naming_metrics: HardConstraintMetrics
+    intent_shadow_naming_output: BrandNamingBenchmarkOutput | None
+    intent_shadow_naming_metrics: HardConstraintMetrics | None
+    intent_shadow_name_overlap: tuple[str, ...]
     intent_output: BrandIntentBenchmarkOutput
     active_intent_metrics: IntentQualityMetrics
     llm_intent_metrics: IntentQualityMetrics | None = None
@@ -41,6 +46,17 @@ class BrandBenchmarkCaseReport:
             "case_id": self.case_id,
             "naming_output": self.naming_output.to_dict(),
             "naming_metrics": _hard_metrics_to_dict(self.naming_metrics),
+            "intent_shadow_naming_output": (
+                self.intent_shadow_naming_output.to_dict()
+                if self.intent_shadow_naming_output is not None
+                else None
+            ),
+            "intent_shadow_naming_metrics": (
+                _hard_metrics_to_dict(self.intent_shadow_naming_metrics)
+                if self.intent_shadow_naming_metrics is not None
+                else None
+            ),
+            "intent_shadow_name_overlap": self.intent_shadow_name_overlap,
             "intent_output": self.intent_output.to_dict(),
             "active_intent_metrics": _intent_metrics_to_dict(
                 self.active_intent_metrics
@@ -67,6 +83,22 @@ class BrandBenchmarkSuiteReport:
 
     def summary(self) -> dict:
         naming_metrics = [case.naming_metrics for case in self.cases]
+        naming_outputs = [case.naming_output for case in self.cases]
+        shadow_naming_metrics = [
+            case.intent_shadow_naming_metrics
+            for case in self.cases
+            if case.intent_shadow_naming_metrics is not None
+        ]
+        shadow_naming_outputs = [
+            case.intent_shadow_naming_output
+            for case in self.cases
+            if case.intent_shadow_naming_output is not None
+        ]
+        shadow_overlaps = [
+            len(case.intent_shadow_name_overlap)
+            for case in self.cases
+            if case.intent_shadow_naming_output is not None
+        ]
         active_metrics = [case.active_intent_metrics for case in self.cases]
         llm_metrics = [
             case.llm_intent_metrics
@@ -78,6 +110,26 @@ class BrandBenchmarkSuiteReport:
             "case_count": len(self.cases),
             "naming_hard_constraint_pass_rate": _pass_rate(
                 metric.passed for metric in naming_metrics
+            ),
+            "active_naming_diversity": _candidate_diversity(naming_outputs),
+            "intent_shadow_naming": (
+                {
+                    "hard_constraint_pass_rate": _pass_rate(
+                        metric.passed for metric in shadow_naming_metrics
+                    ),
+                    "average_name_overlap_with_active": (
+                        mean(shadow_overlaps) if shadow_overlaps else 0.0
+                    ),
+                    "diversity": _candidate_diversity(
+                        tuple(
+                            output
+                            for output in shadow_naming_outputs
+                            if output is not None
+                        )
+                    ),
+                }
+                if shadow_naming_metrics
+                else None
             ),
             "active_intent": _intent_summary(active_metrics),
             "llm_shadow_intent": (
@@ -124,6 +176,9 @@ class BrandBenchmarkSuite:
         naming_metrics = evaluate_hard_constraints(case, naming_output)
 
         intent_output = self.intent_runner.run(case)
+        intent_shadow_naming_output = None
+        intent_shadow_naming_metrics = None
+        intent_shadow_name_overlap: tuple[str, ...] = ()
         active_metrics = evaluate_intent_quality(
             case,
             intent_output.active_signals,
@@ -134,14 +189,62 @@ class BrandBenchmarkSuite:
                 case,
                 intent_output.llm_candidate_signals,
             )
+            intent_shadow_naming_output = self._run_intent_shadow_naming(
+                case,
+                intent_output,
+            )
+            intent_shadow_naming_metrics = evaluate_hard_constraints(
+                case,
+                intent_shadow_naming_output,
+            )
+            intent_shadow_name_overlap = _name_overlap(
+                naming_output,
+                intent_shadow_naming_output,
+            )
 
         return BrandBenchmarkCaseReport(
             case_id=case.identifier,
             naming_output=naming_output,
             naming_metrics=naming_metrics,
+            intent_shadow_naming_output=intent_shadow_naming_output,
+            intent_shadow_naming_metrics=intent_shadow_naming_metrics,
+            intent_shadow_name_overlap=intent_shadow_name_overlap,
             intent_output=intent_output,
             active_intent_metrics=active_metrics,
             llm_intent_metrics=llm_metrics,
+        )
+
+    def _run_intent_shadow_naming(
+        self,
+        case: BrandNamingBenchmarkCase,
+        intent_output: BrandIntentBenchmarkOutput,
+    ) -> BrandNamingBenchmarkOutput:
+        from project_origin.core import IntentProfile, IntentSignal
+
+        intent_profile = IntentProfile(
+            domain="brand",
+            objective=f"Select a strategically aligned brand name for {case.profile.audience}.",
+            signals=tuple(
+                IntentSignal(
+                    kind=signal.kind,
+                    concept=signal.concept,
+                    weight=signal.weight,
+                    evidence=signal.evidence,
+                    confidence=signal.confidence,
+                    metadata={"source": "llm_shadow_benchmark"},
+                )
+                for signal in intent_output.llm_candidate_signals
+            ),
+            unresolved_signals=intent_output.llm_unresolved_signals,
+        )
+        brand_language = BrandLanguageFromIntent.build(intent_profile)
+        knowledge = KnowledgeBuilder.build(case.profile)
+        return self.naming_runner.run_with_language(
+            case=case,
+            profile=case.profile,
+            knowledge=knowledge,
+            brand_language=brand_language,
+            approach="project_origin_intent_shadow_naming",
         )
 
 
@@ -208,3 +311,37 @@ def _pass_rate(values: Iterable[bool]) -> float:
     if not values:
         return 0.0
     return sum(1 for value in values if value) / len(values)
+
+
+def _name_overlap(
+    active: BrandNamingBenchmarkOutput,
+    shadow: BrandNamingBenchmarkOutput,
+) -> tuple[str, ...]:
+    active_names = {name.casefold(): name for name in active.candidates}
+    return tuple(
+        active_names[name.casefold()]
+        for name in shadow.candidates
+        if name.casefold() in active_names
+    )
+
+
+def _candidate_diversity(
+    outputs: Iterable[BrandNamingBenchmarkOutput],
+) -> dict:
+    candidates = [
+        candidate.casefold()
+        for output in outputs
+        for candidate in output.candidates
+    ]
+    if not candidates:
+        return {
+            "candidate_count": 0,
+            "unique_candidate_count": 0,
+            "duplicate_rate": 0.0,
+        }
+    unique_count = len(set(candidates))
+    return {
+        "candidate_count": len(candidates),
+        "unique_candidate_count": unique_count,
+        "duplicate_rate": round(1 - (unique_count / len(candidates)), 4),
+    }
