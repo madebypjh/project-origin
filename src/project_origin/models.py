@@ -102,3 +102,33 @@ class BrandLanguage:
 
     def to_json(self) -> str:
         return json.dumps(self.to_dict(), ensure_ascii=False, indent=2)
+
+@dataclass
+class NameCandidate:
+    name: str
+    pronunciation_score: float = 0.0
+    originality_score: float = 0.0
+    strategy_score: float = 0.0
+    memorability_score: float = 0.0
+    total_score: float = 0.0
+    evaluation_reason: str = ""
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), ensure_ascii=False, indent=2)
+
+
+@dataclass
+class EvaluatedName:
+    candidate: NameCandidate
+    llm_score: float
+    final_score: float
+    recommendation: str
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), ensure_ascii=False, indent=2)
