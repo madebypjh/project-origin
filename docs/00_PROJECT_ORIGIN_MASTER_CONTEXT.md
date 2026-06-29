@@ -176,18 +176,20 @@ Implemented:
 - Brand Interview, Semantic, and Brand Language pipelines
 - Structured naming candidate pipeline
 - Rule-based filtering, evaluation, and ranking
+- Brand-to-Core adapters for naming decisions
+- Explainable rule-based Naming Decision Service
 - Brand research and knowledge compilation pipeline
 - Provider-independent LLM adapter
 - JSON validation and Markdown report rendering
 - Initial Core decision contracts
+- Initial versioned Brand naming benchmark harness and Project Origin runner
 
 In progress or not yet complete:
 
 - Generator V2 knowledge integration
-- Brand-to-Core adapters
-- structured Reasoning Engine
+- broader structured Reasoning Engine beyond naming selection
 - Decision Engine
-- decision benchmark against direct LLM and multi-agent baselines
+- completed comparison against direct LLM and multi-agent baselines
 - Memory Engine
 
 Documentation describes direction; automated tests and executable code determine
@@ -195,12 +197,11 @@ whether a feature is actually implemented.
 
 ## 10. Current priorities
 
-1. Build a repeatable benchmark against direct-LLM and multi-agent baselines.
-2. Connect Brand use cases to the Core contracts without moving Brand logic
-   into Core.
+1. Expand and review the Brand benchmark cases.
+2. Implement direct-LLM and multi-agent benchmark runners.
 3. Integrate validated Brand knowledge into Generator V2.
-4. Implement structured reasoning for one narrow Brand decision.
-5. Implement a Decision Engine only after its evaluation criteria are testable.
+4. Add blinded human evaluation for subjective decision quality.
+5. Generalize reasoning or decision implementations only after measured reuse.
 
 ## 11. Proof of value
 

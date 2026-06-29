@@ -50,6 +50,18 @@ def test_decision_result_rejects_unknown_selected_option():
         )
 
 
+def test_decision_result_rejects_duplicate_option_identifiers():
+    duplicate = DecisionOption(identifier="same", label="Same")
+
+    with pytest.raises(ValueError, match="identifiers must be unique"):
+        DecisionResult(
+            selected_option_id="same",
+            options=(duplicate, duplicate),
+            rationale="Ambiguous",
+            trace=ReasoningTrace(steps=()),
+        )
+
+
 def test_core_confidence_must_be_normalized():
     with pytest.raises(ValueError, match="confidence"):
         KnowledgeItem(content="Unsupported", source="test", confidence=1.1)

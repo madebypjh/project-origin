@@ -5,6 +5,7 @@ Provides a deterministic mock response for development and testing.
 """
 
 import json
+import re
 
 from .base import LLMProvider
 
@@ -26,6 +27,8 @@ class MockProvider(LLMProvider):
         Returns:
             JSON string representing a brand strategy report.
         """
+
+        selected_name, candidate_names = self._extract_decision(prompt)
 
         report = {
             "executive_summary": (
@@ -62,7 +65,7 @@ class MockProvider(LLMProvider):
             ),
             "name_recommendations": [
                 {
-                    "name": f"OriginIQ{i + 1}",
+                    "name": name,
                     "meaning": "Origin + Intelligence",
                     "strategic_fit": (
                         "브랜드의 출발점과 전략적 사고를 상징"
@@ -78,11 +81,34 @@ class MockProvider(LLMProvider):
                         "브랜드 전략과 AI 이미지를 동시에 전달"
                     ),
                 }
-                for i in range(5)
+                for name in candidate_names
             ],
             "final_recommendation": (
-                "OriginIQ1을 최우선 후보로 추천합니다."
+                f"{selected_name}을 최우선 후보로 추천합니다."
             ),
         }
 
         return json.dumps(report, ensure_ascii=False, indent=2)
+
+    @staticmethod
+    def _extract_decision(prompt: str) -> tuple[str, list[str]]:
+        selected_match = re.search(r"^Selected name:\s*(.+)$", prompt, re.MULTILINE)
+        option_names = re.findall(
+            r"^-\s+([^:]+):\s+total=",
+            prompt,
+            re.MULTILINE,
+        )
+
+        if selected_match and len(option_names) >= 5:
+            selected = selected_match.group(1).strip()
+            unique_names = list(dict.fromkeys(name.strip() for name in option_names))
+            recommendations = [selected]
+            recommendations.extend(
+                name
+                for name in unique_names
+                if name.casefold() != selected.casefold()
+            )
+            return selected, recommendations[:5]
+
+        fallback = [f"OriginIQ{i + 1}" for i in range(5)]
+        return fallback[0], fallback

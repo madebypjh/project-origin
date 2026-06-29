@@ -81,6 +81,10 @@ class DecisionResult:
 
     def __post_init__(self) -> None:
         _validate_confidence(self.confidence)
-        option_ids = {option.identifier for option in self.options}
+        option_ids = [option.identifier for option in self.options]
+        if not option_ids:
+            raise ValueError("options must contain at least one decision option")
+        if len(option_ids) != len(set(option_ids)):
+            raise ValueError("decision option identifiers must be unique")
         if self.selected_option_id not in option_ids:
             raise ValueError("selected_option_id must reference one of options")

@@ -24,6 +24,7 @@ InterviewSession
     -> NameFilterPipeline
     -> NameEvaluator
     -> NameRanker
+    -> NamingDecisionService / DecisionResult
     -> PromptBuilder
     -> LLMProvider
     -> ReportValidator
@@ -41,6 +42,7 @@ project_origin/
 |   |-- models.py          # Brand-only models
 |   |-- semantic/          # Meaning and theme extraction
 |   |-- naming/            # Candidate generation and evaluation
+|   |-- decision/          # Brand-to-Core adapters and decisions
 |   |-- prompt_builder.py  # Brand report request construction
 |   |-- validator.py       # Brand report schema validation
 |   `-- markdown_report.py # Brand presentation
@@ -89,8 +91,11 @@ All LLM report output must:
 
 - Brand models are not yet mapped into all Core contracts.
 - Generator V2 does not yet consume all compiled naming knowledge.
-- Report recommendation is still LLM-assisted rather than a complete
-  `DecisionResult`.
-- A benchmark against direct LLM and multi-agent baselines is not yet complete.
+- The naming path is mapped to Core contracts, but other Brand decisions are
+  not.
+- Report prose is LLM-assisted, while its candidates and final recommendation
+  are constrained by `DecisionResult`.
+- The benchmark harness exists, but direct LLM, multi-agent, and blinded human
+  comparison runs are not yet complete.
 
 These are explicit migration targets, not reasons to put Brand logic into Core.

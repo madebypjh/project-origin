@@ -1,0 +1,72 @@
+[
+  {
+    "id": "security-trust-platform",
+    "profile": {
+      "problem": "Small security teams cannot prioritize noisy vulnerability findings.",
+      "audience": "security engineers at growing software companies",
+      "vision": "Become the trusted decision layer for security operations.",
+      "principles": "Accuracy, evidence, and operator control",
+      "differentiation": "Converts fragmented findings into explainable priorities."
+    },
+    "expected_themes": ["trust", "strategy", "technology"],
+    "required_qualities": ["credible", "precise", "globally pronounceable"],
+    "forbidden_terms": ["hack", "cyber", "ai"],
+    "evaluation_notes": "Avoid fear-based or aggressively technical naming."
+  },
+  {
+    "id": "preventive-health-companion",
+    "profile": {
+      "problem": "People struggle to turn daily health signals into sustainable habits.",
+      "audience": "health-conscious adults managing long-term wellbeing",
+      "vision": "Make preventive health guidance understandable and humane.",
+      "principles": "Privacy, empathy, and medical humility",
+      "differentiation": "Explains patterns without pretending to replace clinicians."
+    },
+    "expected_themes": ["trust", "care", "clarity"],
+    "required_qualities": ["warm", "calm", "non-clinical"],
+    "forbidden_terms": ["med", "doctor", "cure"],
+    "evaluation_notes": "The name must not imply diagnosis or guaranteed outcomes."
+  },
+  {
+    "id": "founder-finance-clarity",
+    "profile": {
+      "problem": "First-time founders lack a clear view of runway and financial trade-offs.",
+      "audience": "early-stage startup founders",
+      "vision": "Give every founder the financial clarity of an experienced CFO.",
+      "principles": "Transparency, simplicity, and responsible guidance",
+      "differentiation": "Turns accounting data into plain-language decisions."
+    },
+    "expected_themes": ["strategy", "trust", "clarity"],
+    "required_qualities": ["confident", "simple", "professional"],
+    "forbidden_terms": ["bank", "capital", "coin"],
+    "evaluation_notes": "Avoid names that imply regulated banking services."
+  },
+  {
+    "id": "creative-story-tool",
+    "profile": {
+      "problem": "Independent creators lose their authentic voice when scaling content.",
+      "audience": "independent writers and video creators",
+      "vision": "Help creators grow without becoming generic.",
+      "principles": "Originality, creator ownership, and transparency",
+      "differentiation": "Learns narrative patterns while preserving individual voice."
+    },
+    "expected_themes": ["creativity", "identity", "technology"],
+    "required_qualities": ["expressive", "memorable", "human"],
+    "forbidden_terms": ["content", "bot", "generator"],
+    "evaluation_notes": "Avoid sterile enterprise or automation-first language."
+  },
+  {
+    "id": "circular-materials-market",
+    "profile": {
+      "problem": "Manufacturers cannot reliably source verified recycled materials.",
+      "audience": "procurement teams at mid-sized manufacturers",
+      "vision": "Make circular manufacturing commercially dependable.",
+      "principles": "Traceability, practical impact, and honest claims",
+      "differentiation": "Combines supplier verification with material-level provenance."
+    },
+    "expected_themes": ["trust", "discovery", "sustainability"],
+    "required_qualities": ["grounded", "durable", "industrial"],
+    "forbidden_terms": ["green", "eco", "planet"],
+    "evaluation_notes": "Avoid generic sustainability language and greenwashing signals."
+  }
+]

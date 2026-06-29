@@ -6,6 +6,8 @@ Handles saving generated outputs to the local filesystem.
 
 from pathlib import Path
 
+from project_origin.brand.decision.models import BrandNamingDecisionRecord
+
 
 class FileWriter:
     @staticmethod
@@ -42,4 +44,17 @@ class FileWriter:
 
         file_path.write_text("\n".join(lines), encoding="utf-8")
 
+        return file_path
+
+    @staticmethod
+    def save_naming_decision(
+        decision: BrandNamingDecisionRecord,
+        filename: str = "naming_decision.json",
+    ) -> Path:
+        project_root = Path(__file__).resolve().parents[3]
+        output_dir = project_root / "output"
+        output_dir.mkdir(exist_ok=True)
+
+        file_path = output_dir / filename
+        file_path.write_text(decision.to_json(), encoding="utf-8")
         return file_path

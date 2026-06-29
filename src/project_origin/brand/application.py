@@ -6,6 +6,7 @@ Coordinates the full application workflow.
 
 import os
 
+from project_origin.brand.decision import NamingDecisionService
 from project_origin.brand.file_writer import FileWriter
 from project_origin.brand.interview import InterviewSession
 from project_origin.brand.knowledge_builder import KnowledgeBuilder
@@ -41,13 +42,15 @@ class BrandApplication:
         if DEBUG:
             self._print_brand_knowledge(knowledge)
 
-        prompt = self._build_prompt(profile, knowledge)
+        decision = self._build_naming_decision(profile, knowledge)
+        FileWriter.save_naming_decision(decision)
+        prompt = PromptBuilder.build(profile, knowledge, decision.result)
 
         if DEBUG:
             self._print_prompt(prompt)
 
         raw_response = self._generate_llm_response(prompt)
-        report = self._parse_report(raw_response)
+        report = self._parse_report(raw_response, decision.result)
         markdown = self._generate_markdown(report)
 
         self._print_markdown_report(markdown)
@@ -62,7 +65,7 @@ class BrandApplication:
     def _build_knowledge(self, profile):
         return KnowledgeBuilder.build(profile)
 
-    def _build_prompt(self, profile, knowledge):
+    def _build_naming_decision(self, profile, knowledge):
         semantic_profile = SemanticEngine.build(profile)
         brand_language = BrandLanguageEngine.build(semantic_profile)
 
@@ -72,13 +75,17 @@ class BrandApplication:
         ranked_names = NameRanker.rank(evaluated_names, limit=20)
         FileWriter.save_name_candidates(ranked_names)
 
-        return PromptBuilder.build(profile, knowledge, ranked_names)
+        return NamingDecisionService.decide(
+            profile=profile,
+            knowledge=knowledge,
+            candidates=ranked_names,
+        )
 
     def _generate_llm_response(self, prompt: str) -> str:
         return self.provider.generate(prompt)
 
-    def _parse_report(self, raw_response: str):
-        return ReportParser.parse(raw_response)
+    def _parse_report(self, raw_response: str, decision):
+        return ReportParser.parse(raw_response, decision)
 
     def _generate_markdown(self, report):
         return MarkdownReportGenerator.generate(report)

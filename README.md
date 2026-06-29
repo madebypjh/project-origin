@@ -43,6 +43,7 @@ src/project_origin/
 
 research/           # Brand research and knowledge compilation
 dataset/            # Versioned research assets
+benchmarks/         # Versioned cross-approach evaluation cases
 tests/              # Automated verification
 ```
 
@@ -55,10 +56,13 @@ Implemented:
 - Brand founder interview and structured profile
 - Semantic and Brand Language pipelines
 - Structured name candidate generation, filtering, evaluation, and ranking
+- Brand-to-Core adapters and an explainable Naming Decision Service
 - Brand research, validation, pattern extraction, and knowledge compilation
 - Provider-independent LLM adapter
 - JSON validation and Markdown report rendering
 - Initial domain-neutral Core contracts
+- Initial Brand naming benchmark cases and objective constraint metrics
+- Deterministic Project Origin runner for the Brand naming benchmark
 
 Not yet implemented as complete engines:
 

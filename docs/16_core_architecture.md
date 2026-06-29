@@ -78,20 +78,21 @@ Brand is the first validation domain:
 
 ```text
 FounderProfile
-    -> future Brand adapter
+    -> Brand decision adapter
     -> IntentProfile
 
 BrandKnowledge
-    -> future Brand adapter
+    -> Brand decision adapter
     -> KnowledgePacket
 
 NameCandidate
-    -> future Brand adapter
+    -> Brand decision adapter
     -> DecisionOption
 ```
 
-These adapters should be introduced when the first structured Brand decision is
-implemented. They should not erase useful Brand-specific information.
+These adapters are implemented for the first structured Brand naming decision.
+They preserve Brand-specific information in domain records and option metadata.
+Other Brand decisions should add adapters only when their contracts are proven.
 
 ## Agents and LLMs
 
