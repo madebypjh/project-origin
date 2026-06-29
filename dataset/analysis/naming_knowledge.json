@@ -1,0 +1,176 @@
+{
+  "global": {
+    "sample_size": 5,
+    "preferred_style": "invented",
+    "preferred_style_confidence": "medium",
+    "preferred_tone": "playful",
+    "preferred_tone_confidence": "low",
+    "preferred_archetype": "Creator",
+    "recommended_name_length": 6,
+    "recommended_syllable_count": 3,
+    "recommended_vowel_ratio": 0.45,
+    "recommended_hard_consonant_ratio": 0.4,
+    "recommended_soft_consonant_ratio": 0.2,
+    "recommended_scores": {
+      "memorability": 8.4,
+      "distinctiveness": 8.6,
+      "innovation": 8,
+      "trust": 7.4,
+      "premium": 6.2,
+      "playfulness": 4.4,
+      "global_scalability": 8.6
+    },
+    "generator_guidance": [
+      "Prefer invented naming style.",
+      "Express a playful emotional tone.",
+      "Target names around 6 characters.",
+      "Target around 3 syllables.",
+      "Use stronger consonants for impact."
+    ]
+  },
+  "by_industry": {
+    "luxury watches": {
+      "sample_size": 1,
+      "preferred_style": "invented",
+      "preferred_style_confidence": "high",
+      "preferred_tone": "premium",
+      "preferred_tone_confidence": "high",
+      "preferred_archetype": "Ruler",
+      "recommended_name_length": 5,
+      "recommended_syllable_count": 2,
+      "recommended_vowel_ratio": 0.4,
+      "recommended_hard_consonant_ratio": 0.6,
+      "recommended_soft_consonant_ratio": 0,
+      "recommended_scores": {
+        "memorability": 9,
+        "distinctiveness": 9,
+        "innovation": 7,
+        "trust": 9,
+        "premium": 10,
+        "playfulness": 1,
+        "global_scalability": 9
+      },
+      "generator_guidance": [
+        "Prefer invented naming style.",
+        "Express a premium emotional tone.",
+        "Target names around 5 characters.",
+        "Target around 2 syllables.",
+        "Use stronger consonants for impact."
+      ]
+    },
+    "photography / imaging": {
+      "sample_size": 1,
+      "preferred_style": "invented",
+      "preferred_style_confidence": "high",
+      "preferred_tone": "trustworthy",
+      "preferred_tone_confidence": "high",
+      "preferred_archetype": "Creator",
+      "recommended_name_length": 5,
+      "recommended_syllable_count": 2,
+      "recommended_vowel_ratio": 0.4,
+      "recommended_hard_consonant_ratio": 0.6,
+      "recommended_soft_consonant_ratio": 0,
+      "recommended_scores": {
+        "memorability": 9,
+        "distinctiveness": 9,
+        "innovation": 8,
+        "trust": 8,
+        "premium": 5,
+        "playfulness": 3,
+        "global_scalability": 9
+      },
+      "generator_guidance": [
+        "Prefer invented naming style.",
+        "Express a trustworthy emotional tone.",
+        "Target names around 5 characters.",
+        "Target around 2 syllables.",
+        "Use stronger consonants for impact."
+      ]
+    },
+    "technology / internet": {
+      "sample_size": 1,
+      "preferred_style": "invented",
+      "preferred_style_confidence": "high",
+      "preferred_tone": "playful",
+      "preferred_tone_confidence": "high",
+      "preferred_archetype": "Explorer",
+      "recommended_name_length": 6,
+      "recommended_syllable_count": 2,
+      "recommended_vowel_ratio": 0.5,
+      "recommended_hard_consonant_ratio": 0.2,
+      "recommended_soft_consonant_ratio": 0.4,
+      "recommended_scores": {
+        "memorability": 9,
+        "distinctiveness": 9,
+        "innovation": 9,
+        "trust": 7,
+        "premium": 5,
+        "playfulness": 8,
+        "global_scalability": 9
+      },
+      "generator_guidance": [
+        "Prefer invented naming style.",
+        "Express a playful emotional tone.",
+        "Target names around 6 characters.",
+        "Target around 2 syllables.",
+        "Use softer consonants for approachability."
+      ]
+    },
+    "technology / music streaming": {
+      "sample_size": 1,
+      "preferred_style": "blended",
+      "preferred_style_confidence": "high",
+      "preferred_tone": "energetic",
+      "preferred_tone_confidence": "high",
+      "preferred_archetype": "Creator",
+      "recommended_name_length": 7,
+      "recommended_syllable_count": 3,
+      "recommended_vowel_ratio": 0.44,
+      "recommended_hard_consonant_ratio": 0.33,
+      "recommended_soft_consonant_ratio": 0.22,
+      "recommended_scores": {
+        "memorability": 8,
+        "distinctiveness": 8,
+        "innovation": 8,
+        "trust": 6,
+        "premium": 4,
+        "playfulness": 7,
+        "global_scalability": 8
+      },
+      "generator_guidance": [
+        "Prefer blended naming style.",
+        "Express a energetic emotional tone.",
+        "Target names around 7 characters.",
+        "Target around 3 syllables."
+      ]
+    },
+    "technology / semiconductors": {
+      "sample_size": 1,
+      "preferred_style": "blended",
+      "preferred_style_confidence": "high",
+      "preferred_tone": "technical",
+      "preferred_tone_confidence": "high",
+      "preferred_archetype": "Magician",
+      "recommended_name_length": 6,
+      "recommended_syllable_count": 4,
+      "recommended_vowel_ratio": 0.5,
+      "recommended_hard_consonant_ratio": 0.25,
+      "recommended_soft_consonant_ratio": 0.38,
+      "recommended_scores": {
+        "memorability": 7,
+        "distinctiveness": 8,
+        "innovation": 8,
+        "trust": 7,
+        "premium": 7,
+        "playfulness": 3,
+        "global_scalability": 8
+      },
+      "generator_guidance": [
+        "Prefer blended naming style.",
+        "Express a technical emotional tone.",
+        "Target names around 6 characters.",
+        "Target around 4 syllables."
+      ]
+    }
+  }
+}

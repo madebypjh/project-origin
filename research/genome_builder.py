@@ -20,7 +20,7 @@ class BrandGenomeBuilder:
     def build(self) -> Path:
         genome = []
 
-        for file_path in sorted(self.analysis_dir.glob("*.json")):
+        for file_path in sorted(self.analysis_dir.glob("*brand_genome*.json")):
             data = json.loads(file_path.read_text(encoding="utf-8"))
 
             normalized = BrandGenomeNormalizer.normalize_many(data)
@@ -56,7 +56,6 @@ class BrandGenomeBuilder:
 def main() -> None:
     builder = BrandGenomeBuilder()
     output_path = builder.build()
-
     print(f"Brand Genome built: {output_path}")
 
 
