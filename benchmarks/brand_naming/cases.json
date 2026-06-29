@@ -11,6 +11,34 @@
     "expected_themes": ["trust", "strategy", "technology"],
     "required_qualities": ["credible", "precise", "globally pronounceable"],
     "forbidden_terms": ["hack", "cyber", "ai"],
+    "expected_intent_signals": [
+      {
+        "kind": "positioning",
+        "concept": "trusted_decision_layer",
+        "evidence_hint": "trusted decision layer"
+      },
+      {
+        "kind": "value",
+        "concept": "operator_control",
+        "evidence_hint": "operator control"
+      },
+      {
+        "kind": "capability",
+        "concept": "explainable_prioritization",
+        "evidence_hint": "explainable priorities"
+      }
+    ],
+    "known_bad_patterns": [
+      "fear-based security language",
+      "hacker imagery",
+      "generic ai suffix"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should communicate a serious decision layer for security operations.",
+      "distinctiveness": "The name should avoid crowded security category clichés.",
+      "trustworthiness": "The name should feel accurate, controlled, and evidence-led.",
+      "explainability": "The system should connect the recommendation to trust, prioritization, and operator control."
+    },
     "evaluation_notes": "Avoid fear-based or aggressively technical naming."
   },
   {
@@ -25,6 +53,34 @@
     "expected_themes": ["trust", "care", "clarity"],
     "required_qualities": ["warm", "calm", "non-clinical"],
     "forbidden_terms": ["med", "doctor", "cure"],
+    "expected_intent_signals": [
+      {
+        "kind": "value",
+        "concept": "medical_humility",
+        "evidence_hint": "medical humility"
+      },
+      {
+        "kind": "desired_emotion",
+        "concept": "humane_guidance",
+        "evidence_hint": "understandable and humane"
+      },
+      {
+        "kind": "constraint",
+        "concept": "non_clinician_replacement",
+        "evidence_hint": "without pretending to replace clinicians"
+      }
+    ],
+    "known_bad_patterns": [
+      "diagnostic authority",
+      "clinical cure claims",
+      "cold quantified-self language"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should fit preventive wellbeing rather than medical diagnosis.",
+      "distinctiveness": "The name should avoid generic wellness and clinical naming tropes.",
+      "trustworthiness": "The name should feel private, empathetic, and humble.",
+      "explainability": "The system should explain how the recommendation respects privacy, empathy, and non-clinical guidance."
+    },
     "evaluation_notes": "The name must not imply diagnosis or guaranteed outcomes."
   },
   {
@@ -39,6 +95,34 @@
     "expected_themes": ["strategy", "trust", "clarity"],
     "required_qualities": ["confident", "simple", "professional"],
     "forbidden_terms": ["bank", "capital", "coin"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "first_time_founders",
+        "evidence_hint": "First-time founders"
+      },
+      {
+        "kind": "outcome",
+        "concept": "financial_clarity",
+        "evidence_hint": "financial clarity"
+      },
+      {
+        "kind": "value",
+        "concept": "responsible_guidance",
+        "evidence_hint": "responsible guidance"
+      }
+    ],
+    "known_bad_patterns": [
+      "regulated banking implication",
+      "crypto or coin language",
+      "overconfident financial promises"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should communicate clear financial decision support for founders.",
+      "distinctiveness": "The name should not sound like a bank, lender, or crypto product.",
+      "trustworthiness": "The name should feel simple, responsible, and professionally calm.",
+      "explainability": "The system should tie the recommendation to founder runway decisions and plain-language clarity."
+    },
     "evaluation_notes": "Avoid names that imply regulated banking services."
   },
   {
@@ -53,6 +137,34 @@
     "expected_themes": ["creativity", "identity", "technology"],
     "required_qualities": ["expressive", "memorable", "human"],
     "forbidden_terms": ["content", "bot", "generator"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "independent_creators",
+        "evidence_hint": "independent writers and video creators"
+      },
+      {
+        "kind": "value",
+        "concept": "creator_ownership",
+        "evidence_hint": "creator ownership"
+      },
+      {
+        "kind": "differentiation",
+        "concept": "preserving_individual_voice",
+        "evidence_hint": "preserving individual voice"
+      }
+    ],
+    "known_bad_patterns": [
+      "automation-first language",
+      "generic content tool naming",
+      "sterile enterprise tone"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should support creative growth without erasing personal voice.",
+      "distinctiveness": "The name should avoid generic creator economy tooling clichés.",
+      "trustworthiness": "The name should feel transparent and respectful of ownership.",
+      "explainability": "The system should connect the recommendation to originality, ownership, and individual voice."
+    },
     "evaluation_notes": "Avoid sterile enterprise or automation-first language."
   },
   {
@@ -67,6 +179,34 @@
     "expected_themes": ["trust", "discovery", "sustainability"],
     "required_qualities": ["grounded", "durable", "industrial"],
     "forbidden_terms": ["green", "eco", "planet"],
+    "expected_intent_signals": [
+      {
+        "kind": "audience",
+        "concept": "industrial_procurement",
+        "evidence_hint": "procurement teams"
+      },
+      {
+        "kind": "value",
+        "concept": "traceability",
+        "evidence_hint": "Traceability"
+      },
+      {
+        "kind": "differentiation",
+        "concept": "material_level_provenance",
+        "evidence_hint": "material-level provenance"
+      }
+    ],
+    "known_bad_patterns": [
+      "greenwashing language",
+      "generic sustainability naming",
+      "soft consumer eco tone"
+    ],
+    "evaluation_rubric": {
+      "strategic_fit": "The name should fit dependable circular manufacturing and B2B procurement.",
+      "distinctiveness": "The name should avoid generic green or eco branding.",
+      "trustworthiness": "The name should feel verified, grounded, and industrially durable.",
+      "explainability": "The system should connect the recommendation to traceability, verification, and provenance."
+    },
     "evaluation_notes": "Avoid generic sustainability language and greenwashing signals."
   }
 ]

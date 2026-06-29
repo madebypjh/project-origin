@@ -18,6 +18,9 @@ def test_checked_in_benchmark_cases_are_valid_and_unique():
     assert len({case.identifier for case in cases}) == len(cases)
     assert all(case.expected_themes for case in cases)
     assert all(case.required_qualities for case in cases)
+    assert all(case.expected_intent_signals for case in cases)
+    assert all(case.known_bad_patterns for case in cases)
+    assert all(case.evaluation_rubric.explainability for case in cases)
 
 
 def test_benchmark_case_rejects_missing_fields():
@@ -37,7 +40,21 @@ def test_loader_rejects_duplicate_ids(tmp_path):
         },
         "expected_themes": ["trust"],
         "required_qualities": ["clear"],
-        "forbidden_terms": []
+        "forbidden_terms": [],
+        "expected_intent_signals": [
+            {
+                "kind": "value",
+                "concept": "trust",
+                "evidence_hint": "Principles"
+            }
+        ],
+        "known_bad_patterns": ["generic"],
+        "evaluation_rubric": {
+            "strategic_fit": "Fits the strategy.",
+            "distinctiveness": "Avoids clichés.",
+            "trustworthiness": "Feels credible.",
+            "explainability": "Can be justified from evidence."
+        }
     }
     path = tmp_path / "duplicates.json"
     path.write_text(

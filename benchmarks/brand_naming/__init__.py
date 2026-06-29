@@ -1,21 +1,41 @@
 """Brand naming benchmark definitions."""
 
+from benchmarks.brand_naming.intent_metrics import (
+    IntentQualityMetrics,
+    evaluate_intent_quality,
+)
+from benchmarks.brand_naming.intent_runner import ProjectOriginIntentRunner
 from benchmarks.brand_naming.loader import load_cases
 from benchmarks.brand_naming.metrics import (
     HardConstraintMetrics,
     evaluate_hard_constraints,
 )
-from benchmarks.brand_naming.models import BrandNamingBenchmarkCase
+from benchmarks.brand_naming.models import (
+    BrandNamingBenchmarkCase,
+    EvaluationRubric,
+    ExpectedIntentSignal,
+)
 from benchmarks.brand_naming.project_origin_runner import (
     ProjectOriginNamingRunner,
 )
-from benchmarks.brand_naming.results import BrandNamingBenchmarkOutput
+from benchmarks.brand_naming.results import (
+    BrandIntentBenchmarkOutput,
+    BrandNamingBenchmarkOutput,
+    IntentBenchmarkSignal,
+)
 
 __all__ = [
+    "BrandIntentBenchmarkOutput",
     "BrandNamingBenchmarkCase",
     "BrandNamingBenchmarkOutput",
+    "EvaluationRubric",
     "HardConstraintMetrics",
+    "IntentBenchmarkSignal",
+    "IntentQualityMetrics",
+    "ExpectedIntentSignal",
+    "ProjectOriginIntentRunner",
     "ProjectOriginNamingRunner",
+    "evaluate_intent_quality",
     "evaluate_hard_constraints",
     "load_cases",
 ]

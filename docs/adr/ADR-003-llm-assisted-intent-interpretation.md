@@ -26,7 +26,8 @@ domain-neutral Core contracts.
 - Signal concepts remain open-ended; Core contains no Brand category taxonomy.
 - Brand owns the interpretation policy and adapts `FounderProfile` into Core
   intent contracts.
-- The rule-based interpreter remains the active fallback and benchmark.
+- The rule-based interpreter remains the active fallback and baseline for
+  benchmark comparison.
 - The LLM interpreter initially runs in Shadow Mode and cannot change naming or
   report decisions.
 - Provider or validation failures must not interrupt the active product path.
