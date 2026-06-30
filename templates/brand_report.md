@@ -20,6 +20,14 @@
 
 {{ report.brand_dna }}
 
+{% if report.brand_dna_items %}
+| Principle | Meaning | How it shows up |
+| --- | --- | --- |
+{% for item in report.brand_dna_items -%}
+| {{ item.principle }} | {{ item.meaning }} | {{ item.how_it_shows_up }} |
+{% endfor %}
+{% endif %}
+
 ## Mission Statement
 
 {{ report.mission_statement }}
@@ -35,6 +43,14 @@
 ## Strategic Values
 
 {{ report.strategic_values }}
+
+{% if report.strategic_value_items %}
+| Value | Strategic Role | Decision Rule |
+| --- | --- | --- |
+{% for item in report.strategic_value_items -%}
+| {{ item.value }} | {{ item.strategic_role }} | {{ item.decision_rule }} |
+{% endfor %}
+{% endif %}
 
 ## Positioning
 

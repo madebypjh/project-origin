@@ -2,10 +2,12 @@
 
 from project_origin.brand.decision.models import BrandNamingDecisionRecord
 from project_origin.brand.models import (
+    BrandDNAItem,
     BrandKnowledge,
     BrandStrategyReport,
     FounderProfile,
     NameRecommendation,
+    StrategicValueItem,
 )
 from project_origin.core import DecisionOption
 
@@ -55,6 +57,8 @@ class BrandStrategyReportBuilder:
             candidate_comparison=cls._candidate_comparison(decision),
             strategic_risks=cls._strategic_risks(decision),
             next_action_plan=cls._next_action_plan(selected_option),
+            brand_dna_items=cls._brand_dna_items(profile, knowledge, decision),
+            strategic_value_items=cls._strategic_value_items(profile),
         )
 
     @staticmethod
@@ -240,6 +244,34 @@ class BrandStrategyReportBuilder:
         )
 
     @classmethod
+    def _brand_dna_items(
+        cls,
+        profile: FounderProfile,
+        knowledge: BrandKnowledge,
+        decision: BrandNamingDecisionRecord,
+    ) -> list[BrandDNAItem]:
+        evidence_dna = (
+            decision.evidence.brand_dna if decision.evidence is not None else ()
+        )
+        principles = cls._dedupe_phrases(
+            [
+                *cls._expand_principle_values(evidence_dna),
+                *knowledge.identity_keywords,
+            ]
+        )[:5]
+        if not principles:
+            principles = ("Clarity", "Trust", "Strategic Reasoning")
+
+        return [
+            BrandDNAItem(
+                principle=principle,
+                meaning=cls._dna_meaning(principle, profile),
+                how_it_shows_up=cls._dna_behavior(principle, profile),
+            )
+            for principle in principles
+        ]
+
+    @classmethod
     def _strategic_values(
         cls,
         profile: FounderProfile,
@@ -254,6 +286,27 @@ class BrandStrategyReportBuilder:
             "keeps the brand anchored in the founder's actual operating logic, "
             "not just in attractive positioning language."
         )
+
+    @classmethod
+    def _strategic_value_items(
+        cls,
+        profile: FounderProfile,
+    ) -> list[StrategicValueItem]:
+        principles = cls._dedupe_phrases(
+            [
+                *cls._split_principles(profile.principles),
+                "Founder control",
+                "Long-term brand value",
+            ]
+        )[:5]
+        return [
+            StrategicValueItem(
+                value=value,
+                strategic_role=cls._value_role(value, profile),
+                decision_rule=cls._value_decision_rule(value),
+            )
+            for value in principles
+        ]
 
     @classmethod
     def _selected_name_rationale(
@@ -407,3 +460,101 @@ class BrandStrategyReportBuilder:
         if lowered.startswith("helps "):
             return "to help " + cleaned[6:]
         return cleaned
+
+    @staticmethod
+    def _split_principles(value: str) -> tuple[str, ...]:
+        normalized = value.replace(" and ", ",")
+        return tuple(
+            part.strip()
+            for part in normalized.split(",")
+            if part.strip()
+        )
+
+    @classmethod
+    def _expand_principle_values(cls, values) -> tuple[str, ...]:
+        expanded = []
+        for value in values:
+            text = str(value).strip()
+            if "," in text or " and " in text.casefold():
+                expanded.extend(cls._split_principles(text))
+            else:
+                expanded.append(text)
+        return tuple(expanded)
+
+    @classmethod
+    def _dna_meaning(cls, principle: str, profile: FounderProfile) -> str:
+        normalized = principle.casefold()
+        if "clarity" in normalized:
+            return (
+                "The brand should reduce ambiguity and make the next decision "
+                "feel easier to understand."
+            )
+        if "trust" in normalized or "evidence" in normalized:
+            return (
+                "The brand should earn belief by showing its reasoning, not by "
+                "making unsupported claims."
+            )
+        if "creator" in normalized or "strategy" in normalized:
+            return (
+                "The brand should combine analytical judgment with enough "
+                "creative range to shape a distinctive identity."
+            )
+        if "control" in normalized:
+            return (
+                "The founder should feel guided, not replaced, by the system."
+            )
+        if "long-term" in normalized:
+            return (
+                "The brand should be able to stretch beyond the first naming "
+                "decision into future products, messages, and market positions."
+            )
+        return (
+            f"This cue connects the brand back to the founder's original "
+            f"challenge: {cls._clean_clause(profile.problem)}."
+        )
+
+    @classmethod
+    def _dna_behavior(cls, principle: str, profile: FounderProfile) -> str:
+        normalized = principle.casefold()
+        if "clarity" in normalized:
+            return "Use direct language, explicit tradeoffs, and simple naming logic."
+        if "trust" in normalized or "evidence" in normalized:
+            return "Show the source of each recommendation and separate assumptions from facts."
+        if "creator" in normalized or "strategy" in normalized:
+            return "Pair structured analysis with memorable verbal identity choices."
+        if "control" in normalized:
+            return "Frame recommendations as explainable options, not automatic answers."
+        if "long-term" in normalized:
+            return "Prefer names and messages that can scale with the product roadmap."
+        return (
+            f"Translate {cls._method_phrase(profile.differentiation)} into a "
+            "repeatable brand behavior."
+        )
+
+    @classmethod
+    def _value_role(cls, value: str, profile: FounderProfile) -> str:
+        normalized = value.casefold()
+        if "clarity" in normalized:
+            return "Keeps the report useful when the founder is facing ambiguity."
+        if "evidence" in normalized:
+            return "Prevents the brand from sounding like generic AI advice."
+        if "control" in normalized:
+            return "Protects the founder's agency in strategic decisions."
+        if "long-term" in normalized:
+            return "Keeps naming and positioning scalable beyond the first launch."
+        return (
+            f"Connects the brand back to what {profile.audience} need to trust."
+        )
+
+    @staticmethod
+    def _value_decision_rule(value: str) -> str:
+        normalized = value.casefold()
+        if "clarity" in normalized:
+            return "If a message creates confusion, simplify it."
+        if "evidence" in normalized:
+            return "If a claim cannot be supported, weaken or remove it."
+        if "control" in normalized:
+            return "If automation hides judgment, expose the reasoning."
+        if "long-term" in normalized:
+            return "If a name cannot stretch into future products, reject it."
+        return "If it does not help the founder decide, it does not belong."

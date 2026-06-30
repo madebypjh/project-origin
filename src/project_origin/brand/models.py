@@ -2,7 +2,7 @@
 Project Origin - Brand Domain Models
 """
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 import json
 
 
@@ -52,6 +52,20 @@ class NameRecommendation:
 
 
 @dataclass
+class BrandDNAItem:
+    principle: str
+    meaning: str
+    how_it_shows_up: str
+
+
+@dataclass
+class StrategicValueItem:
+    value: str
+    strategic_role: str
+    decision_rule: str
+
+
+@dataclass
 class BrandStrategyReport:
     executive_summary: str
 
@@ -90,6 +104,10 @@ class BrandStrategyReport:
     strategic_risks: str = ""
 
     next_action_plan: str = ""
+
+    brand_dna_items: list[BrandDNAItem] = field(default_factory=list)
+
+    strategic_value_items: list[StrategicValueItem] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return asdict(self)

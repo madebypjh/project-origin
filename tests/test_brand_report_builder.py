@@ -55,8 +55,12 @@ def test_report_builder_uses_decision_evidence_for_consultant_sections():
 
     assert "## Brand Origin Story" in markdown
     assert "## Brand DNA" in markdown
+    assert "| Principle | Meaning | How it shows up |" in markdown
+    assert "| Value | Strategic Role | Decision Rule |" in markdown
     assert "## Candidate Comparison" in markdown
     assert "## Next Action Plan" in markdown
     assert "Signalbase" in report.final_recommendation
     assert "Clearpath" in report.candidate_comparison
     assert profile.problem in report.brand_origin_story
+    assert len(report.brand_dna_items) >= 3
+    assert len(report.strategic_value_items) >= 3

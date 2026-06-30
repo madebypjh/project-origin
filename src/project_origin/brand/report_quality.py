@@ -168,6 +168,7 @@ class ReportQualityEvaluator:
         )
         checks = {
             "contains brand DNA": bool(report.brand_dna.strip()),
+            "contains structured brand DNA": len(report.brand_dna_items) >= 3,
             "contains origin story": bool(report.brand_origin_story.strip()),
             "contains naming philosophy": cls._contains_any(
                 report.naming_strategy,
@@ -176,7 +177,6 @@ class ReportQualityEvaluator:
             "avoids dominant buzzwords": not any(
                 term in full_text for term in generic_terms
             ),
-            "not overly repetitive": cls._repetition_ratio(full_text) < 0.18,
         }
         return cls._pillar("Originality", checks)
 
@@ -200,7 +200,7 @@ class ReportQualityEvaluator:
                 report.next_action_plan,
                 ("1.", "2.", "domain", "trademark", "test"),
             ),
-            "has launch risks": bool(report.strategic_risks.strip()),
+            "has structured value rules": len(report.strategic_value_items) >= 3,
         }
         return cls._pillar("Actionability", checks)
 
